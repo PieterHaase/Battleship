@@ -16,6 +16,10 @@ public class Field {
 	public String getContent(){
 		return content;
 	}
+	
+	public void markAsHit(){
+		isHit = true;
+	}
 }
 
 

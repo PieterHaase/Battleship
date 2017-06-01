@@ -12,6 +12,13 @@ public class ShipNames {
 		names.add("Nova");
 		names.add("October");
 		names.add("Hercules");
+		names.add("Jupyter");
+		names.add("Vengeance");
+		names.add("Atlas");
+		names.add("Norfolk");
+		names.add("Excalibur");
+		names.add("Warwick");
+		names.add("Pegasus");
 	}
 	
 	public static String randomName() {

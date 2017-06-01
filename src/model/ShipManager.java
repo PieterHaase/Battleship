@@ -1,6 +1,8 @@
 package model;
 
 public class ShipManager {
+	
+	private Ship[][] shipArray = new Ship[4][];
 
 	private Battleship[] battleshipArray;
 	private Destroyer[] destroyerArray;
@@ -10,21 +12,24 @@ public class ShipManager {
 	public ShipManager(int battleships, int destroyers, int cruisers, int submarines){
 
 		battleshipArray = new Battleship[battleships];
-		
 		for (int i = 0; i < battleshipArray.length; i++)
-			battleshipArray[i] = new Battleship(ShipNames.randomName());
+			battleshipArray[i] = new Battleship("a");
+		shipArray[0] = battleshipArray;
 		
 		destroyerArray = new Destroyer[destroyers];
 		for (int i = 0; i < destroyerArray.length; i++)
-			destroyerArray[i] = new Destroyer(ShipNames.randomName());
+			destroyerArray[i] = new Destroyer("a");
+		shipArray[1] = destroyerArray;
 			
 		cruiserArray = new Cruiser[cruisers];
 		for (int i = 0; i < cruiserArray.length; i++)
-			cruiserArray[i] = new Cruiser(ShipNames.randomName());
+			cruiserArray[i] = new Cruiser("a");
+		shipArray[2] = cruiserArray;
 			
 		submarineArray = new Submarine[submarines];
 		for (int i = 0; i < submarineArray.length; i++)
-			submarineArray[i] = new Submarine(ShipNames.randomName());
+			submarineArray[i] = new Submarine("a");
+		shipArray[3] = submarineArray;
 	}
 	
 	public Battleship getBattleship(int i){
@@ -41,6 +46,25 @@ public class ShipManager {
 	
 	public Submarine getSubmarine(int i){
 		return submarineArray[i-1];
+	}
+	
+	public Ship[][] getShipArray() {
+		return shipArray;
+	}
+	
+	public Battleship[] getBattleshipArray() {
+		return battleshipArray;
+	}
+	public Destroyer[] getDestroyerArray() {
+		return destroyerArray;
+	}
+	
+	public Cruiser[] getCruiserArray() {
+		return cruiserArray;
+	}
+	
+	public Submarine[] getSubmarineArray() {
+		return submarineArray;
 	}
 	
 }
