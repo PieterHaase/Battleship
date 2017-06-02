@@ -2,6 +2,7 @@ package model;
 
 public class ShipManager {
 	
+	private String owner;
 	private Ship[][] shipArray = new Ship[4][];
 
 	private Battleship[] battleshipArray;
@@ -9,26 +10,27 @@ public class ShipManager {
 	private Cruiser[] cruiserArray;
 	private Submarine[] submarineArray;
 	
-	public ShipManager(int battleships, int destroyers, int cruisers, int submarines){
+	public ShipManager(String owner, int battleships, int destroyers, int cruisers, int submarines){
+		this.setOwner(owner);
 
 		battleshipArray = new Battleship[battleships];
 		for (int i = 0; i < battleshipArray.length; i++)
-			battleshipArray[i] = new Battleship("a");
+			battleshipArray[i] = new Battleship(ShipNames.randomName());
 		shipArray[0] = battleshipArray;
 		
 		destroyerArray = new Destroyer[destroyers];
 		for (int i = 0; i < destroyerArray.length; i++)
-			destroyerArray[i] = new Destroyer("a");
+			destroyerArray[i] = new Destroyer(ShipNames.randomName());
 		shipArray[1] = destroyerArray;
 			
 		cruiserArray = new Cruiser[cruisers];
 		for (int i = 0; i < cruiserArray.length; i++)
-			cruiserArray[i] = new Cruiser("a");
+			cruiserArray[i] = new Cruiser(ShipNames.randomName());
 		shipArray[2] = cruiserArray;
 			
 		submarineArray = new Submarine[submarines];
 		for (int i = 0; i < submarineArray.length; i++)
-			submarineArray[i] = new Submarine("a");
+			submarineArray[i] = new Submarine(ShipNames.randomName());
 		shipArray[3] = submarineArray;
 	}
 	
@@ -65,6 +67,14 @@ public class ShipManager {
 	
 	public Submarine[] getSubmarineArray() {
 		return submarineArray;
+	}
+
+	public String getOwner() {
+		return owner;
+	}
+
+	public void setOwner(String owner) {
+		this.owner = owner;
 	}
 	
 }

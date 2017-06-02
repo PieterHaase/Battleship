@@ -7,19 +7,21 @@ public class Model {
 	private int cruisers = 3;
 	private int submarines = 4;
 	private int gameFieldSize = 10;
-	private boolean gameOver = false;
 	
+	@SuppressWarnings("unused")
+	private ShipNames shipNames = new ShipNames();
 	
 	private GameField playerField = new GameField(gameFieldSize, "Player");
 	private GameField enemyField = new GameField(gameFieldSize, "Enemy");
-	private ShipManager playerShips = new ShipManager(battleships, destroyers, cruisers, submarines);
-	private ShipManager enemyShips = new ShipManager(battleships, destroyers, cruisers, submarines);
+	private ShipManager playerShips = new ShipManager("Player", battleships, destroyers, cruisers, submarines);
+	private ShipManager enemyShips = new ShipManager("Enemy", battleships, destroyers, cruisers, submarines);
 	
 	public Model() {
-		
 		playerField.placeRandomShips(playerShips);
 		enemyField.placeRandomShips(enemyShips);
-		//printListOfShips(playerShips);
+		
+		printListOfShips(playerShips);
+		printListOfShips(enemyShips);
 
 		printField(playerField);
 		printField(enemyField);
@@ -81,6 +83,8 @@ public class Model {
 	}
 	
 	public void printListOfShips(ShipManager ships){
+		System.out.println("\n" + ships.getOwner() + "'s Ships:");
+		System.out.println("----------------------------------");
 		printListOfShips(ships.getBattleshipArray());
 		printListOfShips(ships.getDestroyerArray());
 		printListOfShips(ships.getCruiserArray());
@@ -90,13 +94,29 @@ public class Model {
 	private void printListOfShips(Ship[] ships){
 		Ship[] shipArray = ships;
 		
-		System.out.println("\nNumber of " + shipArray[0].getType() + "s: " + shipArray.length);
+		System.out.println("Number of " + shipArray[0].getType() + "s: " + shipArray.length);
 		for (int i = 0; i < shipArray.length; i++)
 			System.out.println(shipArray[i].getType() + " '" + shipArray[i].getName() + "' " + shipArray[i].getOrientation() + " at " + shipArray[i].getXPosition() + "," + shipArray[i].getYPosition());
+		System.out.println("");
 	}
 	
 	public boolean gameOver(){
-		return gameOver;
+		if (allShipsSunk(playerShips) || allShipsSunk(playerShips))
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean allShipsSunk(ShipManager ships){
+		boolean allShipsSunk = true;
+		Ship[][] shipArray = ships.getShipArray(); 
+		for (int i = 0; i < shipArray.length; i++){
+			for (int j = 0; j < shipArray[i].length; j++){
+				if (shipArray[i][j].isSunk() == false)
+					allShipsSunk = false;
+			}
+		}
+		return allShipsSunk;
 	}
 	
 }

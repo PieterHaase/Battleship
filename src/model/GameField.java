@@ -77,19 +77,16 @@ public class GameField {
 			String orientation = "horizontal";
 			if (RandomInt.randInt(0, 1) == 1)
 				orientation = "vertical";
-			
-			int x = RandomInt.randInt(0, size-1);
-			int y = RandomInt.randInt(0, size-1);
-			
+			ships[i].setOrientation(orientation);
+			int x;
+			int y;
 			do{
-				ships[i].setXPosition(x);
-				ships[i].setYPosition(y);
 				x = RandomInt.randInt(0, size-1);
 				y = RandomInt.randInt(0, size-1);
+				ships[i].setXPosition(x);
+				ships[i].setYPosition(y);
 			}
 			while (!placeShip(ships[i], x, y, orientation));
-			
-			ships[i].setOrientation(orientation);
 		}
 	}
 	
