@@ -1,6 +1,8 @@
 package model;
 
-public class Model {
+import java.util.Observable;
+
+public class Model extends Observable{
 	
 	private int battleships = 1;
 	private int destroyers = 2;
@@ -117,6 +119,11 @@ public class Model {
 			}
 		}
 		return allShipsSunk;
+	}
+	
+	public void update(){
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 }
