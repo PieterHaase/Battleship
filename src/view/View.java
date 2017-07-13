@@ -1,5 +1,8 @@
 package view;
 import model.*;
+import network.GameClient;
+import network.GameServer;
+
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
@@ -25,6 +28,7 @@ public class View extends JFrame implements Observer{
 	private JPanel rightPanel = new JPanel();
 	private JPanel playerGameField = new JPanel(new GridLayout(10,10,0,0));
 	private JPanel enemyGameField = new JPanel(new GridLayout(10,10,0,0));
+	private ChatPanel chatPanel = new ChatPanel();
 	private ArrayList<JPanel> gameFields = new ArrayList<>();
 	private ArrayList<FieldButton[][]> buttonFields = new ArrayList<>();
 //	private ArrayList<JPanel> panels = new ArrayList<>();
@@ -43,10 +47,24 @@ public class View extends JFrame implements Observer{
 	GameFieldPanel enemyPanel;
 	GameField playerField;
 	GameField enemyField;
-	
+	private JMenuBar menuBar = new JMenuBar();
+	private JMenu gameMenu = new JMenu("Game");
+	private JMenuItem save = new JMenuItem("Save");
+	private JMenuItem load = new JMenuItem("Load");
+	private JMenu networkMenu = new JMenu("Network");
+	private JMenuItem createServer = new JMenuItem("Create Server");
+	private JMenuItem joinServer = new JMenuItem("Join Server");
+
 	
 	public View (Model model){
 		this.model = model;
+		setJMenuBar(menuBar);
+		gameMenu.add(save);
+		gameMenu.add(load);
+		menuBar.add(gameMenu);
+		networkMenu.add(createServer);
+		networkMenu.add(joinServer);
+		menuBar.add(networkMenu);
 
 		/*
 		fieldSize = model.getPlayerShips().getGameFieldSize();
@@ -118,7 +136,6 @@ public class View extends JFrame implements Observer{
 		
 //		setSize(1000, 200);
 		Dimension dim = new Dimension(this.getWidth(), 150);
-		ChatPanel chatPanel = new ChatPanel();
 		chatPanel.setPreferredSize(dim);
 		
 		JPanel panel = new JPanel();
@@ -151,6 +168,14 @@ public class View extends JFrame implements Observer{
 //		updateButtonField(playerPanel.getButtonField(), model.getPlayerShips().getGameField());
 //		updateButtonField(enemyPanel.getButtonField(), model.getEnemyShips().getGameField());
 		
+	}
+	
+	public void displayMessage(String message){
+		chatPanel.displayMessage(message);
+	}
+	
+	public ChatPanel getChatPanel(){
+		return chatPanel;
 	}
 	
 	public GameFieldPanel getPlayerPanel() {

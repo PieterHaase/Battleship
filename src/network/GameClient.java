@@ -9,28 +9,37 @@ import java.net.UnknownHostException;
 
 import controller.ConsoleIO;
 import model.*;
+import view.View;
 
-public class GameClient {
+public class GameClient extends Thread{
 	
-	private String hostIP = "141.22.95.51";
+	private String hostIP;
 	private int port = 12345;
 	private Socket socket;
 	private ObjectInputStream inStream;
 	private ObjectOutputStream outStream;
 	private Model model;
+	private View view;
 	
 	
-	public GameClient(Model model/*String hostIP*/) {
+	public GameClient(Model model, View view) {
 //		this.hostIP = hostIP;
 		this.model = model;
+		this.view = view;
+	}
+	
+	@Override
+	public void run(){
 		try {
-			//hostIP = InetAddress.getLocalHost().toString();
-			socket = new Socket(InetAddress.getByName(hostIP), port);			
+			hostIP = InetAddress.getLocalHost().getHostAddress();
+			socket = new Socket(InetAddress.getByName(hostIP), port);
+			view.displayMessage("Connected to: " + hostIP);
+			view.setTitle(view.getTitle() + " - Client");
 			inStream = new ObjectInputStream(socket.getInputStream());
 			outStream = new ObjectOutputStream(socket.getOutputStream());
 			NetworkService netService = new NetworkService(model, inStream, outStream);
 			netService.receiveEnemyShips();
-			
+			netService.sendPlayerShips();
 //			readerThread = new ReaderThread(socket, gui);
 //			readerThread.start();
 			

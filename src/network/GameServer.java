@@ -9,9 +9,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import controller.ConsoleIO;
+import controller.Controller;
 import model.Model;
+import view.View;
 
-public class GameServer {
+public class GameServer extends Thread{
 
 	private int port = 12345;
 	private ServerSocket server;
@@ -19,19 +21,30 @@ public class GameServer {
 	private ObjectOutputStream outStream;
 	private ObjectInputStream inStream;
 	private Model model;
+	private View view;
+	private boolean running = true;
 	
-	public GameServer(Model model) {
+	public GameServer(Model model, View view) {
 		this.model = model;
+		this.view = view;
+	}
+	
+	@Override
+	public void run(){
 		try {
 			server = new ServerSocket(port);
-			System.out.println("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
+			view.displayMessage("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
+			view.setTitle(view.getTitle() + " - Server");
+//			System.out.println("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			socket = server.accept();
-			System.out.println("Connection received from \n" + socket.getInetAddress().getHostName());
+			view.displayMessage("Connection received from: " + socket.getInetAddress().getHostName());
+//			System.out.println("Connection received from \n" + socket.getInetAddress().getHostName());
 			
 			outStream = new ObjectOutputStream(socket.getOutputStream());
 			inStream = new ObjectInputStream(socket.getInputStream());
 			NetworkService netService = new NetworkService(model, inStream, outStream);
 			netService.sendPlayerShips();
+			netService.receiveEnemyShips();
 //			readerThread = new ReaderThread(socket, gui);	
 //			readerThread.start();
 			

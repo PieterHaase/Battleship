@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import javax.swing.*;
 import javax.swing.border.*;
 
+import network.GameClient;
+import network.GameServer;
+
 public class ChatPanel extends JPanel{
 	
 	private ArrayList<String> messageList = new ArrayList<>();
@@ -55,7 +58,7 @@ public class ChatPanel extends JPanel{
 		if (textArea.getText().isEmpty())
 			textArea.setText(message);
 		else
-			textArea.append("\n " + message);
+			textArea.append("\n" + message);
 			
 //		messageList.add(message);
 //		String previousMessages = label.getText();
@@ -65,8 +68,16 @@ public class ChatPanel extends JPanel{
 //		textArea.setText(label.getText() + "\n " + currentMessage);
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
+	
+	public JTextField getTextField(){
+		return textField;
+	}
+	
+	public JButton getSendButton(){
+		return sendButton;
+	}
 
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		JFrame frame = new JFrame();
 		ChatPanel chatPanel = new ChatPanel(); 
 		frame.add(chatPanel);
@@ -80,6 +91,6 @@ public class ChatPanel extends JPanel{
 		chatPanel.displayMessage("ein");
 		chatPanel.displayMessage("Test");
 
-	}
+	}*/
 
 }

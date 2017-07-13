@@ -77,7 +77,7 @@ public class GameField  implements Serializable{
 		return gameField[x][y];
 	}
 	
-	public void printField(){			//gibt das übergebene Spielfeld auf der Konsole aus		
+	public void printField(){			//gibt das Spielfeld auf der Konsole aus		
 		
 		System.out.println("\n" + owner + " Ships:");
 		
