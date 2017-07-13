@@ -19,7 +19,7 @@ public class View extends JFrame implements Observer{
 	
 	private Model model;
 
-	private JPanel mainPanel = new JPanel(new BorderLayout());
+	private JPanel mainPanel = new JPanel(new GridLayout(1,2,5,0));
 	private JPanel middlePanel = new JPanel(new GridLayout(1,2,5,0));
 	private JPanel leftPanel = new JPanel();
 	private JPanel rightPanel = new JPanel();
@@ -37,9 +37,19 @@ public class View extends JFrame implements Observer{
 	private FieldButton[][] playerButtons;
 	private FieldButton[][] enemyButtons;
 	
+	private int gameFieldPanelSize = 500;
+	private Color windowColor = GUISettings.windowColor;
+	GameFieldPanel playerPanel;
+	GameFieldPanel enemyPanel;
+	GameField playerField;
+	GameField enemyField;
+	
+	
 	public View (Model model){
 		this.model = model;
-		fieldSize = model.getPlayerField().getSize();
+
+		/*
+		fieldSize = model.getPlayerShips().getGameFieldSize();
 		playerButtons = new FieldButton[fieldSize][fieldSize];
 		enemyButtons = new FieldButton[fieldSize][fieldSize];
 //		leftButtonArray = new JButton[fieldSize][fieldSize];
@@ -80,7 +90,7 @@ public class View extends JFrame implements Observer{
 		for (JPanel panel: panels){
 			panel.setBorder(new EmptyBorder(10, 10, 20, 10));
 			panel.setBackground(Color.gray);
-		}*/
+		}
 		
 		leftPanel.add(playerShips, BorderLayout.NORTH);
 		leftPanel.add(playerGameField);
@@ -97,22 +107,58 @@ public class View extends JFrame implements Observer{
 		
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		add(mainPanel);
+		*/
+		playerField = model.getPlayerShips().getGameField(); 
+		playerPanel = new GameFieldPanel(playerField);
+		playerPanel.setPreferredSize(new Dimension(gameFieldPanelSize,gameFieldPanelSize));
 		
+		enemyField = model.getEnemyShips().getGameField();
+		enemyPanel = new GameFieldPanel(enemyField);
+		enemyPanel.setPreferredSize(new Dimension(gameFieldPanelSize,gameFieldPanelSize));
+		
+//		setSize(1000, 200);
+		Dimension dim = new Dimension(this.getWidth(), 150);
+		ChatPanel chatPanel = new ChatPanel();
+		chatPanel.setPreferredSize(dim);
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+		panel.setBackground(Color.red);
+		panel.add(chatPanel);
+		
+		mainPanel.add(playerPanel);
+		mainPanel.add(enemyPanel);
+		mainPanel.setBorder(new EmptyBorder(10,10,0,10));
+		mainPanel.setBackground(windowColor);
+		add(mainPanel, BorderLayout.CENTER);
+		add(chatPanel, BorderLayout.SOUTH);
 		setTitle("Battleship");
 		pack();
-		setSize(1000, 535);
+
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
+//		setVisible(false);
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		
-		updateButtonField(playerButtons, model.getPlayerField());
-		updateButtonField(enemyButtons, model.getEnemyField());
+		playerPanel.update(model.getPlayerShips().getGameField());
+		enemyPanel.update(model.getEnemyShips().getGameField());
 		
+//		updateButtonField(playerPanel.getButtonField(), model.getPlayerShips().getGameField());
+//		updateButtonField(enemyPanel.getButtonField(), model.getEnemyShips().getGameField());
+		
+	}
+	
+	public GameFieldPanel getPlayerPanel() {
+		return playerPanel;
+	}
+	
+	public GameFieldPanel getEnemyPanel() {
+		return enemyPanel;
 	}
 	
 	public FieldButton[][] getPlayerButtons() {
@@ -122,7 +168,7 @@ public class View extends JFrame implements Observer{
 	public FieldButton[][] getEnemyButtons() {
 		return enemyButtons;
 	}
-	
+	/*
 	public void updateButtonField(FieldButton[][] buttonField, GameField gameField){
 		for (int x=0; x < fieldSize; x++){
 			for (int y=0; y < fieldSize; y++){
@@ -149,5 +195,5 @@ public class View extends JFrame implements Observer{
 				buttonField[x][y].setText(labelText);
 			}
 		}
-	}
+	}*/
 }

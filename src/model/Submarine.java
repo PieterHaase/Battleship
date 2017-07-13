@@ -1,11 +1,17 @@
 package model;
 
-public class Submarine extends Ship{
+import java.io.Serializable;
 
+public class Submarine extends Ship implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String type = "Submarine";
 	private static int length = 1;
 	
-	public Submarine(String name) {
-		super(type, length, name);
+	public Submarine() {
+		super(type, length, ShipNames.randomName());
 	}
 }

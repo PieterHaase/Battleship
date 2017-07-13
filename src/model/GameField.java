@@ -1,7 +1,13 @@
 package model;
 
-public class GameField {
+import java.io.Serializable;
 
+public class GameField  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Field[][] gameField;
 	private int size;
 	private String owner;
@@ -12,7 +18,7 @@ public class GameField {
 		gameField = new Field[size][size];
 		for (int y = 0; y < size; y++){
 			for (int x = 0; x < size; x++){
-				gameField[x][y] = new Field("water");
+				gameField[x][y] = new Field(x, y, "water");
 			}
 		}
 	}
@@ -31,32 +37,33 @@ public class GameField {
 		boolean isOccupied = false;
 		
 		if (orientation == "horizontal"){
-			
 			if (x + length < size-1) {
 				for (int i = 0; i < length; i++){
 					if (gameField[x+i][y].getContent() != "water")
 						isOccupied = true;
 				}
 				if (!isOccupied) {
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < length; i++){
 						gameField[x+i][y] = ship.getFieldAt(i);
+						gameField[x+i][y].setParent(ship);
+					}
 					return true;
 				}	
 			}
 			else
 				return false;
 		}
-		
 		if (orientation == "vertical"){
-			
 			if (y + length < size-1) {
 				for (int i = 0; i < length; i++){
 					if (gameField[x][y+i].getContent() != "water")
 						isOccupied = true;
 				}
 				if (!isOccupied) {
-					for (int i = 0; i < length; i++)
+					for (int i = 0; i < length; i++){
 						gameField[x][y+i] = ship.getFieldAt(i);
+						gameField[x][y+i].setParent(ship);						
+					}
 					return true;
 				}
 			}
@@ -66,40 +73,44 @@ public class GameField {
 		return false;
 	}
 	
-	public void placeRandomShips(ShipManager ships){
-		Ship[][] shipArray = ships.getShipArray();
-		for (int i = 0; i < shipArray.length; i++)
-			placeRandomShips(shipArray[i]);
-	}
-	
-	private void placeRandomShips(Ship[] ships){
-		for (int i = 0; i < ships.length; i++){
-			String orientation = "horizontal";
-			if (RandomInt.randInt(0, 1) == 1)
-				orientation = "vertical";
-			ships[i].setOrientation(orientation);
-			int x;
-			int y;
-			do{
-				x = RandomInt.randInt(0, size-1);
-				y = RandomInt.randInt(0, size-1);
-				ships[i].setXPosition(x);
-				ships[i].setYPosition(y);
-			}
-			while (!placeShip(ships[i], x, y, orientation));
-		}
-	}
-	
 	public Field getFieldAt(int x, int y){
 		return gameField[x][y];
 	}
 	
-
-	public boolean isHit(int x, int y){
-		gameField[x][y].markAsHit();
-		if (gameField[x][y].getContent() != "water")
-			return false;
-		else return true;
+	public void printField(){			//gibt das übergebene Spielfeld auf der Konsole aus		
+		
+		System.out.println("\n" + owner + " Ships:");
+		
+		for (int y = -1; y < size; y++){				//Nummerierung der Zeilen und Spalten
+			if (y >= 0)
+				System.out.print(" " + y + " ");
+			else
+				System.out.print("   ");	
+			for (int x = 0; x < size; x++){
+				if (y == -1)
+					System.out.print(" " + x + " ");
+				else{
+					String content = gameField[x][y].getContent();		//füllen der Felder abhängig vom Schiffstyp, bzw Wasser
+					String outputString = "[ ]";
+					if (content == "water")
+						outputString = "[ ]";
+					if (content.contains("Battleship"))
+						outputString = "[B]";
+					if (content.contains("Destroyer"))
+						outputString = "[D]";
+					if (content.contains("Cruiser"))
+						outputString = "[C]";
+					if (content.contains("Submarine"))
+						outputString = "[S]";	
+					if (content == "water" && gameField[x][y].isHit())
+						outputString = "[o]";
+					if (content != "water" && gameField[x][y].isHit())
+						outputString = "[X]";
+					System.out.print(outputString);
+				}
+			}
+			System.out.print("\n");
+		}
 	}
 	
 }

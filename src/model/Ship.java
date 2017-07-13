@@ -1,7 +1,13 @@
 package model;
 
-public abstract class Ship {
+import java.io.Serializable;
+
+public abstract class Ship  implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private String type;
 	private int xPosition;
@@ -13,9 +19,9 @@ public abstract class Ship {
 	public Ship(String type, int length, String name){
 		fieldArray = new Field[length];
 		for (int i=0; i<length; i++){
-			fieldArray[i] = new Field(type+i);
+			fieldArray[i] = new Field(xPosition + i, yPosition + i, type+i);
 		}
-			
+		
 		this.type = type;
 		this.name = name;
 		this.length = length;
@@ -50,16 +56,19 @@ public abstract class Ship {
 		return xPosition;
 	}
 
-	public void setXPosition(int xPosition) {
-		this.xPosition = xPosition;
-	}
-
 	public int getYPosition() {
 		return yPosition;
 	}
-
-	public void setYPosition(int yPosition) {
-		this.yPosition = yPosition;
+	
+	public void setPosition(int x, int y){
+		xPosition = x;
+		yPosition = y;
+		for (int i=0; i<length; i++){
+			if (orientation == "horizontal")
+				fieldArray[i].setPosition(x+i, y);
+			if (orientation == "vertical")
+				fieldArray[i].setPosition(x, y+i);
+		}
 	}
 
 	public String getOrientation() {
