@@ -7,6 +7,7 @@ public class Model extends Observable{
 	@SuppressWarnings("unused")
 	private ShipNames shipNames = new ShipNames();
 	
+	private String playerName = "Player 1";
 	private ShipManager playerShips = new ShipManager("Player");
 	private ShipManager enemyShips = new ShipManager("Enemy");
 	
@@ -19,6 +20,10 @@ public class Model extends Observable{
 
 //		playerShips.getGameField().printField();
 //		enemyShips.getGameField().printField();
+	}
+	
+	public String getPlayerName(){
+		return playerName;
 	}
 
 	public ShipManager getPlayerShips() {

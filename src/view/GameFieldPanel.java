@@ -56,7 +56,7 @@ public class GameFieldPanel extends JPanel{
 				Field field = gameField.getFieldAt(x, y);
 				String content = field.getContent();
 				String labelText = "";
-				System.out.println(content);
+//				System.out.println(content);
 				
 				if (content != "water")
 					buttonField[x][y].setBackground(Color.gray);

@@ -22,10 +22,11 @@ public class GameClient extends Thread{
 	private View view;
 	
 	
-	public GameClient(Model model, View view) {
+	public GameClient(Model model, View view, String hostIP) {
 //		this.hostIP = hostIP;
 		this.model = model;
 		this.view = view;
+		this.hostIP = hostIP;
 	}
 	
 	@Override

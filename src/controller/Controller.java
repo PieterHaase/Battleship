@@ -18,6 +18,8 @@ public class Controller {
 	View view;
 	Scanner scanner;
 	boolean multiplayer = true;
+	GameServer server;
+	GameClient client;
 	boolean playersTurn = true;
 	boolean gameOver = false;
 	private AI computer;
@@ -41,12 +43,16 @@ public class Controller {
 				Field field = model.getEnemyShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
 				button.addActionListener(listener -> {
 					if (playersTurn && !gameOver){
+						ConsoleIO.write("Click");
 						if (!field.isHit()){
 							field.markAsHit();
 							model.update();
 							playersTurn = false;
 							if (!multiplayer){
 								computerTurn();
+							}
+							if(multiplayer){
+								server.getNetService().sendHit(field);
 							}
 							gameOver = model.gameOver();
 						}
@@ -100,19 +106,26 @@ public class Controller {
 	public void sendMessage(){
 		ChatPanel chatPanel = view.getChatPanel();
 		if(chatPanel.getTextField().getText().equals("server")){
-			GameServer server = new GameServer(model, view);
-			server.start();
+			createServer();
 			multiplayer = true;
 		}
 		else if(chatPanel.getTextField().getText().equals("client")){
-			GameClient client = new GameClient(model, view);
-			client.start();
+			joinGame("hostIP not set");
 			multiplayer = true;
 		}
 		else{
-		chatPanel.displayMessage(chatPanel.getTextField().getText());
+		chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
 		}
 		chatPanel.getTextField().setText("");
+	}
+	
+	public void createServer(){
+		server = new GameServer(model, view);
+		server.start();
+	}
+	public void joinGame(String hostIP){
+		client = new GameClient(model, view, hostIP);
+		client.start();
 	}
 	
 	public static void main(String[] args) {

@@ -23,10 +23,14 @@ public class GameServer extends Thread{
 	private Model model;
 	private View view;
 	private boolean running = true;
+	private NetworkService netService;
 	
 	public GameServer(Model model, View view) {
 		this.model = model;
 		this.view = view;
+	}
+	public NetworkService getNetService(){
+		return netService;
 	}
 	
 	@Override
@@ -42,7 +46,7 @@ public class GameServer extends Thread{
 			
 			outStream = new ObjectOutputStream(socket.getOutputStream());
 			inStream = new ObjectInputStream(socket.getInputStream());
-			NetworkService netService = new NetworkService(model, inStream, outStream);
+			netService = new NetworkService(model, inStream, outStream);
 			netService.sendPlayerShips();
 			netService.receiveEnemyShips();
 //			readerThread = new ReaderThread(socket, gui);	

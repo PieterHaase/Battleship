@@ -29,7 +29,7 @@ public class ChatPanel extends JPanel{
 		this.setBackground(bgColor);
 		this.setLayout(new BorderLayout());
 //		this.setBorder(BorderFactory.createCompoundBorder(titleBorder,new EmptyBorder(0,5,5,5)));
-		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,10,10,10), BorderFactory.createTitledBorder(new EmptyBorder(0,0,0,0), "Player Chat")));
+		this.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(0,10,0,10), BorderFactory.createTitledBorder(new EmptyBorder(0,0,0,0), "Player Chat")));
 //		this.setBorder(new EmptyBorder(10,10,10,10));
 //		textArea.setVerticalAlignment(SwingConstants.TOP);
 		textArea.setBackground(Color.white);
@@ -54,11 +54,11 @@ public class ChatPanel extends JPanel{
 		
 	}
 	
-	public void displayMessage(String message){
+	public void displayMessage(String source, String message){
 		if (textArea.getText().isEmpty())
-			textArea.setText(message);
+			textArea.setText("[" + source + "]  " + message);
 		else
-			textArea.append("\n" + message);
+			textArea.append("\n" + "[" + source + "]  " + message);
 			
 //		messageList.add(message);
 //		String previousMessages = label.getText();
@@ -66,6 +66,15 @@ public class ChatPanel extends JPanel{
 //		label.setText(label.getText() + " " + message);
 //		label.setText("<html><body>" + label.getText()  + message + "<br></body></html>");
 //		textArea.setText(label.getText() + "\n " + currentMessage);
+		textArea.setCaretPosition(textArea.getDocument().getLength());
+	}
+	
+	public void displayMessage(String message){
+		if (textArea.getText().isEmpty())
+			textArea.setText(message);
+		else
+			textArea.append("\n" + message);
+			
 		textArea.setCaretPosition(textArea.getDocument().getLength());
 	}
 	
