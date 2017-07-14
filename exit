@@ -1,0 +1,79 @@
+[33mcommit 91fef7057fd88d7a11aeb33025afdc4fac44ae44[m
+Merge: 8ebec22 f7c9bb5
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 11:43:19 2017 +0200
+
+    Merge branch 'master' of https://github.com/PieterHaase/Battleship
+
+[33mcommit 8ebec2290a8fb01ee9b939eef79f20d2df61d08f[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 11:38:34 2017 +0200
+
+    kleine aenderung am Model
+
+[33mcommit f7c9bb57e1d2ae05f9fc792f1a2f5570cd2a33d9[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 14 11:35:32 2017 +0200
+
+    Javadoc Model-Update
+
+[33mcommit 7154c1da347a3e7163feaae270718bf6ba89fb09[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 14 11:31:01 2017 +0200
+
+    Model erhält Javadocs 1.0.
+
+[33mcommit cff73c6826f7c4bc1ea578bd6eaaf0284e0a4aec[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 04:42:46 2017 +0200
+
+    kleinere updates
+
+[33mcommit 1c7ce0dfcc3dfe558485ddaf42d652d7477ed5fb[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jul 13 14:51:57 2017 +0200
+
+    GUI Update
+
+[33mcommit a750e113990e1aba7214b984b65894d2d1c40b1f[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jul 13 12:00:11 2017 +0200
+
+    Netzwerk implementierung angefangen
+
+[33mcommit 8e6085ef2a1efda1d617257cd12c4ac9fc000293[m
+Merge: 1bf8563 d4e015a
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Mon Jun 5 17:00:12 2017 +0200
+
+    merge fix
+
+[33mcommit 1bf85635881111e7b2d1c5569f25ebde25956f1d[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jun 4 15:58:24 2017 +0200
+
+    viewUpdate merged
+
+[33mcommit d4e015a21a49637ab1dc0878b486b88dde582c75[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jun 4 15:54:12 2017 +0200
+
+    erste GUI Version lauffähig
+
+[33mcommit 97ce5c9ed639ea9071c7d7cdbf5d8fa3d744db17[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jun 2 11:05:20 2017 +0200
+
+    Siegbedingung und random Namen implementiert
+
+[33mcommit 62fde8c045f18303f20cbd7a143dd23a4c5d942b[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jun 1 14:17:29 2017 +0200
+
+    spiel in Console lauffähig
+
+[33mcommit ca5ab4afbe26f0dd4575c1ed9549f84a651fbc51[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sat May 20 15:59:00 2017 +0200
+
+    erster commit

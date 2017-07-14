@@ -1,5 +1,6 @@
 package network;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -50,6 +51,7 @@ public class NetworkService {
 	
 	public void sendHit(Field field){
 		try {
+			ConsoleIO.write("Sending Hit...");
 			outStream.writeObject(field);
 			ConsoleIO.write("Hit sent");
 		} catch (IOException e) {
@@ -58,17 +60,30 @@ public class NetworkService {
 		}
 	}
 	
-	public void receiveHit(){
+	public boolean receiveHit(){
 		Object object;
 		try {
 			object = inStream.readObject();
 			Field field = (Field)object;
 			model.getPlayerShips().getGameField().getFieldAt(field.getXPos(), field.getYPos()).markAsHit();
-			ConsoleIO.write("Game Field received");
-			model.getEnemyShips().getGameField().printField();
+			model.update();
+			ConsoleIO.write("Hit received");
+			model.getPlayerShips().getGameField().printField();
+			return true;
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public void sendMessage(String string){
+		try {
+			outStream.writeObject(string);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

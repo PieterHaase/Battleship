@@ -184,6 +184,10 @@ public class View extends JFrame implements Observer{
 		chatPanel.displayMessage(source, message);
 	}
 	
+	public void displayPrompt(String Message){
+		statusLbl.setText(Message);
+	}
+	
 	public ChatPanel getChatPanel(){
 		return chatPanel;
 	}

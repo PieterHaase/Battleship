@@ -3,6 +3,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.net.Socket;
 import java.util.Scanner;
 
 import javax.swing.KeyStroke;
@@ -14,15 +16,19 @@ import network.*;
 
 public class Controller {
 	
+	private static final int SERVER = 0;
+	private static final int CLIENT = 1;
 	Model model;
 	View view;
 	Scanner scanner;
 	boolean multiplayer = false;
-	GameServer server;
-	GameClient client;
-	boolean playersTurn = true;
-	boolean gameOver = false;
+	private GameServer server;
+	private GameClient client;
+	private boolean playersTurn = true;
+	private boolean gameOver = false;
 	private AI computer;
+	private NetworkService netService;
+	private int networkRole;
 	
 	int lastX = -1;
 	int lastY = -1;
@@ -48,11 +54,19 @@ public class Controller {
 							field.markAsHit();
 							model.update();
 							playersTurn = false;
+							view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 							if (!multiplayer){
 								computerTurn();
 							}
 							if(multiplayer){
-								server.getNetService().sendHit(field);
+								if(networkRole == SERVER){
+									netService = server.getNetService();
+								}
+								if(networkRole == CLIENT){
+									netService = client.getNetService();
+								}
+								ConsoleIO.write("Does this even work?");
+								netService.sendHit(field);
 							}
 							gameOver = model.gameOver();
 						}
@@ -107,11 +121,11 @@ public class Controller {
 		ChatPanel chatPanel = view.getChatPanel();
 		if(chatPanel.getTextField().getText().equals("server")){
 			createServer();
-			multiplayer = true;
 		}
-		else if(chatPanel.getTextField().getText().equals("client")){
-			joinGame("hostIP not set");
-			multiplayer = true;
+		else if(chatPanel.getTextField().getText().contains("client")){
+			String hostIP = chatPanel.getTextField().getText().substring(7);
+			chatPanel.displayMessage(hostIP);
+			joinGame(hostIP);
 		}
 		else{
 		chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
@@ -119,17 +133,44 @@ public class Controller {
 		chatPanel.getTextField().setText("");
 	}
 	
-	public void createServer(){
-		server = new GameServer(model, view);
-		server.start();
+	public void saveGame(File file){
+		//TO DO
 	}
+	
+	public void loadGame(File file){
+		//TO DO
+	}
+	
+	public void createServer(){
+		multiplayer = true;
+		server = new GameServer(model, view, this);
+		server.start();
+		networkRole = SERVER;
+	}
+	
 	public void joinGame(String hostIP){
-		client = new GameClient(model, view, hostIP);
+		multiplayer = true;
+		client = new GameClient(model, view, this, hostIP);
 		client.start();
+		networkRole = CLIENT;
+		playersTurn = false;
+		view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
+	}
+	
+	public View getView(){
+		return view;
 	}
 	
 	public static void main(String[] args) {
 		new Controller();
+	}
+
+	public void setPlayersTurn(boolean bool) {
+		if(bool == true)
+			view.displayPrompt("Your turn, " + model.getPlayerName());
+		else
+			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
+		playersTurn = bool;
 	}
 	
 }

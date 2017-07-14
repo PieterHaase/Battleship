@@ -12,6 +12,7 @@ public class Model extends Observable{
 	private ShipNames shipNames = new ShipNames();
 	
 	private String playerName = "Player 1";
+	private String enemyName = "Computer";
 	private ShipManager playerShips = new ShipManager("Player");
 	private ShipManager enemyShips = new ShipManager("Enemy");
 	
@@ -81,6 +82,10 @@ public class Model extends Observable{
 	public void update(){													//benachrichtigt den Observer (View)
 		this.setChanged();
 		this.notifyObservers();
+	}
+
+	public String getEnemyName() {
+		return enemyName;
 	}
 	
 }

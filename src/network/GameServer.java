@@ -22,15 +22,22 @@ public class GameServer extends Thread{
 	private ObjectInputStream inStream;
 	private Model model;
 	private View view;
+	private Controller controller;
 	private boolean running = true;
 	private NetworkService netService;
 	
-	public GameServer(Model model, View view) {
+	public GameServer(Model model, View view, Controller controller) {
 		this.model = model;
 		this.view = view;
+		this.controller = controller;
 	}
+	
 	public NetworkService getNetService(){
 		return netService;
+	}
+	
+	public Socket getSocket(){
+		return socket;
 	}
 	
 	@Override
@@ -42,6 +49,7 @@ public class GameServer extends Thread{
 //			System.out.println("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			socket = server.accept();
 			view.displayMessage("Connection received from: " + socket.getInetAddress().getHostName());
+			view.displayPrompt("Your turn, " + model.getPlayerName());
 //			System.out.println("Connection received from \n" + socket.getInetAddress().getHostName());
 			
 			outStream = new ObjectOutputStream(socket.getOutputStream());
@@ -49,6 +57,13 @@ public class GameServer extends Thread{
 			netService = new NetworkService(model, inStream, outStream);
 			netService.sendPlayerShips();
 			netService.receiveEnemyShips();
+			
+			while (running){
+				if(netService.receiveHit()){
+					controller.setPlayersTurn(true);
+				}
+			}
+			
 //			readerThread = new ReaderThread(socket, gui);	
 //			readerThread.start();
 			
