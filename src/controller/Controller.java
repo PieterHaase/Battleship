@@ -17,7 +17,7 @@ public class Controller {
 	Model model;
 	View view;
 	Scanner scanner;
-	boolean multiplayer = true;
+	boolean multiplayer = false;
 	GameServer server;
 	GameClient client;
 	boolean playersTurn = true;
