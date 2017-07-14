@@ -4,7 +4,7 @@ import java.util.Observable;
 
 public class Model extends Observable{
 	/**
-	 * Diese Klasse ...
+	 * Diese Klasse repräsentiert das Model.
 	 * @author Pieter Haase, Naqib Faizy
 	 * @version 1.0.
 	 */
