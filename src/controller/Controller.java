@@ -1,21 +1,32 @@
 package controller;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.BufferedReader;
 import java.io.File;
-import java.net.Socket;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Scanner;
 
-import javax.swing.KeyStroke;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
-import model.*;
-import view.*;
-import network.*;
+import org.w3c.dom.Text;
 
+import model.Field;
+import model.Model;
+import network.GameClient;
+import network.GameServer;
+import network.NetworkService;
+import view.ChatPanel;
+import view.FieldButton;
+import view.View;
 
 public class Controller {
-	
+
 	private static final int SERVER = 0;
 	private static final int CLIENT = 1;
 	Model model;
@@ -29,40 +40,41 @@ public class Controller {
 	private AI computer;
 	private NetworkService netService;
 	private int networkRole;
-	
+
 	int lastX = -1;
 	int lastY = -1;
 	int lastHitX = -1;
 	int lastHitY = -1;
 	
-	public Controller(){
+	private Text textContent;
+
+	public Controller() {
 		model = new Model();
 		view = new View(model);
 		model.addObserver(view);
 		model.update();
-		
-		
+
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
-				FieldButton button = view.getEnemyPanel().getButtonField()[x][y]; 
-				Field field = model.getEnemyShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
+				FieldButton button = view.getEnemyPanel().getButtonField()[x][y];
+				Field field = model.getEnemyShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
 				button.addActionListener(listener -> {
-					if (playersTurn && !gameOver){
+					if (playersTurn && !gameOver) {
 						ConsoleIO.write("Click");
-						if (!field.isHit()){
+						if (!field.isHit()) {
 							field.markAsHit();
 							model.update();
 							playersTurn = false;
 							view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
-							if (!multiplayer){
+							if (!multiplayer) {
 								computerTurn();
 							}
-							if(multiplayer){
-								if(networkRole == SERVER){
+							if (multiplayer) {
+								if (networkRole == SERVER) {
 									netService = server.getNetService();
 								}
-								if(networkRole == CLIENT){
+								if (networkRole == CLIENT) {
 									netService = client.getNetService();
 								}
 								ConsoleIO.write("Does this even work?");
@@ -73,82 +85,129 @@ public class Controller {
 					}
 				});
 			}
-		}	
-		
-		
+		}
+
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
 			sendMessage();
 		});
-		
+
 		view.getChatPanel().getTextField().addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					sendMessage();
 				}
 			}
+
 			@Override
-			public void keyReleased(KeyEvent arg0) {}
+			public void keyReleased(KeyEvent arg0) {
+			}
+
 			@Override
-			public void keyTyped(KeyEvent arg0) {}	
+			public void keyTyped(KeyEvent arg0) {
+			}
 		});
+
+		/*
+		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
+		 * if (command.matches("server")){ GameServer server = new
+		 * GameServer(model); } else if (command.matches("client")){ GameClient
+		 * client = new GameClient(model); }
+		 */
 		
-/*		ConsoleIO.write("Enter command:");
-		String command = ConsoleIO.read(); 
-		if (command.matches("server")){
-			GameServer server = new GameServer(model);
-		}
-		else if (command.matches("client")){
-			GameClient client = new GameClient(model);
-		}*/
+		// menuItems (load&save) mit Actionlistener aufrufen
+		JMenuItem loadGame = view.getLoadGame();
+		loadGame.addActionListener(listener -> saveGame());
+		JMenuItem saveGame = view.getSaveGame();
+		saveGame.addActionListener(e -> loadGame());
 	}
-	
-	private void computerTurn(){
+
+	private void computerTurn() {
 		computer.makeTurn();
-			
-//		printFields();
+
+		// printFields();
 		model.update();
 		playersTurn = true;
 	}
-	
-	private void printFields(){
+
+	private void printFields() {
 		model.getPlayerShips().getGameField().printField();
 		model.getEnemyShips().getGameField().printField();
 	}
-	
-	public void sendMessage(){
+
+	public void sendMessage() {
 		ChatPanel chatPanel = view.getChatPanel();
-		if(chatPanel.getTextField().getText().equals("server")){
+		if (chatPanel.getTextField().getText().equals("server")) {
 			createServer();
-		}
-		else if(chatPanel.getTextField().getText().contains("client")){
+		} else if (chatPanel.getTextField().getText().contains("client")) {
 			String hostIP = chatPanel.getTextField().getText().substring(7);
 			chatPanel.displayMessage(hostIP);
 			joinGame(hostIP);
-		}
-		else{
-		chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
+		} else {
+			chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
 		}
 		chatPanel.getTextField().setText("");
 	}
-	
-	public void saveGame(File file){
-		//TO DO
+
+	public void saveGame() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Save Game");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		int result = fc.showSaveDialog(null);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			String content = textContent.getTextContent();
+			File file = fc.getSelectedFile();
+			try {
+				FileWriter fw = new FileWriter(file.getPath());
+				fw.write(content);
+				fw.flush();
+				fw.close();
+			} catch (Exception e) {
+				// Fehlermeldung
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
 	}
-	
-	public void loadGame(File file){
-		//TO DO
+
+	public void loadGame() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Load Saved Game");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		int result = fc.showOpenDialog(null);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			try {
+				File file = fc.getSelectedFile();
+				BufferedReader br = new BufferedReader(new FileReader(file.getPath()));
+				String line = "";
+				String s = "";
+				while ((line = br.readLine()) != null) {
+					s = s + line;
+				}
+				textContent.setTextContent(s);
+				if (br != null) {
+					br.close();
+				}
+			} catch (FileNotFoundException e) {
+				// Fehlermeldung 
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			} catch (IOException e) {
+				// Fehlermeldung 
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
 	}
-	
-	public void createServer(){
+
+	public void createServer() {
 		multiplayer = true;
 		server = new GameServer(model, view, this);
 		server.start();
 		networkRole = SERVER;
 	}
-	
-	public void joinGame(String hostIP){
+
+	public void joinGame(String hostIP) {
 		multiplayer = true;
 		client = new GameClient(model, view, this, hostIP);
 		client.start();
@@ -156,21 +215,21 @@ public class Controller {
 		playersTurn = false;
 		view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 	}
-	
-	public View getView(){
+
+	public View getView() {
 		return view;
 	}
-	
+
 	public static void main(String[] args) {
 		new Controller();
 	}
 
 	public void setPlayersTurn(boolean bool) {
-		if(bool == true)
+		if (bool == true)
 			view.displayPrompt("Your turn, " + model.getPlayerName());
 		else
 			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 		playersTurn = bool;
 	}
-	
+
 }

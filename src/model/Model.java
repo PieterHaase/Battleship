@@ -78,6 +78,7 @@ public class Model extends Observable{
 	
 	/**
 	 * Benachrichtigt die Observer
+	 * 
 	 */
 	public void update(){													//benachrichtigt den Observer (View)
 		this.setChanged();
