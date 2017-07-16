@@ -45,7 +45,8 @@ public class GameClient extends Thread{
 	@Override
 	public void run(){
 		try {
-//			hostIP = InetAddress.getLocalHost().getHostAddress();
+			if(hostIP.equals(""))
+				hostIP = InetAddress.getLocalHost().getHostAddress();
 			socket = new Socket(InetAddress.getByName(hostIP), port);
 			view.displayMessage("Connected to: " + hostIP);
 			view.setTitle(view.getTitle() + " - Client");
