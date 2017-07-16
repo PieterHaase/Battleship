@@ -12,6 +12,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Scanner;
 
+import javax.swing.BorderFactory;
 import javax.swing.KeyStroke;
 
 import model.*;
@@ -80,24 +81,20 @@ public class Controller {
 				
 				button.addMouseListener(new MouseListener(){
 
-					Color prevColor;
-
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
 						
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						prevColor = button.getBackground();
-						button.setBackground(Color.blue);
+						button.setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
 						
 					}
 
 					@Override
 					public void mouseExited(MouseEvent e) {
-						button.setBackground(prevColor);
+						button.setBorder(BorderFactory.createLineBorder(Color.white));
 						
 					}
 

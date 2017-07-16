@@ -68,17 +68,20 @@ public class GameFieldPanel extends JPanel{
 					labelText = "C";
 				if (content.contains("Submarine"))
 					labelText = "S";	
-				if (content == "water" && field.isHit())
-					buttonField[x][y].setBackground(GUISettings.waterColor);
-				if (content != "water" && field.isHit())
-					buttonField[x][y].setBackground(Color.black);
 				
 				if (!content.contains("water"))
-					buttonField[x][y].setBackground(Color.gray);
+				buttonField[x][y].setBackground(Color.gray);
 				if (content.contains("water")){
 					labelText = "";
 					buttonField[x][y].setBackground(buttonColor);
 				}
+				if (content == "water" && field.isHit())
+					buttonField[x][y].setBackground(GUISettings.waterColor);
+				if ( field.isHit() && content != "water" )
+					buttonField[x][y].setBackground(Color.darkGray);
+				
+
+				
 				buttonField[x][y].setText(labelText);
 			}
 		}
