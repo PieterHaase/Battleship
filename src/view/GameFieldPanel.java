@@ -57,16 +57,10 @@ public class GameFieldPanel extends JPanel{
 				String content = field.getContent();
 				String labelText = "";
 //				System.out.println(content);
-				
-				if (content != "water")
-					buttonField[x][y].setBackground(Color.gray);
-				if (content == "water"){
-					labelText = "";
-					buttonField[x][y].setBackground(buttonColor);
-				}
+
 				if (content.contains("Battleship")){
 					labelText = "B";
-					buttonField[x][y].setBackground(Color.gray);
+//					buttonField[x][y].setBackground(Color.gray);
 				}
 				if (content.contains("Destroyer"))
 					labelText = "D";
@@ -74,22 +68,23 @@ public class GameFieldPanel extends JPanel{
 					labelText = "C";
 				if (content.contains("Submarine"))
 					labelText = "S";	
+				
+				if (!content.contains("water"))
+				buttonField[x][y].setBackground(Color.gray);
+				if (content.contains("water")){
+					labelText = "";
+					buttonField[x][y].setBackground(buttonColor);
+				}
 				if (content == "water" && field.isHit())
 					buttonField[x][y].setBackground(GUISettings.waterColor);
-				if (content != "water" && field.isHit())
-					buttonField[x][y].setBackground(Color.black);
+				if ( field.isHit() && content != "water" )
+					buttonField[x][y].setBackground(Color.darkGray);
+				
+
+				
 				buttonField[x][y].setText(labelText);
 			}
 		}
-	}
-
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		GameFieldPanel gameFieldPanel = new GameFieldPanel(new GameField(10, "Player")); 
-		frame.add(gameFieldPanel);
-		frame.setSize(500,500);
-		//frame.setDefaultCloseOperation(operation);
-		frame.setVisible(true);
 	}
 
 }

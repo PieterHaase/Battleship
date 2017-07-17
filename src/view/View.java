@@ -173,6 +173,7 @@ public class View extends JFrame implements Observer{
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setVisible(true);
 //		setVisible(false);
+		this.getChatPanel().getTextField().requestFocusInWindow();
 	}
 
 	@Override

@@ -37,7 +37,6 @@ public class ChatPanel extends JPanel{
 		textArea.setOpaque(true);
 		scrollPane.setAutoscrolls(true);
 		
-		
 		textFieldPanel.setBackground(bgColor);
 		textFieldPanel.add(textField);
 		textFieldPanel.setBorder(new EmptyBorder(0,0,0,10));
@@ -51,7 +50,6 @@ public class ChatPanel extends JPanel{
 		
 		this.add(centerPanel, BorderLayout.CENTER);
 		this.add(bottomPanel, BorderLayout.SOUTH);
-		
 	}
 	
 	public void displayMessage(String source, String message){
