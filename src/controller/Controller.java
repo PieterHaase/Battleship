@@ -134,13 +134,9 @@ public class Controller {
 				});
 			}
 		}
-		// <<<<<<< HEAD
-
-		// =======
 
 		this.shipPlacement();
 
-		// >>>>>>> 983f91976fb8ee40c1ada692da05f9b31e32b0fa
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
 			sendMessage();
