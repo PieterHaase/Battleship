@@ -85,6 +85,10 @@ public class Model extends Observable{
 		this.notifyObservers();
 	}
 
+	/**
+	 * Gibt den Namen des Gegners zurück
+	 * @return String
+	 */
 	public String getEnemyName() {
 		return enemyName;
 	}
