@@ -168,9 +168,9 @@ public class Controller {
 
 		// menuItems (load&save) mit Actionlistener aufrufen
 		JMenuItem loadGame = view.getLoadGame();
-		loadGame.addActionListener(listener -> saveGame());
+		loadGame.addActionListener(listener -> loadGame());
 		JMenuItem saveGame = view.getSaveGame();
-		saveGame.addActionListener(e -> loadGame());
+		saveGame.addActionListener(e -> saveGame());
 	}
 
 	private void computerTurn() {
@@ -212,6 +212,7 @@ public class Controller {
 		fc.setDialogTitle("Save Game");
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); // Klasse FileTypeFilter wird erzeugt
 		int result = fc.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			String content = textContent.getTextContent();
@@ -230,9 +231,10 @@ public class Controller {
 
 	public void loadGame() {
 		JFileChooser fc = new JFileChooser();
-		fc.setDialogTitle("Load Saved Game");
+		fc.setDialogTitle("Load Game");
 		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); 
 		int result = fc.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
 			try {
