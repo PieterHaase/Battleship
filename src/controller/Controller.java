@@ -1,4 +1,18 @@
 package controller;
+
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +30,21 @@ import java.util.Scanner;
 import javax.swing.BorderFactory;
 import javax.swing.KeyStroke;
 
-import model.*;
-import view.*;
-import network.*;
+import org.w3c.dom.Text;
 
+import model.Field;
+import model.Model;
+import model.Ship;
+import network.GameClient;
+import network.GameServer;
+import network.NetworkService;
+import view.ChatPanel;
+import view.FieldButton;
+import view.GUISettings;
+import view.View;
 
 public class Controller {
-	
+
 	private static final int SERVER = 0;
 	private static final int CLIENT = 1;
 	Model model;
@@ -36,45 +58,55 @@ public class Controller {
 	private AI computer;
 	private NetworkService netService;
 	private int networkRole;
+//<<<<<<< HEAD
 	
 	private boolean shipPlaced = false;;
 	
+//=======
+
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	int lastX = -1;
 	int lastY = -1;
 	int lastHitX = -1;
 	int lastHitY = -1;
+//<<<<<<< HEAD
 	
 	int x = 0;
 	int y = 0;
 	
-	public Controller(){
+//	public Controller(){
+//=======
+
+	private Text textContent;
+
+	public Controller() {
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		model = new Model();
 		view = new View(model);
 		model.addObserver(view);
 		model.update();
-		
-		
+
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
-				FieldButton button = view.getEnemyPanel().getButtonField()[x][y]; 
-				Field field = model.getEnemyShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
+				FieldButton button = view.getEnemyPanel().getButtonField()[x][y];
+				Field field = model.getEnemyShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
 				button.addActionListener(listener -> {
-					if (playersTurn && !gameOver){
+					if (playersTurn && !gameOver) {
 						ConsoleIO.write("Click");
-						if (!field.isHit()){
+						if (!field.isHit()) {
 							field.markAsHit();
 							model.update();
 							playersTurn = false;
 							view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
-							if (!multiplayer){
+							if (!multiplayer) {
 								computerTurn();
 							}
-							if(multiplayer){
-								if(networkRole == SERVER){
+							if (multiplayer) {
+								if (networkRole == SERVER) {
 									netService = server.getNetService();
 								}
-								if(networkRole == CLIENT){
+								if (networkRole == CLIENT) {
 									netService = client.getNetService();
 								}
 								ConsoleIO.write("Does this even work?");
@@ -84,60 +116,71 @@ public class Controller {
 						}
 					}
 				});
-				
-				button.addMouseListener(new MouseListener(){
+
+				button.addMouseListener(new MouseListener() {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						
+
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
 						button.setBorder(BorderFactory.createLineBorder(Color.darkGray, 2));
-						
+
 					}
 
 					@Override
 					public void mouseExited(MouseEvent e) {
 						button.setBorder(BorderFactory.createLineBorder(Color.white));
-						
+
 					}
 
 					@Override
 					public void mousePressed(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
-					
+
 				});
 			}
 		}
+//<<<<<<< HEAD
 		
 		
+//=======
+
+		this.shipPlacement();
+
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
 			sendMessage();
 		});
-		
+
 		view.getChatPanel().getTextField().addKeyListener(new KeyListener() {
 			@Override
 			public void keyPressed(KeyEvent arg0) {
-				if(arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
 					sendMessage();
 				}
 			}
+
 			@Override
-			public void keyReleased(KeyEvent arg0) {}
+			public void keyReleased(KeyEvent arg0) {
+			}
+
 			@Override
-			public void keyTyped(KeyEvent arg0) {}	
+			public void keyTyped(KeyEvent arg0) {
+			}
 		});
+//<<<<<<< HEAD
 		
 /*		ConsoleIO.write("Enter command:");
 		String command = ConsoleIO.read(); 
@@ -149,55 +192,117 @@ public class Controller {
 		}*/
 		
 		this.shipPlacement();
+//=======
+
+		/*
+		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
+		 * if (command.matches("server")){ GameServer server = new
+		 * GameServer(model); } else if (command.matches("client")){ GameClient
+		 * client = new GameClient(model); }
+		 */
+
+		// menuItems (load&save) mit Actionlistener aufrufen
+		JMenuItem loadGame = view.getLoadGame();
+		loadGame.addActionListener(listener -> loadGame());
+		JMenuItem saveGame = view.getSaveGame();
+		saveGame.addActionListener(e -> saveGame());
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	}
-	
-	private void computerTurn(){
+
+	private void computerTurn() {
 		computer.makeTurn();
-			
-//		printFields();
+
+		// printFields();
 		model.update();
 		playersTurn = true;
 	}
-	
-	private void printFields(){
+
+	private void printFields() {
 		model.getPlayerShips().getGameField().printField();
 		model.getEnemyShips().getGameField().printField();
 	}
-	
-	public void sendMessage(){
+
+	public void sendMessage() {
 		ChatPanel chatPanel = view.getChatPanel();
-		if(chatPanel.getTextField().getText().equals("server")){
+		if (chatPanel.getTextField().getText().equals("server")) {
 			createServer();
-		}
-		else if(chatPanel.getTextField().getText().contains("client")){
+
+		} else if (chatPanel.getTextField().getText().contains("client")) {
+			String hostIP = chatPanel.getTextField().getText().substring(7);
+
+		} else if (chatPanel.getTextField().getText().contains("client")) {
 			String hostIP = "";
-			if(chatPanel.getTextField().getText().length() > 6)
+			if (chatPanel.getTextField().getText().length() > 6)
 				hostIP = chatPanel.getTextField().getText().substring(7);
+
 			chatPanel.displayMessage(hostIP);
 			joinGame(hostIP);
-		}
-		else{
-		chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
+		} else {
+			chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
 		}
 		chatPanel.getTextField().setText("");
 	}
-	
-	public void saveGame(File file){
-		//TO DO
+
+	public void saveGame() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Save Game");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); // Klasse FileTypeFilter wird erzeugt
+		int result = fc.showSaveDialog(null);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			String content = textContent.getTextContent();
+			File file = fc.getSelectedFile();
+			try {
+				FileWriter fw = new FileWriter(file.getPath());
+				fw.write(content);
+				fw.flush();
+				fw.close();
+			} catch (Exception e) {
+				// Fehlermeldung
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
 	}
-	
-	public void loadGame(File file){
-		//TO DO
+
+	public void loadGame() {
+		JFileChooser fc = new JFileChooser();
+		fc.setDialogTitle("Load Game");
+		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
+		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); 
+		int result = fc.showOpenDialog(null);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			try {
+				File file = fc.getSelectedFile();
+				BufferedReader br = new BufferedReader(new FileReader(file.getPath()));
+				String line = "";
+				String s = "";
+				while ((line = br.readLine()) != null) {
+					s = s + line;
+				}
+				textContent.setTextContent(s);
+				if (br != null) {
+					br.close();
+				}
+			} catch (FileNotFoundException e) {
+				// Fehlermeldung
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			} catch (IOException e) {
+				// Fehlermeldung
+				JOptionPane.showMessageDialog(null, e.getMessage());
+			}
+		}
 	}
-	
-	public void createServer(){
+
+	public void createServer() {
 		multiplayer = true;
 		server = new GameServer(model, view, this);
 		server.start();
 		networkRole = SERVER;
 	}
-	
-	public void joinGame(String hostIP){
+
+	public void joinGame(String hostIP) {
 		multiplayer = true;
 		client = new GameClient(model, view, this, hostIP);
 		client.start();
@@ -205,22 +310,23 @@ public class Controller {
 		playersTurn = false;
 		view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 	}
-	
-	public View getView(){
+
+	public View getView() {
 		return view;
 	}
-	
+
 	public static void main(String[] args) {
 		new Controller();
 	}
 
 	public void setPlayersTurn(boolean bool) {
-		if(bool == true)
+		if (bool == true)
 			view.displayPrompt("Your turn, " + model.getPlayerName());
 		else
 			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 		playersTurn = bool;
 	}
+//<<<<<<< HEAD
 	
 	public void doNothing(int x){
 		if(x == 20000000){
@@ -275,46 +381,68 @@ public class Controller {
 		}
 		*/
 /*		addActionListener();
+=======
+
+	public void shipPlacement() {
+>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
 		for (int x = 0; x < buttonField.length; x++) {
 			for (int y = 0; y < buttonField.length; y++) {
 				FieldButton button = buttonField[x][y];
+<<<<<<< HEAD
 //				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
 				button.addMouseListener(new MouseListener(){
 					
 //					Color prevColor = button.getBackground();
+=======
+				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
+				button.addMouseListener(new MouseListener() {
+
+					Color prevColor = button.getBackground();
+>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
+<<<<<<< HEAD
 						highlight(buttonField, button, 4, "vertical", GUISettings.cursorColor, 2);
+=======
+						button.setBackground(Color.blue);
+
+>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 					}
 
 					@Override
 					public void mouseExited(MouseEvent e) {
+<<<<<<< HEAD
 						highlight(buttonField, button, 4, "vertical", Color.white, 1);
 						
+=======
+						button.setBackground(prevColor);
+
+>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 					}
 
 					@Override
 					public void mousePressed(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
-					
+
 				});
 			}
+<<<<<<< HEAD
 		}*/
 	}
 	
@@ -432,4 +560,8 @@ public class Controller {
 		y=0;
 
 	}
+//=======
+//		}
+//	}
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 }

@@ -79,12 +79,17 @@ public class Model extends Observable{
 	
 	/**
 	 * Benachrichtigt die Observer
+	 * 
 	 */
 	public void update(){													//benachrichtigt den Observer (View)
 		this.setChanged();
 		this.notifyObservers();
 	}
 
+	/**
+	 * Gibt den Namen des Gegners zurück
+	 * @return String
+	 */
 	public String getEnemyName() {
 		return enemyName;
 	}

@@ -57,6 +57,11 @@ public class View extends JFrame implements Observer{
 	private JMenu networkMenu = new JMenu("Network");
 	private JMenuItem createServer = new JMenuItem("Create Server");
 	private JMenuItem joinGame = new JMenuItem("Join Game");
+	private JMenu settings = new JMenu("Settings");
+	private JMenuItem showSettings = new JMenuItem("Show Settings");
+	private JMenu about = new JMenu("About");
+	private JMenuItem showRules = new JMenuItem("Show Rules");
+	private JMenuItem aboutThisGame = new JMenuItem("About this Game");
 
 	
 	public View (Model model){
@@ -69,6 +74,11 @@ public class View extends JFrame implements Observer{
 		networkMenu.add(createServer);	//controller.createServer
 		networkMenu.add(joinGame);		//controller.joinGame
 		menuBar.add(networkMenu);
+		menuBar.add(settings);
+		settings.add(showSettings);
+		menuBar.add(about);
+		about.add(showRules);
+		about.add(aboutThisGame);
 
 		/*
 		fieldSize = model.getPlayerShips().getGameFieldSize();
@@ -157,7 +167,7 @@ public class View extends JFrame implements Observer{
 		add(statusLbl, BorderLayout.SOUTH);
 		setTitle("Battleship");
 		pack();
-
+		
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -207,6 +217,14 @@ public class View extends JFrame implements Observer{
 	
 	public FieldButton[][] getEnemyButtons() {
 		return enemyButtons;
+	}
+	
+	public JMenuItem getLoadGame() {
+		return loadGame;
+	}
+	
+	public JMenuItem getSaveGame() {
+		return saveGame;
 	}
 	/*
 	public void updateButtonField(FieldButton[][] buttonField, GameField gameField){
