@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import controller.ConsoleIO;
+
 public class ShipManager implements Serializable{
 	
 	/**
@@ -40,6 +42,27 @@ public class ShipManager implements Serializable{
 		shipArrayList.add(cruiserArray);
 		shipArrayList.add(submarineArray);
 	
+	}
+	
+	public void initialize(){
+		for (int i = 0; i < shipArrayList.size(); i++){
+			Ship[] ships = shipArrayList.get(i);
+			for (int j = 0; j < ships.length; j++){
+				
+				if (i == 0){
+					ships[j] = new Battleship();
+					}
+				if (i == 1){
+					ships[j] = new Destroyer();
+				}
+				if (i == 2){
+					ships[j] = new Cruiser();
+				}
+				if (i == 3){
+					ships[j] = new Submarine();
+				}
+			}
+		}
 	}
 
 	public void placeRandomShips(){
@@ -110,6 +133,18 @@ public class ShipManager implements Serializable{
 	
 	public String getOwner() {
 		return owner;
+	}
+	
+	public ArrayList<Ship[]> getShipArrayList(){
+		return shipArrayList;
+	}
+	
+	public int getNoOfShips(){
+		int number = 0;
+		for(int i=0; i < shipArrayList.size(); i++){
+			number += shipArrayList.get(i).length;	
+		}
+		return number;
 	}
 	
 }

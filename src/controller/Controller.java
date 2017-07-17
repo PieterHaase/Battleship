@@ -10,6 +10,7 @@ import java.io.File;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
@@ -36,10 +37,15 @@ public class Controller {
 	private NetworkService netService;
 	private int networkRole;
 	
+	private boolean shipPlaced = false;;
+	
 	int lastX = -1;
 	int lastY = -1;
 	int lastHitX = -1;
 	int lastHitY = -1;
+	
+	int x = 0;
+	int y = 0;
 	
 	public Controller(){
 		model = new Model();
@@ -114,8 +120,6 @@ public class Controller {
 			}
 		}
 		
-		this.shipPlacement();
-		
 		
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
@@ -143,6 +147,8 @@ public class Controller {
 		else if (command.matches("client")){
 			GameClient client = new GameClient(model);
 		}*/
+		
+		this.shipPlacement();
 	}
 	
 	private void computerTurn(){
@@ -216,15 +222,67 @@ public class Controller {
 		playersTurn = bool;
 	}
 	
+	public void doNothing(int x){
+		if(x == 20000000){
+//			view.displayMessage("waiting");
+			x = 0;
+		}
+		x++;
+	}
+	
 	public void shipPlacement(){
+		
+		ArrayList<Ship[]> ships = model.getPlayerShips().getShipArrayList();
+		Ship[] battleships = ships.get(0);
+		Ship[] destroyers = ships.get(1);
+		Ship[] cruisers = ships.get(2);
+		Ship[] submarines = ships.get(3);
+		
+		for(int k=0; k < ships.size(); k++){
+			for(int i=0; i < ships.get(k).length; i++){
+				view.displayMessage("Place " + ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
+				shipPlaced = false;
+				addActionListener(ships.get(k)[i]);
+				int x = 0;
+				while(!shipPlaced){
+					if(x == 20000000){
+						doNothing(x);
+						x = 0;
+					}
+					x++;
+				}
+				view.displayMessage("placed");
+			}	
+		}
+		view.displayMessage("All ships placed");
+		
+		
+/*		
+		
+		view.displayMessage("Place your Destroyers");
+		for(int i=0; i < destroyers.length; i++){
+			shipPlaced = false;
+			addActionListener();
+			int x = 0;
+			while(!shipPlaced){
+				if(x == 20000000){
+					doNothing(x);
+					x = 0;
+				}
+				x++;
+			}
+			view.displayMessage(battleships[i].getType() + " " + battleships[i].getName() + " placed");
+		}
+		*/
+/*		addActionListener();
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
 		for (int x = 0; x < buttonField.length; x++) {
 			for (int y = 0; y < buttonField.length; y++) {
-				FieldButton button = buttonField[x][y]; 
-				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
+				FieldButton button = buttonField[x][y];
+//				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
 				button.addMouseListener(new MouseListener(){
 					
-					Color prevColor = button.getBackground();
+//					Color prevColor = button.getBackground();
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -234,13 +292,12 @@ public class Controller {
 
 					@Override
 					public void mouseEntered(MouseEvent e) {
-						button.setBackground(Color.blue);
-						
+						highlight(buttonField, button, 4, "vertical", GUISettings.cursorColor, 2);
 					}
 
 					@Override
 					public void mouseExited(MouseEvent e) {
-						button.setBackground(prevColor);
+						highlight(buttonField, button, 4, "vertical", Color.white, 1);
 						
 					}
 
@@ -258,7 +315,121 @@ public class Controller {
 					
 				});
 			}
+		}*/
+	}
+	
+	public void highlight(FieldButton[][] buttonField, FieldButton button, int size, String orientation, Color color, int borderSize){
+		button.setBorder(BorderFactory.createLineBorder(color, borderSize));
+		if (orientation == "horizontal"){
+			if(size > 1){
+				if(button.getXPos() +1 < buttonField.length)
+					buttonField[button.getXPos() +1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				else 
+					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
+			if(size > 2){
+				if(button.getXPos() +2 < buttonField.length)
+					buttonField[button.getXPos() +2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +2 == buttonField.length)
+					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +2 == buttonField.length +1)
+					buttonField[button.getXPos() -2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
+			if(size > 3){
+				if(button.getXPos() +3 < buttonField.length)
+					buttonField[button.getXPos() +2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +3 == buttonField.length)
+					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +3 == buttonField.length +1)
+					buttonField[button.getXPos() -2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +3 < buttonField.length)
+					buttonField[button.getXPos() +3][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getXPos() +3 == buttonField.length +2)
+					buttonField[button.getXPos() -3][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
+		}
+		if (orientation == "vertical"){
+			if(size > 1){
+				if(button.getYPos() +1 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() +1].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				else 
+					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
+			if(size > 2){
+				if(button.getYPos() +2 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() +2].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +2 == buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +2 == buttonField.length +1)
+					buttonField[button.getXPos()][button.getYPos() -2].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
+			if(size > 3){
+				if(button.getYPos() +3 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() +2].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +3 == buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +3 == buttonField.length +1)
+					buttonField[button.getXPos()][button.getYPos() -2].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +3 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() +3].setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if(button.getYPos() +3 == buttonField.length +2)
+					buttonField[button.getXPos()][button.getYPos() -3].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			}
 		}	
 	}
 	
+	public void addActionListener(Ship ship){
+		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
+		String orientation = "horizontal";
+		for (x = 0; x < buttonField.length; x++) {
+			for (y = 0; y < buttonField.length; y++) {
+				FieldButton button = buttonField[x][y];
+//				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
+				button.removeMouseListener(button.getMouseListeners()[0]);
+				button.addMouseListener(new MouseListener(){
+					
+//					Color prevColor = button.getBackground();
+
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						while(!model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){
+							
+						}
+						
+						model.update();
+						model.getPlayerShips().getGameField().printField();
+						highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+						shipPlaced = true;
+					}
+
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						highlight(buttonField, button, ship.getLength(), orientation, GUISettings.cursorColor, 2);
+					}
+
+					@Override
+					public void mouseExited(MouseEvent e) {
+						highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+						
+					}
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+				});
+			}
+		}
+		x=0;
+		y=0;
+
+	}
 }

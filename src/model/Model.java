@@ -20,7 +20,8 @@ public class Model extends Observable{
 	 * Erstellt das Model
 	 */
 	public Model() {
-		playerShips.placeRandomShips();
+//		playerShips.placeRandomShips();
+		playerShips.initialize();
 		enemyShips.placeRandomShips();
 		
 //		playerShips.printListOfShips();
