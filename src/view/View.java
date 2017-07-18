@@ -254,4 +254,8 @@ public class View extends JFrame implements Observer{
 			}
 		}
 	}*/
+
+	public JMenuItem getNewGame() {
+		return newGame;
+	}
 }
