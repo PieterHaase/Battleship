@@ -365,6 +365,9 @@ public class Controller {
 			}	
 		}
 		view.displayMessage("All ships placed");
+		if(multiplayer)
+			netService.sendPlayerShips();
+		
 		
 		
 /*		
@@ -529,9 +532,7 @@ public class Controller {
 								orientation = "vertical";
 							else
 								orientation = "horizontal";
-							view.displayMessage("rightclick!");
 							highlight(buttonField, button, ship.getLength(), orientation, GUISettings.cursorColor, 2);
-							addActionListener(ship);
 						}
 						else{
 							if(model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){

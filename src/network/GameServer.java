@@ -55,8 +55,8 @@ public class GameServer extends Thread{
 			outStream = new ObjectOutputStream(socket.getOutputStream());
 			inStream = new ObjectInputStream(socket.getInputStream());
 			netService = new NetworkService(model, inStream, outStream);
-			netService.sendPlayerShips();
-			netService.receiveEnemyShips();
+//			netService.sendPlayerShips();
+//			netService.receiveEnemyShips();
 			
 			while (running){
 				if(netService.receiveHit()){
