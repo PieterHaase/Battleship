@@ -128,4 +128,12 @@ public class GameField  implements Serializable{
 		}
 	}
 	
+	public void clear(){
+		for (int y = 0; y < size; y++){
+			for (int x = 0; x < size; x++){
+				gameField[x][y] = new Field(x, y, "water");
+			}
+		}
+	}
+	
 }

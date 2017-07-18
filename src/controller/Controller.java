@@ -25,6 +25,7 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
@@ -76,6 +77,10 @@ public class Controller {
 	int y = 0;
 	private String orientation = "vertical";
 	
+
+	ArrayList<Ship[]> ships;
+	ArrayList<Ship> shipList = new ArrayList<Ship>();
+
 //	public Controller(){
 //=======
 
@@ -143,9 +148,11 @@ public class Controller {
 		loadGame.addActionListener(listener -> loadGame());
 		JMenuItem saveGame = view.getSaveGame();
 		saveGame.addActionListener(e -> saveGame());
+		view.getNewGame().addActionListener(listener -> newGame());
 //>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-		this.shipPlacement();
-		removeActionListener();
+	}
+	
+	private void newSingleplayerGame(){
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
@@ -162,7 +169,7 @@ public class Controller {
 							if (!multiplayer) {
 								computerTurn();
 							}
-							if (multiplayer) {
+							if (multiplayer) {								//DAS MUSS AUSGELAGERT WERDEN
 								if (networkRole == SERVER) {
 									netService = server.getNetService();
 								}
@@ -245,6 +252,23 @@ public class Controller {
 			chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
 		}
 		chatPanel.getTextField().setText("");
+	}
+	
+	public void newGame(){
+		model.getPlayerShips().newGameField();
+		model.update();
+		ships = model.getPlayerShips().getShipArrayList();
+		shipList.clear();
+		view.displayMessage("size" + shipList.size());
+		for(int k=0; k < ships.size(); k++){
+			for(int i=0; i < ships.get(k).length; i++){
+				shipList.add(ships.get(k)[i]);
+			}
+		}
+		view.displayMessage("size" + shipList.size());
+		shipPlacement();
+		if(!multiplayer)
+			newSingleplayerGame();
 	}
 
 	public void saveGame() {
@@ -340,14 +364,16 @@ public class Controller {
 		x++;
 	}
 	
+	public void placeShip(Ship ship){
+		addActionListeners(ship);
+	}
+	
 	public void shipPlacement(){
 		
-		ArrayList<Ship[]> ships = model.getPlayerShips().getShipArrayList();
-		Ship[] battleships = ships.get(0);
-		Ship[] destroyers = ships.get(1);
-		Ship[] cruisers = ships.get(2);
-		Ship[] submarines = ships.get(3);
+		placeShip(shipList.get(0));
 		
+		
+/*		
 		for(int k=0; k < ships.size(); k++){
 			for(int i=0; i < ships.get(k).length; i++){
 				view.displayMessage("Place " + ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
@@ -513,13 +539,14 @@ public class Controller {
 		}	
 	}
 	
-	public void addActionListener(Ship ship){
+	public void addActionListeners(Ship ship){
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
 		for (x = 0; x < buttonField.length; x++) {
 			for (y = 0; y < buttonField.length; y++) {
 				FieldButton button = buttonField[x][y];
 //				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
-				button.removeMouseListener(button.getMouseListeners()[0]);
+				if(button.getMouseListeners().length > 0)				
+					button.removeMouseListener(button.getMouseListeners()[0]);
 				button.addMouseListener(new MouseListener(){
 					
 //					Color prevColor = button.getBackground();
@@ -538,8 +565,19 @@ public class Controller {
 							if(model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){
 								model.update();
 								model.getPlayerShips().getGameField().printField();
-								highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
-								shipPlaced = true;
+								if(shipList.size() > 1){
+									highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+									shipPlaced = true;
+									view.displayMessage("placing ship");
+									shipList.remove(0);
+
+								placeShip(shipList.get(0));
+								}
+								else{
+									removeActionListener();
+									highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+								}
+								view.displayMessage("ArraySize: " + shipList.size());
 							}
 							else 
 								view.displayMessage("not allowed");

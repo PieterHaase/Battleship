@@ -29,7 +29,12 @@ public class ShipManager implements Serializable{
 	
 	public ShipManager(String owner){
 		this.owner = owner;
-		
+		newGameField();
+
+	
+	}
+	
+	public void newGameField(){
 		gameField = new GameField(gameFieldSize, this.owner);
 
 		battleshipArray = new Battleship[battleships];
@@ -37,14 +42,18 @@ public class ShipManager implements Serializable{
 		cruiserArray = new Cruiser[cruisers];
 		submarineArray = new Submarine[submarines];
 		
+		shipArrayList = new ArrayList<>();
+		
 		shipArrayList.add(battleshipArray);
 		shipArrayList.add(destroyerArray);
 		shipArrayList.add(cruiserArray);
 		shipArrayList.add(submarineArray);
-	
+		
+		initialize();
 	}
 	
 	public void initialize(){
+//		newGameField();
 		for (int i = 0; i < shipArrayList.size(); i++){
 			Ship[] ships = shipArrayList.get(i);
 			for (int j = 0; j < ships.length; j++){
