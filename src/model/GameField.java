@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 
+import controller.ConsoleIO;
+
 public class GameField  implements Serializable{
 
 	/**
@@ -35,40 +37,53 @@ public class GameField  implements Serializable{
 		
 		int length = ship.getLength();
 		boolean isOccupied = false;
+		boolean isPlaced = false;
 		
 		if (orientation == "horizontal"){
-			if (x + length < size-1) {
-				for (int i = 0; i < length; i++){
-					if (gameField[x+i][y].getContent() != "water")
-						isOccupied = true;
-				}
-				if (!isOccupied) {
+			while(!isPlaced){
+				if (x + (length -1) <= size-1) {
 					for (int i = 0; i < length; i++){
-						gameField[x+i][y] = ship.getFieldAt(i);
-						gameField[x+i][y].setParent(ship);
+						if (gameField[x+i][y].getContent() != "water")
+							isOccupied = true;
 					}
-					return true;
-				}	
+					if (!isOccupied) {
+						for (int i = 0; i < length; i++){
+							gameField[x+i][y] = ship.getFieldAt(i);
+							gameField[x+i][y].setParent(ship);
+							isPlaced = true;
+						}
+						return true;
+					}
+					else
+						return false;
+				}
+				else
+					x--;
 			}
-			else
-				return false;
+			
+				
 		}
 		if (orientation == "vertical"){
-			if (y + length < size-1) {
-				for (int i = 0; i < length; i++){
-					if (gameField[x][y+i].getContent() != "water")
-						isOccupied = true;
-				}
-				if (!isOccupied) {
+			while(!isPlaced){
+				if (y + (length -1) <= size-1) {
 					for (int i = 0; i < length; i++){
-						gameField[x][y+i] = ship.getFieldAt(i);
-						gameField[x][y+i].setParent(ship);						
+						if (gameField[x][y+i].getContent() != "water")
+							isOccupied = true;
 					}
-					return true;
+					if (!isOccupied) {
+						for (int i = 0; i < length; i++){
+							gameField[x][y+i] = ship.getFieldAt(i);
+							gameField[x][y+i].setParent(ship);	
+							isPlaced = true;
+						}
+						return true;
+					}
+					else
+						return false;
 				}
+				else
+					y--;	
 			}
-			else
-				return false;
 		}
 		return false;
 	}

@@ -29,6 +29,7 @@ import java.util.Scanner;
 
 import javax.swing.BorderFactory;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Text;
 
@@ -73,6 +74,7 @@ public class Controller {
 	
 	int x = 0;
 	int y = 0;
+	private String orientation = "vertical";
 	
 //	public Controller(){
 //=======
@@ -86,6 +88,64 @@ public class Controller {
 		model.addObserver(view);
 		model.update();
 
+		
+//<<<<<<< HEAD
+		
+		
+//=======
+
+
+
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		ChatPanel chatPanel = view.getChatPanel();
+		chatPanel.getSendButton().addActionListener(listener -> {
+			sendMessage();
+		});
+
+		view.getChatPanel().getTextField().addKeyListener(new KeyListener() {
+			@Override
+			public void keyPressed(KeyEvent arg0) {
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
+					sendMessage();
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+			}
+
+			@Override
+			public void keyTyped(KeyEvent arg0) {
+			}
+		});
+//<<<<<<< HEAD
+		
+/*		ConsoleIO.write("Enter command:");
+		String command = ConsoleIO.read(); 
+		if (command.matches("server")){
+			GameServer server = new GameServer(model);
+		}
+		else if (command.matches("client")){
+			GameClient client = new GameClient(model);
+		}*/
+		
+//=======
+
+		/*
+		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
+		 * if (command.matches("server")){ GameServer server = new
+		 * GameServer(model); } else if (command.matches("client")){ GameClient
+		 * client = new GameClient(model); }
+		 */
+
+		// menuItems (load&save) mit Actionlistener aufrufen
+		JMenuItem loadGame = view.getLoadGame();
+		loadGame.addActionListener(listener -> loadGame());
+		JMenuItem saveGame = view.getSaveGame();
+		saveGame.addActionListener(e -> saveGame());
+//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		this.shipPlacement();
+		removeActionListener();
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
@@ -151,62 +211,6 @@ public class Controller {
 				});
 			}
 		}
-//<<<<<<< HEAD
-		
-		
-//=======
-
-		this.shipPlacement();
-
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-		ChatPanel chatPanel = view.getChatPanel();
-		chatPanel.getSendButton().addActionListener(listener -> {
-			sendMessage();
-		});
-
-		view.getChatPanel().getTextField().addKeyListener(new KeyListener() {
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					sendMessage();
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-			}
-		});
-//<<<<<<< HEAD
-		
-/*		ConsoleIO.write("Enter command:");
-		String command = ConsoleIO.read(); 
-		if (command.matches("server")){
-			GameServer server = new GameServer(model);
-		}
-		else if (command.matches("client")){
-			GameClient client = new GameClient(model);
-		}*/
-		
-		this.shipPlacement();
-//=======
-
-		/*
-		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
-		 * if (command.matches("server")){ GameServer server = new
-		 * GameServer(model); } else if (command.matches("client")){ GameClient
-		 * client = new GameClient(model); }
-		 */
-
-		// menuItems (load&save) mit Actionlistener aufrufen
-		JMenuItem loadGame = view.getLoadGame();
-		loadGame.addActionListener(listener -> loadGame());
-		JMenuItem saveGame = view.getSaveGame();
-		saveGame.addActionListener(e -> saveGame());
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	}
 
 	private void computerTurn() {
@@ -508,7 +512,6 @@ public class Controller {
 	
 	public void addActionListener(Ship ship){
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
-		String orientation = "horizontal";
 		for (x = 0; x < buttonField.length; x++) {
 			for (y = 0; y < buttonField.length; y++) {
 				FieldButton button = buttonField[x][y];
@@ -520,14 +523,27 @@ public class Controller {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						while(!model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){
-							
+						if(SwingUtilities.isRightMouseButton(e)){
+							highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+							if(orientation == "horizontal")
+								orientation = "vertical";
+							else
+								orientation = "horizontal";
+							view.displayMessage("rightclick!");
+							highlight(buttonField, button, ship.getLength(), orientation, GUISettings.cursorColor, 2);
+							addActionListener(ship);
 						}
-						
-						model.update();
-						model.getPlayerShips().getGameField().printField();
-						highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
-						shipPlaced = true;
+						else{
+							if(model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){
+								model.update();
+								model.getPlayerShips().getGameField().printField();
+								highlight(buttonField, button, ship.getLength(), orientation, Color.white, 1);
+								shipPlaced = true;
+							}
+							else 
+								view.displayMessage("not allowed");
+							ConsoleIO.write(button.getXPos());
+						}
 					}
 
 					@Override
@@ -559,6 +575,15 @@ public class Controller {
 		x=0;
 		y=0;
 
+	}
+	
+	public void removeActionListener(){
+		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
+		for (x = 0; x < buttonField.length; x++) {
+			for (y = 0; y < buttonField.length; y++) {
+				buttonField[x][y].removeMouseListener(buttonField[x][y].getMouseListeners()[0]);
+				}
+		}
 	}
 //=======
 //		}
