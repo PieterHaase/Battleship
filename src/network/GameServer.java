@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 import controller.ConsoleIO;
 import controller.Controller;
 import model.Model;
+import view.ServerWindow;
 import view.View;
 
 public class GameServer extends Thread{
@@ -44,10 +45,12 @@ public class GameServer extends Thread{
 	public void run(){
 		try {
 			server = new ServerSocket(port);
+			ServerWindow serverWindow = new ServerWindow(this, InetAddress.getLocalHost().getHostAddress());
 			view.displayMessage("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			view.setTitle(view.getTitle() + " - Server");
 //			System.out.println("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			socket = server.accept();
+			serverWindow.dispose();
 			view.displayMessage("Connection received from: " + socket.getInetAddress().getHostName());
 			view.displayPrompt("Your turn, " + model.getPlayerName());
 //			System.out.println("Connection received from \n" + socket.getInetAddress().getHostName());

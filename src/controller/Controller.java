@@ -149,6 +149,8 @@ public class Controller {
 		JMenuItem saveGame = view.getSaveGame();
 		saveGame.addActionListener(e -> saveGame());
 		view.getNewGame().addActionListener(listener -> newGame());
+		view.getCreateServer().addActionListener(listener -> createServer());
+		view.getJoinGame().addActionListener(listener -> joinGame(""));
 //>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	}
 	
@@ -333,7 +335,6 @@ public class Controller {
 	public void joinGame(String hostIP) {
 		multiplayer = true;
 		client = new GameClient(model, view, this, hostIP);
-		client.start();
 		networkRole = CLIENT;
 		playersTurn = false;
 		view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");

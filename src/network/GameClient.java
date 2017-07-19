@@ -10,6 +10,7 @@ import java.net.UnknownHostException;
 import controller.ConsoleIO;
 import controller.Controller;
 import model.*;
+import view.ClientWindow;
 import view.View;
 
 public class GameClient extends Thread{
@@ -31,6 +32,11 @@ public class GameClient extends Thread{
 		this.model = model;
 		this.view = view;
 		this.controller = controller;
+		this.hostIP = hostIP;
+		ClientWindow clientWindow = new ClientWindow(this);
+	}
+	
+	public void setHostIP(String hostIP){
 		this.hostIP = hostIP;
 	}
 	

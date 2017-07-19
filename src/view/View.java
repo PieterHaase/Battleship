@@ -226,6 +226,16 @@ public class View extends JFrame implements Observer{
 	public JMenuItem getSaveGame() {
 		return saveGame;
 	}
+	
+	public JMenuItem getCreateServer() {
+		return createServer;
+	
+	}
+	
+	public JMenuItem getJoinGame() {
+		return joinGame;
+	}
+	
 	/*
 	public void updateButtonField(FieldButton[][] buttonField, GameField gameField){
 		for (int x=0; x < fieldSize; x++){
