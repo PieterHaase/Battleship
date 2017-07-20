@@ -267,7 +267,7 @@ public class Controller {
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				oos.writeObject(model.getPlayerShips()); // Spielerfeld
 				oos.writeObject(model.getEnemyShips()); // Gegnerfeld
-				oos.writeObject(playersTurn); // wer dran ist werden gespeichert
+				oos.writeObject(playersTurn); // wer dran ist, werden gespeichert
 				oos.flush();
 				oos.close();
 			} catch (Exception e) {
