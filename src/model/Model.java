@@ -96,7 +96,7 @@ public class Model extends Observable{
 	}
 	
 	/**
-	 * Gibt den Namen des Gegners zurück
+	 * Setzt die Schiffe des Spielers
 	 * @param playerships ... 
 	 */
 	public void setPlayerShips(ShipManager playerships) {
