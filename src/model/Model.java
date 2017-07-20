@@ -100,7 +100,7 @@ public class Model extends Observable{
 	 * @param playerships ... 
 	 */
 	public void setPlayerShips(ShipManager playerships) {
-		this.playerShips = playerShips;
+		this.playerShips = playerships;
 		this.setChanged();
 		this.notifyObservers();
 	}
