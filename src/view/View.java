@@ -75,6 +75,8 @@ public class View extends JFrame implements Observer {
 	private JMenu about = new JMenu("About");
 	private JMenuItem showRules = new JMenuItem("Show Rules");
 	private JMenuItem aboutThisGame = new JMenuItem("About this Game");
+	
+	//private Rules rules;
 
 	public View(Model model) {
 		this.model = model;
@@ -272,5 +274,11 @@ public class View extends JFrame implements Observer {
 	public JMenuItem getNewGame() {
 		return newGame;
 	}
+	
+	/*
+	public JMenuItem getShowRules() {
+		return showRules;
+	}
+	*/
 	
 }

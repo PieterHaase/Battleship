@@ -1,11 +1,15 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JDialog;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
  * Zeigt ein JDialog mit den Regeln an. Für die Rules Actionlisteners schreiben.
- * Actionlisteners muss ein neues Objekt der Klasse Rules erzeugen.
+ * Actionlistener muss ein neues Objekt der Klasse Rules erzeugen.
  * 
  * JDialog soll Regeln so anzeigen wie die HTML-Seite
  * 
@@ -14,6 +18,8 @@ import javax.swing.JOptionPane;
  */
 
 public class Rules extends JDialog {
+	
+	View view;
 
 	private static String rules = "Ziel des Spiels:" + "\n "
 			+ "\nJeder Spieler versteckt eine kleine Flotte von Schiffen "
@@ -42,7 +48,24 @@ public class Rules extends JDialog {
 
 	public Rules() {
 		JOptionPane.showMessageDialog(getContentPane(), rules, "Regeln", JOptionPane.INFORMATION_MESSAGE);
+		/*
+		JMenuItem showRules = view.getShowRules();
+		showRules.addActionListener(listener -> JOptionPane.showMessageDialog(getContentPane(), rules, "Regeln", JOptionPane.INFORMATION_MESSAGE));
+		*/
 	}
+	
+	/*public class RulesShower implements ActionListener{
+		View view;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JMenuItem showRules = view.getShowRules();
+			if(e.getSource() == showRules) {
+				new Rules();
+			}
+			
+		}
+		
+	}*/
 
 	public static void main(String[] args) {
 		// System.out.println(rules);
