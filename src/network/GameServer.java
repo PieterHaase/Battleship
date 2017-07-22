@@ -1,5 +1,7 @@
 package network;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -26,11 +28,13 @@ public class GameServer extends Thread{
 	private Controller controller;
 	private boolean running = true;
 	private NetworkService netService;
+	private boolean shipsReceived = false;
 	
 	public GameServer(Model model, View view, Controller controller) {
 		this.model = model;
 		this.view = view;
 		this.controller = controller;
+		controller.newGame();
 	}
 	
 	public NetworkService getNetService(){
@@ -45,25 +49,33 @@ public class GameServer extends Thread{
 	public void run(){
 		try {
 			server = new ServerSocket(port);
-			ServerWindow serverWindow = new ServerWindow(this, InetAddress.getLocalHost().getHostAddress());
+			ServerWindow serverWindow = new ServerWindow(controller, this, InetAddress.getLocalHost().getHostAddress());
 			view.displayMessage("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			view.setTitle(view.getTitle() + " - Server");
 //			System.out.println("Server started, IP: " + InetAddress.getLocalHost().getHostAddress());
 			socket = server.accept();
-			serverWindow.dispose();
+			serverWindow.connectionReceived();
+			view.setEnabled(true);
 			view.displayMessage("Connection received from: " + socket.getInetAddress().getHostName());
-			view.displayPrompt("Your turn, " + model.getPlayerName());
+//			view.displayPrompt("Your turn, " + model.getPlayerName());
 //			System.out.println("Connection received from \n" + socket.getInetAddress().getHostName());
 			
 			outStream = new ObjectOutputStream(socket.getOutputStream());
 			inStream = new ObjectInputStream(socket.getInputStream());
-			netService = new NetworkService(model, inStream, outStream);
+			netService = new NetworkService(controller, inStream, outStream);
+			controller.setNetService(netService);
 //			netService.sendPlayerShips();
 //			netService.receiveEnemyShips();
 			
 			while (running){
-				if(netService.receiveHit()){
-					controller.setPlayersTurn(true);
+/*				if(!shipsReceived){
+					if(netService.receiveEnemyShips()){
+						shipsReceived = true;	
+					}	
+				}
+*/				
+				if(netService.receive()){
+					
 				}
 			}
 			

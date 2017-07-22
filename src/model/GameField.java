@@ -49,6 +49,7 @@ public class GameField  implements Serializable{
 					if (!isOccupied) {
 						for (int i = 0; i < length; i++){
 							gameField[x+i][y] = ship.getFieldAt(i);
+							gameField[x+i][y].setPosition(x+i,y);
 							gameField[x+i][y].setParent(ship);
 							isPlaced = true;
 						}
@@ -73,6 +74,7 @@ public class GameField  implements Serializable{
 					if (!isOccupied) {
 						for (int i = 0; i < length; i++){
 							gameField[x][y+i] = ship.getFieldAt(i);
+							gameField[x][y+i].setPosition(x,y+i);
 							gameField[x][y+i].setParent(ship);	
 							isPlaced = true;
 						}
@@ -116,11 +118,18 @@ public class GameField  implements Serializable{
 					if (content.contains("Cruiser"))
 						outputString = "[C]";
 					if (content.contains("Submarine"))
-						outputString = "[S]";	
+						outputString = "[S]";
 					if (content == "water" && gameField[x][y].isHit())
-						outputString = "[o]";
+						
 					if (content != "water" && gameField[x][y].isHit())
 						outputString = "[X]";
+					if(gameField[x][y].isHit()){
+						if(content.equals("water")){
+							outputString = "[o]";	
+						}
+						else
+						outputString = "[X]";	
+					}
 					System.out.print(outputString);
 				}
 			}
@@ -134,6 +143,10 @@ public class GameField  implements Serializable{
 				gameField[x][y] = new Field(x, y, "water");
 			}
 		}
+	}
+
+	public void setOwner(String playerName) {
+		owner = playerName;
 	}
 	
 }

@@ -2,6 +2,7 @@ package view;
 import model.*;
 import network.GameClient;
 import network.GameServer;
+import network.Message;
 
 import javax.swing.*;
 import javax.swing.border.*;
@@ -29,7 +30,7 @@ public class View extends JFrame implements Observer{
 	private JPanel playerGameField = new JPanel(new GridLayout(10,10,0,0));
 	private JPanel enemyGameField = new JPanel(new GridLayout(10,10,0,0));
 	private ChatPanel chatPanel = new ChatPanel();
-	private JLabel statusLbl = new JLabel("Player 1, your turn! Click on a field to fire at enemy ship.");
+	private JLabel statusLbl = new JLabel("Welcome to Battleship!");
 	
 	private ArrayList<JPanel> gameFields = new ArrayList<>();
 	private ArrayList<FieldButton[][]> buttonFields = new ArrayList<>();
@@ -54,6 +55,7 @@ public class View extends JFrame implements Observer{
 	private JMenuItem newGame = new JMenuItem("New Game");
 	private JMenuItem saveGame = new JMenuItem("Save Game");
 	private JMenuItem loadGame = new JMenuItem("Load Game");
+	private JMenuItem placeRandom = new JMenuItem("Place random ships");
 	private JMenu networkMenu = new JMenu("Network");
 	private JMenuItem createServer = new JMenuItem("Create Server");
 	private JMenuItem joinGame = new JMenuItem("Join Game");
@@ -70,6 +72,7 @@ public class View extends JFrame implements Observer{
 		gameMenu.add(newGame);
 		gameMenu.add(saveGame);
 		gameMenu.add(loadGame);
+		gameMenu.add(placeRandom);
 		menuBar.add(gameMenu);
 		networkMenu.add(createServer);	//controller.createServer
 		networkMenu.add(joinGame);		//controller.joinGame
@@ -79,6 +82,8 @@ public class View extends JFrame implements Observer{
 		menuBar.add(about);
 		about.add(showRules);
 		about.add(aboutThisGame);
+		
+		placeRandom.setEnabled(false);
 
 		/*
 		fieldSize = model.getPlayerShips().getGameFieldSize();
@@ -152,18 +157,15 @@ public class View extends JFrame implements Observer{
 		Dimension dim = new Dimension(this.getWidth(), 150);
 		chatPanel.setPreferredSize(dim);
 		
-		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout());
-		panel.setBackground(Color.red);
-		panel.add(chatPanel);
-		
 		mainPanel.add(playerPanel);
 		mainPanel.add(enemyPanel);
 		mainPanel.setBorder(new EmptyBorder(10,10,0,10));
 		mainPanel.setBackground(windowColor);
 		add(mainPanel, BorderLayout.NORTH);
 		add(chatPanel, BorderLayout.CENTER);
-		statusLbl.setBorder(new EmptyBorder(0,15,10,15));
+		statusLbl.setBackground(windowColor);
+		statusLbl.setOpaque(true);
+		statusLbl.setBorder(new EmptyBorder(5,15,10,15));
 		add(statusLbl, BorderLayout.SOUTH);
 		setTitle("Battleship");
 		pack();
@@ -179,6 +181,8 @@ public class View extends JFrame implements Observer{
 	@Override
 	public void update(Observable arg0, Object arg1) {
 		
+		
+		
 		playerPanel.update(model.getPlayerShips().getGameField());
 		enemyPanel.update(model.getEnemyShips().getGameField());
 		
@@ -190,9 +194,9 @@ public class View extends JFrame implements Observer{
 	public void displayMessage(String message){
 		chatPanel.displayMessage(message);
 	}
-	
-	public void displayMessage(String source, String message){
-		chatPanel.displayMessage(source, message);
+		
+	public void displayMessage(Message message) {
+		chatPanel.displayMessage(message.getSender(), message.getText());
 	}
 	
 	public void displayPrompt(String Message){
@@ -234,6 +238,10 @@ public class View extends JFrame implements Observer{
 	
 	public JMenuItem getJoinGame() {
 		return joinGame;
+	}
+	
+	public JMenuItem getPlaceRandom() {
+		return placeRandom;
 	}
 	
 	/*

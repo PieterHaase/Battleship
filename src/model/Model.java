@@ -11,10 +11,10 @@ public class Model extends Observable{
 	@SuppressWarnings("unused")
 	private ShipNames shipNames = new ShipNames();
 	
-	private String playerName = "Player 1";
-	private String enemyName = "Computer";
-	private ShipManager playerShips = new ShipManager("Player");
-	private ShipManager enemyShips = new ShipManager("Enemy");
+	private String playerName = "Player";
+	private String enemyName = "Enemy";
+	private ShipManager playerShips = new ShipManager(playerName);
+	private ShipManager enemyShips = new ShipManager(enemyName);
 	
 	/**
 	 * Erstellt das Model
@@ -94,4 +94,19 @@ public class Model extends Observable{
 		return enemyName;
 	}
 	
+	public void setPlayerName(String playerName) {
+		this.playerName = playerName;
+		getPlayerShips().setOwner(playerName);
+		getPlayerShips().getGameField().setOwner(playerName);
+		this.setChanged();
+		this.notifyObservers();
+	}
+
+	public void setEnemyName(String enemyName) {
+		this.enemyName = enemyName;
+		getEnemyShips().setOwner(enemyName);
+		getEnemyShips().getGameField().setOwner(enemyName);
+		this.setChanged();
+		this.notifyObservers();
+	}
 }

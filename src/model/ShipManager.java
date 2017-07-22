@@ -144,6 +144,10 @@ public class ShipManager implements Serializable{
 		return owner;
 	}
 	
+	public void setOwner(String owner) {
+		this.owner = owner;
+	}
+	
 	public ArrayList<Ship[]> getShipArrayList(){
 		return shipArrayList;
 	}

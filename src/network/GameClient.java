@@ -25,6 +25,7 @@ public class GameClient extends Thread{
 	private Controller controller;
 	private NetworkService netService;
 	private boolean running = true;
+	private boolean shipsReceived = false;
 	
 	
 	public GameClient(Model model, View view, Controller controller, String hostIP) {
@@ -33,7 +34,7 @@ public class GameClient extends Thread{
 		this.view = view;
 		this.controller = controller;
 		this.hostIP = hostIP;
-		ClientWindow clientWindow = new ClientWindow(this);
+		controller.newGame();
 	}
 	
 	public void setHostIP(String hostIP){
@@ -58,13 +59,21 @@ public class GameClient extends Thread{
 			view.setTitle(view.getTitle() + " - Client");
 			inStream = new ObjectInputStream(socket.getInputStream());
 			outStream = new ObjectOutputStream(socket.getOutputStream());
-			netService = new NetworkService(model, inStream, outStream);
-			netService.receiveEnemyShips();
-			netService.sendPlayerShips();
+			netService = new NetworkService(controller, inStream, outStream);
+			controller.setNetService(netService);
+			netService.sendPlayerName(controller.getModel().getPlayerName());
+//			netService.receiveEnemyShips();
+//			netService.sendPlayerShips();
 			
 			while (running){
-				if(netService.receiveHit()){
-					controller.setPlayersTurn(true);
+/*				if(!shipsReceived){
+					if(netService.receiveEnemyShips()){
+						shipsReceived = true;	
+					}	
+				}
+*/				
+				if(netService.receive()){
+					
 				}
 			}
 			

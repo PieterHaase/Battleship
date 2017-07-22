@@ -29,6 +29,7 @@ public class Field  implements Serializable{
 	
 	public void markAsHit(){
 		isHit = true;
+		System.out.println(xPos + "," + yPos + ": " +isHit);
 	}
 	
 	public Ship getParent(){
