@@ -1,35 +1,24 @@
 package controller;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Scanner;
-
-import javax.swing.JFileChooser;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.net.InetAddress;
-import java.net.Socket;
-import java.net.UnknownHostException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.BorderFactory;
-import javax.swing.KeyStroke;
+import javax.swing.JFileChooser;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
 import org.w3c.dom.Text;
@@ -37,6 +26,7 @@ import org.w3c.dom.Text;
 import model.Field;
 import model.Model;
 import model.Ship;
+import model.ShipManager;
 import network.GameClient;
 import network.GameServer;
 import network.Message;
@@ -63,50 +53,43 @@ public class Controller {
 	private AI computer;
 	private NetworkService netService;
 	private int networkRole;
-//<<<<<<< HEAD
 	
 	private boolean shipPlaced = false;
 	private boolean allShipsPlaced = false;
 	private boolean enemyShipsReceived = false;
 	
-//=======
 
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	int lastX = -1;
 	int lastY = -1;
 	int lastHitX = -1;
 	int lastHitY = -1;
-//<<<<<<< HEAD
-	
-//	int x = 0;
-//	int y = 0;
+
+
+	int x = 0;
+	int y = 0;
+
 	private String orientation = "vertical";
-	
 
 	ArrayList<Ship[]> ships;
 	ArrayList<Ship> shipList = new ArrayList<Ship>();
 
-//	public Controller(){
-//=======
+	// public Controller(){
+	// =======
 
 	private Text textContent;
 
 	public Controller() {
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		model = new Model();
 		view = new View(model);
 		model.addObserver(view);
 		model.update();
 
-		
-//<<<<<<< HEAD
-		
-		
-//=======
+		// <<<<<<< HEAD
 
+		// =======
 
-
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
 			sendMessage();
@@ -128,18 +111,16 @@ public class Controller {
 			public void keyTyped(KeyEvent arg0) {
 			}
 		});
-//<<<<<<< HEAD
-		
-/*		ConsoleIO.write("Enter command:");
-		String command = ConsoleIO.read(); 
-		if (command.matches("server")){
-			GameServer server = new GameServer(model);
-		}
-		else if (command.matches("client")){
-			GameClient client = new GameClient(model);
-		}*/
-		
-//=======
+		// <<<<<<< HEAD
+
+		/*
+		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
+		 * if (command.matches("server")){ GameServer server = new
+		 * GameServer(model); } else if (command.matches("client")){ GameClient
+		 * client = new GameClient(model); }
+		 */
+
+		// =======
 
 		/*
 		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
@@ -166,10 +147,13 @@ public class Controller {
 			else
 				newSingleplayerGame();
 		});
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+
+		JMenuItem showRules = view.getShowRules();
+		//showRules.addActionListener(listener -> new Rules());
+
 	}
-	
-	private void newSingleplayerGame(){
+
+	private void newSingleplayerGame() {
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
@@ -186,7 +170,7 @@ public class Controller {
 							if (!multiplayer) {
 								computerTurn();
 							}
-							if (multiplayer) {								//DAS MUSS AUSGELAGERT WERDEN
+							if (multiplayer) { // DAS MUSS AUSGELAGERT WERDEN
 								if (networkRole == SERVER) {
 									netService = server.getNetService();
 								}
@@ -273,7 +257,6 @@ public class Controller {
 		}
 		chatPanel.getTextField().setText("");
 	}
-	
 	public void newGame(){
 		view.getPlaceRandom().setEnabled(true);
 //		model.getPlayerShips().newGameField();
@@ -291,18 +274,17 @@ public class Controller {
 	public void saveGame() {
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle("Save Game");
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
-		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); // Klasse FileTypeFilter wird erzeugt
 		int result = fc.showSaveDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
-			String content = textContent.getTextContent();
 			File file = fc.getSelectedFile();
 			try {
-				FileWriter fw = new FileWriter(file.getPath());
-				fw.write(content);
-				fw.flush();
-				fw.close();
+				FileOutputStream fos = new FileOutputStream(file.getPath());
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(model.getPlayerShips()); // Spielerfeld
+				oos.writeObject(model.getEnemyShips()); // Gegnerfeld
+				oos.writeObject(playersTurn); // wer dran ist, werden gespeichert
+				oos.flush();
+				oos.close();
 			} catch (Exception e) {
 				// Fehlermeldung
 				JOptionPane.showMessageDialog(null, e.getMessage());
@@ -313,29 +295,27 @@ public class Controller {
 	public void loadGame() {
 		JFileChooser fc = new JFileChooser();
 		fc.setDialogTitle("Load Game");
-		fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-		fc.setCurrentDirectory(new File("C:/Users/naqib/P2-Projekt"));
-		fc.setFileFilter(new FileTypeWriter(".txt", "Text File")); 
 		int result = fc.showOpenDialog(null);
 		if (result == JFileChooser.APPROVE_OPTION) {
+			File file = fc.getSelectedFile();
 			try {
-				File file = fc.getSelectedFile();
-				BufferedReader br = new BufferedReader(new FileReader(file.getPath()));
-				String line = "";
-				String s = "";
-				while ((line = br.readLine()) != null) {
-					s = s + line;
-				}
-				textContent.setTextContent(s);
-				if (br != null) {
-					br.close();
-				}
+				FileInputStream fis = new FileInputStream(file.getPath());
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				ShipManager playerShips = (ShipManager) ois.readObject();
+				ShipManager enemyShips = (ShipManager) ois.readObject();
+				boolean playersTurn = (boolean) ois.readObject();
+				model.setPlayerShips(playerShips);
+				model.setEnemyShips(enemyShips);
+				this.playersTurn = playersTurn;
 			} catch (FileNotFoundException e) {
 				// Fehlermeldung
 				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (IOException e) {
 				// Fehlermeldung
 				JOptionPane.showMessageDialog(null, e.getMessage());
+			} catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}
@@ -372,11 +352,11 @@ public class Controller {
 			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 		playersTurn = bool;
 	}
-//<<<<<<< HEAD
-	
-	public void doNothing(int x){
-		if(x == 20000000){
-//			view.displayMessage("waiting");
+	// <<<<<<< HEAD
+
+	public void doNothing(int x) {
+		if (x == 20000000) {
+			// view.displayMessage("waiting");
 			x = 0;
 		}
 		x++;
@@ -429,128 +409,167 @@ public class Controller {
 		*/
 /*		addActionListener();
 =======
+=======
+
+	public void placeShip(Ship ship) {
+		addActionListeners(ship);
+	}
+>>>>>>> e4a78c4ff3d4f7fc5fa57c562b066a7bdf956c3c
 
 	public void shipPlacement() {
->>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
-		for (int x = 0; x < buttonField.length; x++) {
-			for (int y = 0; y < buttonField.length; y++) {
-				FieldButton button = buttonField[x][y];
-<<<<<<< HEAD
-//				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos()); 
-				button.addMouseListener(new MouseListener(){
-					
-//					Color prevColor = button.getBackground();
-=======
-				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
-				button.addMouseListener(new MouseListener() {
 
-					Color prevColor = button.getBackground();
->>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		placeShip(shipList.get(0));
 
-					@Override
-					public void mouseClicked(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseEntered(MouseEvent e) {
-<<<<<<< HEAD
-						highlight(buttonField, button, 4, "vertical", GUISettings.cursorColor, 2);
-=======
-						button.setBackground(Color.blue);
-
->>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-					}
-
-					@Override
-					public void mouseExited(MouseEvent e) {
-<<<<<<< HEAD
-						highlight(buttonField, button, 4, "vertical", Color.white, 1);
-						
-=======
-						button.setBackground(prevColor);
-
->>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-					}
-
-					@Override
-					public void mousePressed(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void mouseReleased(MouseEvent e) {
-						// TODO Auto-generated method stub
-
-					}
-
-				});
-			}
-<<<<<<< HEAD
-		}*/
+		/*
+		 * for(int k=0; k < ships.size(); k++){ for(int i=0; i <
+		 * ships.get(k).length; i++){ view.displayMessage("Place " +
+		 * ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
+		 * shipPlaced = false; addActionListener(ships.get(k)[i]); int x = 0;
+		 * while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; } x++; }
+		 * view.displayMessage("placed"); } } view.displayMessage(
+		 * "All ships placed"); if(multiplayer) netService.sendPlayerShips();
+		 * 
+		 * 
+		 * 
+		 * /*
+		 * 
+		 * view.displayMessage("Place your Destroyers"); for(int i=0; i <
+		 * destroyers.length; i++){ shipPlaced = false; addActionListener(); int
+		 * x = 0; while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; }
+		 * x++; } view.displayMessage(battleships[i].getType() + " " +
+		 * battleships[i].getName() + " placed"); }
+		 */
+		/*
+		 * addActionListener(); =======
+		 * 
+		 * public void shipPlacement() { >>>>>>>
+		 * 6cfda8bd082576052e2c3144e5679fe61e9f2bad FieldButton[][] buttonField
+		 * = view.getPlayerPanel().getButtonField(); for (int x = 0; x <
+		 * buttonField.length; x++) { for (int y = 0; y < buttonField.length;
+		 * y++) { FieldButton button = buttonField[x][y]; <<<<<<< HEAD // Field
+		 * field =
+		 * model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
+		 * button.getYPos()); button.addMouseListener(new MouseListener(){
+		 * 
+		 * // Color prevColor = button.getBackground(); ======= Field field =
+		 * model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
+		 * button.getYPos()); button.addMouseListener(new MouseListener() {
+		 * 
+		 * Color prevColor = button.getBackground(); >>>>>>>
+		 * 6cfda8bd082576052e2c3144e5679fe61e9f2bad
+		 * 
+		 * @Override public void mouseClicked(MouseEvent e) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * }
+		 * 
+		 * @Override public void mouseEntered(MouseEvent e) { <<<<<<< HEAD
+		 * highlight(buttonField, button, 4, "vertical",
+		 * GUISettings.cursorColor, 2); =======
+		 * button.setBackground(Color.blue);
+		 * 
+		 * >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad }
+		 * 
+		 * @Override public void mouseExited(MouseEvent e) { <<<<<<< HEAD
+		 * highlight(buttonField, button, 4, "vertical", Color.white, 1);
+		 * 
+		 * ======= button.setBackground(prevColor);
+		 * 
+		 * >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad }
+		 * 
+		 * @Override public void mousePressed(MouseEvent e) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * }
+		 * 
+		 * @Override public void mouseReleased(MouseEvent e) { // TODO
+		 * Auto-generated method stub
+		 * 
+		 * }
+		 * 
+		 * }); } <<<<<<< HEAD }
+		 */
 	}
-	
-	public void highlight(FieldButton[][] buttonField, FieldButton button, int size, String orientation, Color color, int borderSize){
+
+	public void highlight(FieldButton[][] buttonField, FieldButton button, int size, String orientation, Color color,
+			int borderSize) {
 		button.setBorder(BorderFactory.createLineBorder(color, borderSize));
-		if (orientation == "horizontal"){
-			if(size > 1){
-				if(button.getXPos() +1 < buttonField.length)
-					buttonField[button.getXPos() +1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				else 
-					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+		if (orientation == "horizontal") {
+			if (size > 1) {
+				if (button.getXPos() + 1 < buttonField.length)
+					buttonField[button.getXPos() + 1][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				else
+					buttonField[button.getXPos() - 1][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
-			if(size > 2){
-				if(button.getXPos() +2 < buttonField.length)
-					buttonField[button.getXPos() +2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +2 == buttonField.length)
-					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +2 == buttonField.length +1)
-					buttonField[button.getXPos() -2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			if (size > 2) {
+				if (button.getXPos() + 2 < buttonField.length)
+					buttonField[button.getXPos() + 2][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 2 == buttonField.length)
+					buttonField[button.getXPos() - 1][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 2 == buttonField.length + 1)
+					buttonField[button.getXPos() - 2][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
-			if(size > 3){
-				if(button.getXPos() +3 < buttonField.length)
-					buttonField[button.getXPos() +2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +3 == buttonField.length)
-					buttonField[button.getXPos() -1][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +3 == buttonField.length +1)
-					buttonField[button.getXPos() -2][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +3 < buttonField.length)
-					buttonField[button.getXPos() +3][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getXPos() +3 == buttonField.length +2)
-					buttonField[button.getXPos() -3][button.getYPos()].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			if (size > 3) {
+				if (button.getXPos() + 3 < buttonField.length)
+					buttonField[button.getXPos() + 2][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 3 == buttonField.length)
+					buttonField[button.getXPos() - 1][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 3 == buttonField.length + 1)
+					buttonField[button.getXPos() - 2][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 3 < buttonField.length)
+					buttonField[button.getXPos() + 3][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getXPos() + 3 == buttonField.length + 2)
+					buttonField[button.getXPos() - 3][button.getYPos()]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
 		}
-		if (orientation == "vertical"){
-			if(size > 1){
-				if(button.getYPos() +1 < buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() +1].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				else 
-					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
+		if (orientation == "vertical") {
+			if (size > 1) {
+				if (button.getYPos() + 1 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() + 1]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				else
+					buttonField[button.getXPos()][button.getYPos() - 1]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
-			if(size > 2){
-				if(button.getYPos() +2 < buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() +2].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +2 == buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +2 == buttonField.length +1)
-					buttonField[button.getXPos()][button.getYPos() -2].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			if (size > 2) {
+				if (button.getYPos() + 2 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() + 2]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 2 == buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() - 1]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 2 == buttonField.length + 1)
+					buttonField[button.getXPos()][button.getYPos() - 2]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
-			if(size > 3){
-				if(button.getYPos() +3 < buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() +2].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +3 == buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() -1].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +3 == buttonField.length +1)
-					buttonField[button.getXPos()][button.getYPos() -2].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +3 < buttonField.length)
-					buttonField[button.getXPos()][button.getYPos() +3].setBorder(BorderFactory.createLineBorder(color, borderSize));
-				if(button.getYPos() +3 == buttonField.length +2)
-					buttonField[button.getXPos()][button.getYPos() -3].setBorder(BorderFactory.createLineBorder(color, borderSize));
+			if (size > 3) {
+				if (button.getYPos() + 3 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() + 2]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 3 == buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() - 1]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 3 == buttonField.length + 1)
+					buttonField[button.getXPos()][button.getYPos() - 2]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 3 < buttonField.length)
+					buttonField[button.getXPos()][button.getYPos() + 3]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
+				if (button.getYPos() + 3 == buttonField.length + 2)
+					buttonField[button.getXPos()][button.getYPos() - 3]
+							.setBorder(BorderFactory.createLineBorder(color, borderSize));
 			}
-		}	
+		}
 	}
 	
 	public void placeShip(Ship ship){
@@ -559,25 +578,28 @@ public class Controller {
 		for (int x = 0; x < buttonField.length; x++) {
 			for (int y = 0; y < buttonField.length; y++) {
 				FieldButton button = buttonField[x][y];
-//				Field field = model.getPlayerShips().getGameField().getFieldAt(button.getXPos(), button.getYPos());
-				if(button.getMouseListeners().length > 0)				
+				// Field field =
+				// model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
+				// button.getYPos());
+				if (button.getMouseListeners().length > 0)
 					button.removeMouseListener(button.getMouseListeners()[0]);
-				button.addMouseListener(new MouseListener(){
-					
-//					Color prevColor = button.getBackground();
+				button.addMouseListener(new MouseListener() {
+
+					// Color prevColor = button.getBackground();
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if(SwingUtilities.isRightMouseButton(e)){
 							highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
 							if(orientation == "horizontal")
+
 								orientation = "vertical";
 							else
 								orientation = "horizontal";
 							highlight(buttonField, button, ship.getLength(), orientation, GUISettings.cursorColor, 2);
-						}
-						else{
-							if(model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(), button.getYPos(), orientation)){
+						} else {
+							if (model.getPlayerShips().getGameField().placeShip(ship, button.getXPos(),
+									button.getYPos(), orientation)) {
 								model.update();
 								model.getPlayerShips().getGameField().printField();
 								if(shipList.size() > 1){
@@ -585,9 +607,8 @@ public class Controller {
 									shipPlaced = true;
 									shipList.remove(0);
 
-								placeShip(shipList.get(0));
-								}
-								else{
+									placeShip(shipList.get(0));
+								} else {
 									removeActionListener();
 									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
 //									testMethod();
@@ -612,35 +633,31 @@ public class Controller {
 					@Override
 					public void mouseExited(MouseEvent e) {
 						highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
-						
 					}
 
 					@Override
 					public void mousePressed(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
 
 					@Override
 					public void mouseReleased(MouseEvent e) {
 						// TODO Auto-generated method stub
-						
+
 					}
-					
+
 				});
 			}
 		}
-//		x=0;
-//		y=0;
-
 	}
-	
-	public void removeActionListener(){
+
+	public void removeActionListener() {
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
 		for (int x = 0; x < buttonField.length; x++) {
 			for (int y = 0; y < buttonField.length; y++) {
 				buttonField[x][y].removeMouseListener(buttonField[x][y].getMouseListeners()[0]);
-				}
+			}
 		}
 	}
 	
@@ -718,10 +735,6 @@ public class Controller {
 			}
 		}
 	}
-//=======
-//		}
-//	}
-//>>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 
 	public Model getModel() {
 		return model;
@@ -738,4 +751,5 @@ public class Controller {
 	public boolean getPlayersTurn() {
 		return playersTurn;
 	}
+
 }

@@ -2,12 +2,13 @@ package model;
 
 import java.util.Observable;
 
+/**
+ * Diese Klasse repräsentiert das Model.
+ * @author Pieter Haase, Naqib Faizy
+ * @version 1.0.
+ */
 public class Model extends Observable{
-	/**
-	 * Diese Klasse repräsentiert das Model.
-	 * @author Pieter Haase, Naqib Faizy
-	 * @version 1.0.
-	 */
+
 	@SuppressWarnings("unused")
 	private ShipNames shipNames = new ShipNames();
 	
@@ -57,7 +58,7 @@ public class Model extends Observable{
 	
 	/**
 	 * Setzt die Schiffe des Gegeners
-	 * @param enemyShips - ...
+	 * @param enemyShips ...
 	 */
 	public void setEnemyShips(ShipManager enemyShips) {
 		this.enemyShips = enemyShips;
@@ -106,6 +107,16 @@ public class Model extends Observable{
 		this.enemyName = enemyName;
 		getEnemyShips().setOwner(enemyName);
 		getEnemyShips().getGameField().setOwner(enemyName);
+		this.setChanged();
+		this.notifyObservers();
+	}
+	
+	/**
+	 * Setzt die Schiffe des Spielers
+	 * @param playerships ... 
+	 */
+	public void setPlayerShips(ShipManager playerships) {
+		this.playerShips = playerships;
 		this.setChanged();
 		this.notifyObservers();
 	}
