@@ -44,6 +44,15 @@ public class NetworkService {
 		}
 	}
 	
+	public void sendEnemyShips(){
+		try {
+			outStream.writeObject(model.getEnemyShips());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public boolean receiveEnemyShips(){
 		Object object;
 		try {
@@ -76,19 +85,26 @@ public class NetworkService {
 		Object object;
 		try {
 			object = inStream.readObject();
-			String name = "";
-			ShipManager shipManager = new ShipManager("");
+			String string = "";
 			Field field = new Field(0, 0, "");
 			Message message = new Message("","");
 			
-			if(object.getClass().equals(name.getClass())){
-				name = (String)object;
-				model.setEnemyName(name);
-				view.displayMessage("You are playing against " + model.getEnemyName());
+			if(object.getClass().equals(string.getClass())){
+				string = (String)object;
+				if(string.equals("~NEWGAME")){
+					ShipManager shipManager = (ShipManager)inStream.readObject();
+					model.setPlayerShips(shipManager);
+					controller.setAllShipsPlaced(true);
+					controller.newGame();					
+				}
+				else{
+					model.setEnemyName(string);
+					view.displayMessage("You are playing against " + model.getEnemyName());
+				}
 			}
 			
-			if(object.getClass().equals(shipManager.getClass())){
-				shipManager = (ShipManager)object;
+			if(object.getClass().equals(ShipManager.class)){
+				ShipManager shipManager = (ShipManager)object;
 //				model.getEnemyShips().getGameField().clear();
 				model.setEnemyShips(shipManager);
 				controller.setEnemyShipsReceived(true);
@@ -116,6 +132,15 @@ public class NetworkService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
+		}
+	}
+	
+	public void sendMessage(String message){
+		try {
+			outStream.writeObject(message);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	

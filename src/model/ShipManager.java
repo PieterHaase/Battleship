@@ -29,6 +29,7 @@ public class ShipManager implements Serializable{
 	
 	public ShipManager(String owner){
 		this.owner = owner;
+		initialize();
 		newGameField();
 
 	

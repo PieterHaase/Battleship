@@ -134,7 +134,11 @@ public class Controller {
 		loadGame.addActionListener(listener -> loadGame());
 		JMenuItem saveGame = view.getSaveGame();
 		saveGame.addActionListener(e -> saveGame());
-		view.getNewGame().addActionListener(listener -> newGame());
+		view.getNewGame().addActionListener(listener -> {
+			if(netService != null)
+				netService.sendMessage("~NEWGAME");
+			newGame();
+		});
 		view.getCreateServer().addActionListener(listener -> createServer());
 		view.getJoinGame().addActionListener(listener -> joinGame(""));
 		view.getPlaceRandom().addActionListener(listener -> {
@@ -154,6 +158,7 @@ public class Controller {
 	}
 
 	private void newSingleplayerGame() {
+		setPlayersTurn(true);
 		computer = new AI(model.getPlayerShips().getGameField());
 		for (int x = 0; x < view.getEnemyPanel().getButtonField().length; x++) {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
@@ -258,6 +263,8 @@ public class Controller {
 		chatPanel.getTextField().setText("");
 	}
 	public void newGame(){
+		model.reset();
+
 		view.getPlaceRandom().setEnabled(true);
 //		model.getPlayerShips().newGameField();
 //		model.update();
@@ -268,7 +275,13 @@ public class Controller {
 				shipList.add(ships.get(k)[i]);
 			}
 		}
-		shipPlacement();
+		if(!allShipsPlaced)
+			shipPlacement();
+		if(!multiplayer){
+			model.getEnemyShips().placeRandomShips();
+			model.update();
+		}
+			
 	}
 
 	public void saveGame() {
@@ -299,6 +312,8 @@ public class Controller {
 		if (result == JFileChooser.APPROVE_OPTION) {
 			File file = fc.getSelectedFile();
 			try {
+				allShipsPlaced = true;
+				newGame();
 				FileInputStream fis = new FileInputStream(file.getPath());
 				ObjectInputStream ois = new ObjectInputStream(fis);
 				ShipManager playerShips = (ShipManager) ois.readObject();
@@ -307,6 +322,11 @@ public class Controller {
 				model.setPlayerShips(playerShips);
 				model.setEnemyShips(enemyShips);
 				this.playersTurn = playersTurn;
+				if(netService != null){
+					netService.sendMessage("~NEWGAME");
+					netService.sendEnemyShips();
+					netService.sendPlayerShips();
+				}
 			} catch (FileNotFoundException e) {
 				// Fehlermeldung
 				JOptionPane.showMessageDialog(null, e.getMessage());
@@ -617,6 +637,8 @@ public class Controller {
 										allShipsPlaced = true;
 //										multiplayerGame();
 									}
+									else
+										newSingleplayerGame();
 //									view.displayMessage("test");
 								}
 							}
@@ -693,7 +715,7 @@ public class Controller {
 							model.update();
 //							view.getEnemyPanel().update(model.getEnemyShips().getGameField());
 //							view.getPlayerPanel().update(model.getPlayerShips().getGameField());
-							playersTurn = false;
+							setPlayersTurn(false);
 //							view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
 							gameOver = model.gameOver();
 						}
@@ -750,6 +772,10 @@ public class Controller {
 
 	public boolean getPlayersTurn() {
 		return playersTurn;
+	}
+
+	public void setAllShipsPlaced(boolean b) {
+		allShipsPlaced = b;
 	}
 
 }

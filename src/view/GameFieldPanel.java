@@ -20,6 +20,9 @@ public class GameFieldPanel extends JPanel{
 	private TitledBorder title;
 	private JLabel fieldOwner = new JLabel("");
 	private JPanel grid = new JPanel(new GridLayout(10,10,0,0));
+	private ImageIcon sub = new ImageIcon("src/sub.png");
+	private ImageIcon cruiser1 = new ImageIcon("src/cruiser1.png");
+	private ImageIcon cruiser2 = new ImageIcon("src/cruiser2.png");
 	
 	public GameFieldPanel(GameField gameField) {
 		this.gameField = gameField;
@@ -65,24 +68,29 @@ public class GameFieldPanel extends JPanel{
 				Field field = gameField.getFieldAt(x, y);
 				String content = field.getContent();
 				String labelText = "";
-				buttonField[x][y].setBackground(buttonColor);				
-				if (!content.equals("water"))
+				buttonField[x][y].setBackground(buttonColor);
+				buttonField[x][y].setIcon(null);		
+				if (!content.equals("water")){
 					buttonField[x][y].setBackground(Color.gray);
+				}
 				if (content.contains("Battleship"))
 					labelText = "B";
 				if (content.contains("Destroyer"))
 					labelText = "D";
 				if (content.contains("Cruiser"))
 					labelText = "C";
-				if (content.contains("Submarine"))
-					labelText = "S";	
+				if (content.contains("Submarine")){
+//					labelText = "S";	
+					buttonField[x][y].setIcon(sub);
+					buttonField[x][y].setBackground(buttonColor);
+				}
 				if(field.isHit()){
 					if (content.equals("water"))
 						buttonField[x][y].setBackground(GUISettings.waterColor);
 					else
 					buttonField[x][y].setBackground(Color.red);
 				}
-				labelText = field.getXPos() + "," + field.getYPos();
+//				labelText = field.getXPos() + "," + field.getYPos();
 //				labelText = field.getContent().substring(0,1) + Boolean.toString(field.isHit()).substring(0, 1);
 //				labelText = Boolean.toString(field.isHit());
 				buttonField[x][y].setText(labelText);

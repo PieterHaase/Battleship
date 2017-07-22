@@ -9,27 +9,33 @@ import java.util.Observable;
  */
 public class Model extends Observable{
 
+	
 	@SuppressWarnings("unused")
-	private ShipNames shipNames = new ShipNames();
+	private ShipNames shipNames;
 	
 	private String playerName = "Player";
 	private String enemyName = "Enemy";
-	private ShipManager playerShips = new ShipManager(playerName);
-	private ShipManager enemyShips = new ShipManager(enemyName);
+	private ShipManager playerShips;
+	private ShipManager enemyShips;
 	
 	/**
 	 * Erstellt das Model
 	 */
 	public Model() {
+		shipNames = new ShipNames();
+		playerShips = new ShipManager(playerName);
+		enemyShips = new ShipManager(enemyName);
+		update();
 //		playerShips.placeRandomShips();
 //		playerShips.initialize();
-		enemyShips.placeRandomShips();
+		
 		
 //		playerShips.printListOfShips();
 //		enemyShips.printListOfShips();
 
 //		playerShips.getGameField().printField();
 //		enemyShips.getGameField().printField();
+
 	}
 	
 	/**
@@ -62,8 +68,7 @@ public class Model extends Observable{
 	 */
 	public void setEnemyShips(ShipManager enemyShips) {
 		this.enemyShips = enemyShips;
-		this.setChanged();
-		this.notifyObservers();
+		update();
 	}
 	
 	/**
@@ -99,16 +104,14 @@ public class Model extends Observable{
 		this.playerName = playerName;
 		getPlayerShips().setOwner(playerName);
 		getPlayerShips().getGameField().setOwner(playerName);
-		this.setChanged();
-		this.notifyObservers();
+		update();
 	}
 
 	public void setEnemyName(String enemyName) {
 		this.enemyName = enemyName;
 		getEnemyShips().setOwner(enemyName);
 		getEnemyShips().getGameField().setOwner(enemyName);
-		this.setChanged();
-		this.notifyObservers();
+		update();
 	}
 	
 	/**
@@ -117,7 +120,20 @@ public class Model extends Observable{
 	 */
 	public void setPlayerShips(ShipManager playerships) {
 		this.playerShips = playerships;
-		this.setChanged();
-		this.notifyObservers();
+		update();
+	}
+	
+	public void resetShips(){
+		shipNames = new ShipNames();
+		playerShips = new ShipManager(playerName);
+		enemyShips = new ShipManager(enemyName);
+		update();
+	}
+
+	public void reset() {
+		resetShips();
+		playerShips.getGameField().clear();
+		enemyShips.getGameField().clear();
+		update();
 	}
 }
