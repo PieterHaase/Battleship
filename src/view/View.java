@@ -76,7 +76,6 @@ public class View extends JFrame implements Observer{
 	private JMenuItem showRules = new JMenuItem("Show Rules");
 	private JMenuItem aboutThisGame = new JMenuItem("About this Game");
 
-	
 	public View (Model model){
 		this.model = model;
 		setJMenuBar(menuBar);

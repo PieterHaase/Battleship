@@ -33,7 +33,7 @@ import view.ChatPanel;
 import view.ClientWindow;
 import view.FieldButton;
 import view.GUISettings;
-import view.ServerWindow;
+import view.Rules;
 import view.View;
 
 public class Controller {
@@ -148,6 +148,7 @@ public class Controller {
 		});
 
 		JMenuItem showRules = view.getShowRules();
+		showRules.addActionListener(listener -> new Rules());
 
 		// JMenuItem showRules = view.getShowRules();
 
