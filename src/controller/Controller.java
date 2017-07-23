@@ -21,8 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
-import org.w3c.dom.Text;
-
 import model.Field;
 import model.Model;
 import model.Ship;
@@ -53,17 +51,15 @@ public class Controller {
 	private AI computer;
 	private NetworkService netService;
 	private int networkRole;
-	
+
 	private boolean shipPlaced = false;
 	private boolean allShipsPlaced = false;
 	private boolean enemyShipsReceived = false;
-	
 
 	int lastX = -1;
 	int lastY = -1;
 	int lastHitX = -1;
 	int lastHitY = -1;
-
 
 	int x = 0;
 	int y = 0;
@@ -75,8 +71,6 @@ public class Controller {
 
 	// public Controller(){
 	// =======
-
-	private Text textContent;
 
 	public Controller() {
 		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
@@ -135,25 +129,29 @@ public class Controller {
 		JMenuItem saveGame = view.getSaveGame();
 		saveGame.addActionListener(e -> saveGame());
 		view.getNewGame().addActionListener(listener -> {
-			if(netService != null)
+			if (netService != null)
 				netService.sendMessage("~NEWGAME");
 			newGame();
 		});
 		view.getCreateServer().addActionListener(listener -> createServer());
 		view.getJoinGame().addActionListener(listener -> joinGame(""));
+
 		view.getPlaceRandom().addActionListener(listener -> {
 			model.getPlayerShips().placeRandomShips();
 			model.update();
 			shipList.clear();
 			removeActionListener();
-			if(multiplayer)
+			if (multiplayer)
 				multiplayerGame();
 			else
 				newSingleplayerGame();
 		});
 
 		JMenuItem showRules = view.getShowRules();
-		//showRules.addActionListener(listener -> new Rules());
+
+		// JMenuItem showRules = view.getShowRules();
+
+		// showRules.addActionListener(listener -> new Rules());
 
 	}
 
@@ -255,33 +253,34 @@ public class Controller {
 			joinGame(hostIP);
 		} else {
 			chatPanel.displayMessage(model.getPlayerName(), chatPanel.getTextField().getText());
-			if(multiplayer){
+			if (multiplayer) {
 				netService.sendMessage(new Message(model.getPlayerName(), chatPanel.getTextField().getText()));
 			}
-				
+
 		}
 		chatPanel.getTextField().setText("");
 	}
-	public void newGame(){
+
+	public void newGame() {
 		model.reset();
 
 		view.getPlaceRandom().setEnabled(true);
-//		model.getPlayerShips().newGameField();
-//		model.update();
+		// model.getPlayerShips().newGameField();
+		// model.update();
 		ships = model.getPlayerShips().getShipArrayList();
 		shipList.clear();
-		for(int k=0; k < ships.size(); k++){
-			for(int i=0; i < ships.get(k).length; i++){
+		for (int k = 0; k < ships.size(); k++) {
+			for (int i = 0; i < ships.get(k).length; i++) {
 				shipList.add(ships.get(k)[i]);
 			}
 		}
-		if(!allShipsPlaced)
+		if (!allShipsPlaced)
 			shipPlacement();
-		if(!multiplayer){
+		if (!multiplayer) {
 			model.getEnemyShips().placeRandomShips();
 			model.update();
 		}
-			
+
 	}
 
 	public void saveGame() {
@@ -295,7 +294,8 @@ public class Controller {
 				ObjectOutputStream oos = new ObjectOutputStream(fos);
 				oos.writeObject(model.getPlayerShips()); // Spielerfeld
 				oos.writeObject(model.getEnemyShips()); // Gegnerfeld
-				oos.writeObject(playersTurn); // wer dran ist, werden gespeichert
+				oos.writeObject(playersTurn); // wer dran ist, werden
+												// gespeichert
 				oos.flush();
 				oos.close();
 			} catch (Exception e) {
@@ -322,7 +322,7 @@ public class Controller {
 				model.setPlayerShips(playerShips);
 				model.setEnemyShips(enemyShips);
 				this.playersTurn = playersTurn;
-				if(netService != null){
+				if (netService != null) {
 					netService.sendMessage("~NEWGAME");
 					netService.sendEnemyShips();
 					netService.sendPlayerShips();
@@ -344,7 +344,7 @@ public class Controller {
 		multiplayer = true;
 		server = new GameServer(model, view, this);
 		server.start();
-//		netService = server.getNetService();
+		// netService = server.getNetService();
 		networkRole = SERVER;
 	}
 
@@ -354,7 +354,8 @@ public class Controller {
 		ClientWindow clientWindow = new ClientWindow(this, client);
 		networkRole = CLIENT;
 		playersTurn = false;
-//		view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
+		// view.displayPrompt("Wait for " + model.getEnemyName() + "'s
+		// turn...");
 	}
 
 	public View getView() {
@@ -381,60 +382,6 @@ public class Controller {
 		}
 		x++;
 	}
-	
-	public void shipPlacement(){
-		
-		placeShip(shipList.get(0));
-		
-		
-/*		
-		for(int k=0; k < ships.size(); k++){
-			for(int i=0; i < ships.get(k).length; i++){
-				view.displayMessage("Place " + ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
-				shipPlaced = false;
-				addActionListener(ships.get(k)[i]);
-				int x = 0;
-				while(!shipPlaced){
-					if(x == 20000000){
-						doNothing(x);
-						x = 0;
-					}
-					x++;
-				}
-				view.displayMessage("placed");
-			}	
-		}
-		view.displayMessage("All ships placed");
-		if(multiplayer)
-			netService.sendPlayerShips();
-		
-		
-		
-/*		
-		
-		view.displayMessage("Place your Destroyers");
-		for(int i=0; i < destroyers.length; i++){
-			shipPlaced = false;
-			addActionListener();
-			int x = 0;
-			while(!shipPlaced){
-				if(x == 20000000){
-					doNothing(x);
-					x = 0;
-				}
-				x++;
-			}
-			view.displayMessage(battleships[i].getType() + " " + battleships[i].getName() + " placed");
-		}
-		*/
-/*		addActionListener();
-=======
-=======
-
-	public void placeShip(Ship ship) {
-		addActionListeners(ship);
-	}
->>>>>>> e4a78c4ff3d4f7fc5fa57c562b066a7bdf956c3c
 
 	public void shipPlacement() {
 
@@ -442,6 +389,34 @@ public class Controller {
 
 		/*
 		 * for(int k=0; k < ships.size(); k++){ for(int i=0; i <
+		 * ships.get(k).length; i++){ view.displayMessage("Place " +
+		 * ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
+		 * shipPlaced = false; addActionListener(ships.get(k)[i]); int x = 0;
+		 * while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; } x++; }
+		 * view.displayMessage("placed"); } } view.displayMessage(
+		 * "All ships placed"); if(multiplayer) netService.sendPlayerShips();
+		 * 
+		 * 
+		 * 
+		 * /*
+		 * 
+		 * view.displayMessage("Place your Destroyers"); for(int i=0; i <
+		 * destroyers.length; i++){ shipPlaced = false; addActionListener(); int
+		 * x = 0; while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; }
+		 * x++; } view.displayMessage(battleships[i].getType() + " " +
+		 * battleships[i].getName() + " placed"); }
+		 */
+		/*
+		 * addActionListener(); ======= =======
+		 * 
+		 * public void placeShip(Ship ship) { addActionListeners(ship); }
+		 * >>>>>>> e4a78c4ff3d4f7fc5fa57c562b066a7bdf956c3c
+		 * 
+		 * public void shipPlacement() {
+		 * 
+		 * placeShip(shipList.get(0));
+		 * 
+		 * /* for(int k=0; k < ships.size(); k++){ for(int i=0; i <
 		 * ships.get(k).length; i++){ view.displayMessage("Place " +
 		 * ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
 		 * shipPlaced = false; addActionListener(ships.get(k)[i]); int x = 0;
@@ -591,8 +566,8 @@ public class Controller {
 			}
 		}
 	}
-	
-	public void placeShip(Ship ship){
+
+	public void placeShip(Ship ship) {
 		view.displayPrompt("Place your " + ship.getType() + " '" + ship.getName() + "'");
 		FieldButton[][] buttonField = view.getPlayerPanel().getButtonField();
 		for (int x = 0; x < buttonField.length; x++) {
@@ -609,9 +584,9 @@ public class Controller {
 
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						if(SwingUtilities.isRightMouseButton(e)){
+						if (SwingUtilities.isRightMouseButton(e)) {
 							highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
-							if(orientation == "horizontal")
+							if (orientation == "horizontal")
 
 								orientation = "vertical";
 							else
@@ -622,28 +597,28 @@ public class Controller {
 									button.getYPos(), orientation)) {
 								model.update();
 								model.getPlayerShips().getGameField().printField();
-								if(shipList.size() > 1){
-									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
+								if (shipList.size() > 1) {
+									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor,
+											1);
 									shipPlaced = true;
 									shipList.remove(0);
 
 									placeShip(shipList.get(0));
 								} else {
 									removeActionListener();
-									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor, 1);
-//									testMethod();
-									if(multiplayer){
+									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor,
+											1);
+									// testMethod();
+									if (multiplayer) {
 										netService.sendPlayerShips();
 										allShipsPlaced = true;
-//										multiplayerGame();
-									}
-									else
+										// multiplayerGame();
+									} else
 										newSingleplayerGame();
-//									view.displayMessage("test");
+									// view.displayMessage("test");
 								}
-							}
-							else 
-							ConsoleIO.write(button.getXPos());
+							} else
+								ConsoleIO.write(button.getXPos());
 						}
 					}
 
@@ -682,23 +657,23 @@ public class Controller {
 			}
 		}
 	}
-	
+
 	private void testMethod() {
 		netService = server.getNetService();
 		netService.sendPlayerShips();
-		
+
 	}
-	
-	public NetworkService getNetService(){
+
+	public NetworkService getNetService() {
 		return netService;
 	}
-	
-	public void setNetService(NetworkService netService){
+
+	public void setNetService(NetworkService netService) {
 		this.netService = netService;
 	}
-	
+
 	public void multiplayerGame() {
-		if(playersTurn)
+		if (playersTurn)
 			view.displayPrompt("Your turn, " + model.getPlayerName());
 		else
 			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
@@ -706,17 +681,18 @@ public class Controller {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
 				FieldButton button = view.getEnemyPanel().getButtonField()[x][y];
 				Field field = model.getEnemyShips().getGameField().getFieldAt(x, y);
-//				field.setPosition(x, y);
+				// field.setPosition(x, y);
 				button.addActionListener(listener -> {
 					if (playersTurn && !gameOver) {
 						if (!field.isHit()) {
 							field.markAsHit();
 							netService.sendHit(field);
 							model.update();
-//							view.getEnemyPanel().update(model.getEnemyShips().getGameField());
-//							view.getPlayerPanel().update(model.getPlayerShips().getGameField());
+							// view.getEnemyPanel().update(model.getEnemyShips().getGameField());
+							// view.getPlayerPanel().update(model.getPlayerShips().getGameField());
 							setPlayersTurn(false);
-//							view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
+							// view.displayPrompt("Wait for " +
+							// model.getEnemyName() + "'s turn...");
 							gameOver = model.gameOver();
 						}
 					}
