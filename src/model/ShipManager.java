@@ -3,11 +3,16 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Diese Klasse repräsentiert den Ship-Manager. Sie verwaltet alle Schiffe eines
+ * Spielers.
+ * 
+ * @author Pieter Haase, Naqib Faizy
+ * @version 1.0.
+ *
+ */
 public class ShipManager implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int battleships = 1;
 	private int destroyers = 2;
@@ -25,6 +30,12 @@ public class ShipManager implements Serializable {
 	private GameField gameField;
 	private String owner;
 
+	/**
+	 * Erstellt den ShipManager eines Spielers.
+	 * 
+	 * @param owner
+	 *            Der Besitzer der Schiffe
+	 */
 	public ShipManager(String owner) {
 		this.owner = owner;
 		initialize();
@@ -32,6 +43,9 @@ public class ShipManager implements Serializable {
 
 	}
 
+	/**
+	 * Erstellt ein neues Spielfeld
+	 */
 	public void newGameField() {
 		gameField = new GameField(gameFieldSize, this.owner);
 
@@ -50,6 +64,9 @@ public class ShipManager implements Serializable {
 		initialize();
 	}
 
+	/**
+	 * Füllt den Shipmanager mit Schiffen.
+	 */
 	public void initialize() {
 		for (int i = 0; i < shipArrayList.size(); i++) {
 			Ship[] ships = shipArrayList.get(i);
@@ -71,6 +88,9 @@ public class ShipManager implements Serializable {
 		}
 	}
 
+	/**
+	 * Platziert an zufälligen Stellen Schiffe.
+	 */
 	public void placeRandomShips() {
 		for (int i = 0; i < shipArrayList.size(); i++) {
 			Ship[] ships = shipArrayList.get(i);
@@ -105,8 +125,10 @@ public class ShipManager implements Serializable {
 		}
 	}
 
-	public void printListOfShips() { // gibt eine Liste der Schiffe auf der
-										// Konsole aus
+	/**
+	 * Gibt eine Liste der Schiffe auf der Konsole aus.
+	 */
+	public void printListOfShips() {
 		System.out.println("\n" + owner + "'s Ships:");
 		System.out.println("----------------------------------");
 		for (Ship[] shipArray : shipArrayList) {
@@ -119,8 +141,11 @@ public class ShipManager implements Serializable {
 		}
 	}
 
-	public boolean allShipsSunk() { // prüft ob von einem Spiele aller Schiffe
-									// versenkt wurden
+	/**
+	 * Prüft ob von einem Spiele aller Schiffe versenkt wurden.
+	 * @return true - Wenn alle Schiffe des Spielers gesunken sind.
+	 */
+	public boolean allShipsSunk() {
 		boolean allShipsSunk = true;
 		for (Ship[] shipArray : shipArrayList) {
 			for (int i = 0; i < shipArray.length; i++) {
@@ -131,26 +156,50 @@ public class ShipManager implements Serializable {
 		return allShipsSunk;
 	}
 
+	/**
+	 * Gibt das Spielfeld eines Spielers zurück.
+	 * @return gameField
+	 */
 	public GameField getGameField() {
 		return gameField;
 	}
 
+	/**
+	 * Gibt die Größe des Spielfelds zurück.
+	 * @return gameFieldSize
+	 */
 	public int getGameFieldSize() {
 		return gameFieldSize;
 	}
-
+	
+	/**
+	 * Gibt den Besitzer des ShipManagers zurück.
+	 * @return owner
+	 */
 	public String getOwner() {
 		return owner;
 	}
 
+	/**
+	 * Legt den Besitzer des ShipManagers fest.
+	 * @param owner Der Besitzer des ShipManagers
+	 */
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
 
+	/**
+	 * Gibt eine ArrayList mit allen Schiffen eines Spielers zurück.
+	 * @return shipArrayList
+	 */
 	public ArrayList<Ship[]> getShipArrayList() {
 		return shipArrayList;
 	}
 
+	/**
+	 * Gibt die Anzahl der Schiffe in der ArrayList zurück.
+	 * @return number
+	 */
 	public int getNoOfShips() {
 		int number = 0;
 		for (int i = 0; i < shipArrayList.size(); i++) {

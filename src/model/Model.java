@@ -4,7 +4,8 @@ import java.util.Observable;
 
 /**
  * Diese Klasse repräsentiert das Model.
- * 
+ * Die Klasse enthält die darzustellenden Daten.
+ * Zusätzlich verwendet sie das Observer-Pattern.
  * @author Pieter Haase, Naqib Faizy
  * @version 1.0.
  */
@@ -12,14 +13,14 @@ public class Model extends Observable {
 
 	@SuppressWarnings("unused")
 	private ShipNames shipNames;
-
+	
 	private String playerName = "Player";
 	private String enemyName = "Enemy";
 	private ShipManager playerShips;
 	private ShipManager enemyShips;
 
 	/**
-	 * Erstellt das Model
+	 * Erstellt das Model.
 	 */
 	public Model() {
 		shipNames = new ShipNames();
@@ -29,8 +30,7 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Gibt den Spielernamen zurück
-	 * 
+	 * Gibt den Spielernamen zurück.
 	 * @return playerName
 	 */
 	public String getPlayerName() {
@@ -38,8 +38,7 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Gibt die Schiffe des Spielers zurück
-	 * 
+	 * Gibt die Schiffe des Spielers zurück.
 	 * @return playerShips
 	 */
 	public ShipManager getPlayerShips() {
@@ -47,8 +46,7 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Gibt die Schiffe des Gegners zurück
-	 * 
+	 * Gibt die Schiffe des Gegners zurück.
 	 * @return enemyShips
 	 */
 	public ShipManager getEnemyShips() {
@@ -56,10 +54,8 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Setzt die Schiffe des Gegeners
-	 * 
-	 * @param enemyShips
-	 *            ...
+	 * Legt die Schiffe des Gegeners fest.
+	 * @param enemyShips Die Schiffe des Gegners
 	 */
 	public void setEnemyShips(ShipManager enemyShips) {
 		this.enemyShips = enemyShips;
@@ -67,10 +63,10 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Prüft, ob die Flotte eines Spielers versenkt wurde und das Spiel beendet
-	 * wurde
-	 * 
+	 * Prüft, ob die Flotte eines Spielers versenkt 
+	 * und damit das Spiel beendet wurde.
 	 * @return true - Wenn das Spiel vorbei ist
+	 * @return false - Wenn nicht alle Schiffe eines Spielers versenkt wurde
 	 */
 	public boolean gameOver() { // prüft ob das Spiel vorbei ist
 		if (playerShips.allShipsSunk() || enemyShips.allShipsSunk())
@@ -80,23 +76,26 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Benachrichtigt die Observer
-	 * 
+	 * Benachrichtigt die Observer, dass
+	 * im Model eine Veränderung stattgefunden hat.
 	 */
-	public void update() { // benachrichtigt den Observer (View)
+	public void update() { 
 		this.setChanged();
 		this.notifyObservers();
 	}
 
 	/**
 	 * Gibt den Namen des Gegners zurück
-	 * 
 	 * @return String
 	 */
 	public String getEnemyName() {
 		return enemyName;
 	}
 
+	/**
+	 * Legt den Spielernamen fest.
+	 * @param playerName Der Spielername
+	 */
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
 		getPlayerShips().setOwner(playerName);
@@ -104,6 +103,10 @@ public class Model extends Observable {
 		update();
 	}
 
+	/**
+	 * legt den Gegnernamen fest.
+	 * @param enemyName der Gegnername
+	 */
 	public void setEnemyName(String enemyName) {
 		this.enemyName = enemyName;
 		getEnemyShips().setOwner(enemyName);
@@ -112,23 +115,27 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Setzt die Schiffe des Spielers
-	 * 
+	 * Legt die Schiffe des Spielers fest.
 	 * @param playerships
-	 *            ...
 	 */
 	public void setPlayerShips(ShipManager playerships) {
 		this.playerShips = playerships;
 		update();
 	}
 
+	/**
+	 * Setzt alle Schiffe eines Spielers auf den Ausgangszustand zurück.
+	 */
 	public void resetShips() {
 		shipNames = new ShipNames();
 		playerShips = new ShipManager(playerName);
 		enemyShips = new ShipManager(enemyName);
 		update();
 	}
-
+	/**
+	 * Setzt alle Schiffe eines Spielers zurück und
+	 * beide Spielfelder vollständig zurück.
+	 */
 	public void reset() {
 		resetShips();
 		playerShips.getGameField().clear();

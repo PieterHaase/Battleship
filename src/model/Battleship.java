@@ -15,7 +15,7 @@ public class Battleship extends Ship implements Serializable{
 	
 	/**
 	 * Hier wird das Schlachtschiff erstellt.
-	 * Es hat den Namen "Battleship" und eine Länge von 4 Felder.
+	 * Es ist vom Schiffstyp "Battleship" und besitzt eine Länge von 4 Felder.
 	 */
 	public Battleship() {
 		super(type, length, ShipNames.randomName());
