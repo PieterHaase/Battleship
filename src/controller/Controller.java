@@ -73,8 +73,6 @@ public class Controller {
 	// public Controller(){
 	// =======
 
-	private Text textContent;
-
 	public Controller() {
 		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		model = new Model();
@@ -134,7 +132,7 @@ public class Controller {
 		view.getNewGame().addActionListener(listener -> newGame());
 		view.getCreateServer().addActionListener(listener -> createServer());
 		view.getJoinGame().addActionListener(listener -> joinGame(""));
-		JMenuItem showRules = view.getShowRules();
+		//JMenuItem showRules = view.getShowRules();
 		//showRules.addActionListener(listener -> new Rules());
 		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 	}
