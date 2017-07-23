@@ -38,6 +38,7 @@ public class GameField  implements Serializable{
 		int length = ship.getLength();
 		boolean isOccupied = false;
 		boolean isPlaced = false;
+		ship.setOrientation(orientation);
 		
 		if (orientation == "horizontal"){
 			while(!isPlaced){
