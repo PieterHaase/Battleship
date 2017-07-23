@@ -89,7 +89,6 @@ public class GameFieldPanel extends JPanel{
 				buttonField[x][y].setIcon(null);		
 				
 				if (content.contains("Submarine")){
-//						labelText = "S";	
 					buttonField[x][y].setIcon(sub);
 				}
 				
