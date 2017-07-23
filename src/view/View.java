@@ -1,15 +1,26 @@
 package view;
-import model.*;
-import network.GameClient;
-import network.GameServer;
-import network.Message;
-
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+import javax.swing.border.EmptyBorder;
+
+import model.GameField;
+import model.Model;
+import network.Message;
 
 /**
  * 
@@ -84,6 +95,26 @@ public class View extends JFrame implements Observer{
 		about.add(aboutThisGame);
 		
 		placeRandom.setEnabled(false);
+		
+		// Mnemonics
+		newGame.setMnemonic('N');
+		loadGame.setMnemonic('L');
+		saveGame.setMnemonic('S');
+
+		createServer.setMnemonic('C');
+		joinGame.setMnemonic('J');
+
+		// weitere Mnemonics ...
+
+		// Accelerators
+		newGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		loadGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_L, ActionEvent.CTRL_MASK));
+		saveGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		
+		createServer.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, ActionEvent.CTRL_MASK));
+		joinGame.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_J, ActionEvent.CTRL_MASK));
+		
+		// weitere Accelerators ...
 
 		/*
 		fieldSize = model.getPlayerShips().getGameFieldSize();
