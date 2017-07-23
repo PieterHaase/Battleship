@@ -1,57 +1,58 @@
 package model;
 
 import java.io.Serializable;
+/**
+ * 
+ * @author Pieter Haase, Naqib Faizy
+ * @version 1.0.
+ *
+ */
+public class Field implements Serializable {
 
-public class Field  implements Serializable{
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	int xPos, yPos;
 	Ship parent;
-	private String content; 
+	private String content;
 	private boolean isHit = false;
-	
-	public Field(int xPos, int yPos, String content){
+
+	public Field(int xPos, int yPos, String content) {
 		this.xPos = xPos;
 		this.yPos = yPos;
-		this.content = content;		
-	}	
+		this.content = content;
+	}
 
-	public boolean isHit(){				//gibt zurück, ob das Feld bereits getroffen wurde
+	public boolean isHit() { // gibt zurück, ob das Feld bereits getroffen wurde
 		return isHit;
 	}
-	
-	public String getContent(){
+
+	public String getContent() {
 		return content;
 	}
-	
-	public void markAsHit(){
+
+	public void markAsHit() {
 		isHit = true;
-		System.out.println(xPos + "," + yPos + ": " +isHit);
+		System.out.println(xPos + "," + yPos + ": " + isHit);
 	}
-	
-	public Ship getParent(){
+
+	public Ship getParent() {
 		return parent;
 	}
-	
-	public void setParent(Ship parent){
+
+	public void setParent(Ship parent) {
 		this.parent = parent;
 	}
-	
+
 	public int getXPos() {
 		return xPos;
 	}
-	
+
 	public int getYPos() {
 		return yPos;
 	}
-	
-	public void setPosition(int x, int y){
+
+	public void setPosition(int x, int y) {
 		xPos = x;
 		yPos = y;
 	}
+
 }
-
-

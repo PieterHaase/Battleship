@@ -56,34 +56,24 @@ public class Controller {
 	private boolean allShipsPlaced = false;
 	private boolean enemyShipsReceived = false;
 
-	int lastX = -1;
-	int lastY = -1;
-	int lastHitX = -1;
-	int lastHitY = -1;
+	private int lastX = -1;
+	private int lastY = -1;
+	private int lastHitX = -1;
+	private int lastHitY = -1;
 
-	int x = 0;
-	int y = 0;
+	private int x = 0;
+	private int y = 0;
 
 	private String orientation = "vertical";
 
-	ArrayList<Ship[]> ships;
-	ArrayList<Ship> shipList = new ArrayList<Ship>();
-
-	// public Controller(){
-	// =======
+	private ArrayList<Ship[]> ships;
+	private ArrayList<Ship> shipList = new ArrayList<Ship>();
 
 	public Controller() {
-		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		model = new Model();
 		view = new View(model);
 		model.addObserver(view);
 		model.update();
-
-		// <<<<<<< HEAD
-
-		// =======
-
-		// >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad
 		ChatPanel chatPanel = view.getChatPanel();
 		chatPanel.getSendButton().addActionListener(listener -> {
 			sendMessage();
@@ -105,25 +95,7 @@ public class Controller {
 			public void keyTyped(KeyEvent arg0) {
 			}
 		});
-		// <<<<<<< HEAD
 
-		/*
-		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
-		 * if (command.matches("server")){ GameServer server = new
-		 * GameServer(model); } else if (command.matches("client")){ GameClient
-		 * client = new GameClient(model); }
-		 */
-
-		// =======
-
-		/*
-		 * ConsoleIO.write("Enter command:"); String command = ConsoleIO.read();
-		 * if (command.matches("server")){ GameServer server = new
-		 * GameServer(model); } else if (command.matches("client")){ GameClient
-		 * client = new GameClient(model); }
-		 */
-
-		// menuItems (load&save) mit Actionlistener aufrufen
 		JMenuItem loadGame = view.getLoadGame();
 		loadGame.addActionListener(listener -> loadGame());
 		JMenuItem saveGame = view.getSaveGame();
@@ -149,11 +121,6 @@ public class Controller {
 
 		JMenuItem showRules = view.getShowRules();
 		showRules.addActionListener(listener -> new Rules());
-
-		// JMenuItem showRules = view.getShowRules();
-
-		// showRules.addActionListener(listener -> new Rules());
-
 	}
 
 	private void newSingleplayerGame() {
@@ -226,8 +193,6 @@ public class Controller {
 
 	private void computerTurn() {
 		computer.makeTurn();
-
-		// printFields();
 		model.update();
 		playersTurn = true;
 	}
@@ -264,10 +229,7 @@ public class Controller {
 
 	public void newGame() {
 		model.reset();
-
 		view.getPlaceRandom().setEnabled(true);
-		// model.getPlayerShips().newGameField();
-		// model.update();
 		ships = model.getPlayerShips().getShipArrayList();
 		shipList.clear();
 		for (int k = 0; k < ships.size(); k++) {
@@ -300,8 +262,7 @@ public class Controller {
 				oos.flush();
 				oos.close();
 			} catch (Exception e) {
-				// Fehlermeldung
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage()); // Fehlermeldung
 			}
 		}
 	}
@@ -329,13 +290,10 @@ public class Controller {
 					netService.sendPlayerShips();
 				}
 			} catch (FileNotFoundException e) {
-				// Fehlermeldung
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage()); // Fehlermeldung
 			} catch (IOException e) {
-				// Fehlermeldung
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage()); // Fehlermeldung
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -355,136 +313,10 @@ public class Controller {
 		ClientWindow clientWindow = new ClientWindow(this, client);
 		networkRole = CLIENT;
 		playersTurn = false;
-		// view.displayPrompt("Wait for " + model.getEnemyName() + "'s
-		// turn...");
-	}
-
-	public View getView() {
-		return view;
-	}
-
-	public static void main(String[] args) {
-		new Controller();
-	}
-
-	public void setPlayersTurn(boolean bool) {
-		if (bool == true)
-			view.displayPrompt("Your turn, " + model.getPlayerName());
-		else
-			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
-		playersTurn = bool;
-	}
-	// <<<<<<< HEAD
-
-	public void doNothing(int x) {
-		if (x == 20000000) {
-			// view.displayMessage("waiting");
-			x = 0;
-		}
-		x++;
 	}
 
 	public void shipPlacement() {
-
 		placeShip(shipList.get(0));
-
-		/*
-		 * for(int k=0; k < ships.size(); k++){ for(int i=0; i <
-		 * ships.get(k).length; i++){ view.displayMessage("Place " +
-		 * ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
-		 * shipPlaced = false; addActionListener(ships.get(k)[i]); int x = 0;
-		 * while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; } x++; }
-		 * view.displayMessage("placed"); } } view.displayMessage(
-		 * "All ships placed"); if(multiplayer) netService.sendPlayerShips();
-		 * 
-		 * 
-		 * 
-		 * /*
-		 * 
-		 * view.displayMessage("Place your Destroyers"); for(int i=0; i <
-		 * destroyers.length; i++){ shipPlaced = false; addActionListener(); int
-		 * x = 0; while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; }
-		 * x++; } view.displayMessage(battleships[i].getType() + " " +
-		 * battleships[i].getName() + " placed"); }
-		 */
-		/*
-		 * addActionListener(); ======= =======
-		 * 
-		 * public void placeShip(Ship ship) { addActionListeners(ship); }
-		 * >>>>>>> e4a78c4ff3d4f7fc5fa57c562b066a7bdf956c3c
-		 * 
-		 * public void shipPlacement() {
-		 * 
-		 * placeShip(shipList.get(0));
-		 * 
-		 * /* for(int k=0; k < ships.size(); k++){ for(int i=0; i <
-		 * ships.get(k).length; i++){ view.displayMessage("Place " +
-		 * ships.get(k)[i].getType() + " " + ships.get(k)[i].getName());
-		 * shipPlaced = false; addActionListener(ships.get(k)[i]); int x = 0;
-		 * while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; } x++; }
-		 * view.displayMessage("placed"); } } view.displayMessage(
-		 * "All ships placed"); if(multiplayer) netService.sendPlayerShips();
-		 * 
-		 * 
-		 * 
-		 * /*
-		 * 
-		 * view.displayMessage("Place your Destroyers"); for(int i=0; i <
-		 * destroyers.length; i++){ shipPlaced = false; addActionListener(); int
-		 * x = 0; while(!shipPlaced){ if(x == 20000000){ doNothing(x); x = 0; }
-		 * x++; } view.displayMessage(battleships[i].getType() + " " +
-		 * battleships[i].getName() + " placed"); }
-		 */
-		/*
-		 * addActionListener(); =======
-		 * 
-		 * public void shipPlacement() { >>>>>>>
-		 * 6cfda8bd082576052e2c3144e5679fe61e9f2bad FieldButton[][] buttonField
-		 * = view.getPlayerPanel().getButtonField(); for (int x = 0; x <
-		 * buttonField.length; x++) { for (int y = 0; y < buttonField.length;
-		 * y++) { FieldButton button = buttonField[x][y]; <<<<<<< HEAD // Field
-		 * field =
-		 * model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
-		 * button.getYPos()); button.addMouseListener(new MouseListener(){
-		 * 
-		 * // Color prevColor = button.getBackground(); ======= Field field =
-		 * model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
-		 * button.getYPos()); button.addMouseListener(new MouseListener() {
-		 * 
-		 * Color prevColor = button.getBackground(); >>>>>>>
-		 * 6cfda8bd082576052e2c3144e5679fe61e9f2bad
-		 * 
-		 * @Override public void mouseClicked(MouseEvent e) { // TODO
-		 * Auto-generated method stub
-		 * 
-		 * }
-		 * 
-		 * @Override public void mouseEntered(MouseEvent e) { <<<<<<< HEAD
-		 * highlight(buttonField, button, 4, "vertical",
-		 * GUISettings.cursorColor, 2); =======
-		 * button.setBackground(Color.blue);
-		 * 
-		 * >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad }
-		 * 
-		 * @Override public void mouseExited(MouseEvent e) { <<<<<<< HEAD
-		 * highlight(buttonField, button, 4, "vertical", Color.white, 1);
-		 * 
-		 * ======= button.setBackground(prevColor);
-		 * 
-		 * >>>>>>> 6cfda8bd082576052e2c3144e5679fe61e9f2bad }
-		 * 
-		 * @Override public void mousePressed(MouseEvent e) { // TODO
-		 * Auto-generated method stub
-		 * 
-		 * }
-		 * 
-		 * @Override public void mouseReleased(MouseEvent e) { // TODO
-		 * Auto-generated method stub
-		 * 
-		 * }
-		 * 
-		 * }); } <<<<<<< HEAD }
-		 */
 	}
 
 	public void highlight(FieldButton[][] buttonField, FieldButton button, int size, String orientation, Color color,
@@ -574,15 +406,9 @@ public class Controller {
 		for (int x = 0; x < buttonField.length; x++) {
 			for (int y = 0; y < buttonField.length; y++) {
 				FieldButton button = buttonField[x][y];
-				// Field field =
-				// model.getPlayerShips().getGameField().getFieldAt(button.getXPos(),
-				// button.getYPos());
 				if (button.getMouseListeners().length > 0)
 					button.removeMouseListener(button.getMouseListeners()[0]);
 				button.addMouseListener(new MouseListener() {
-
-					// Color prevColor = button.getBackground();
-
 					@Override
 					public void mouseClicked(MouseEvent e) {
 						if (SwingUtilities.isRightMouseButton(e)) {
@@ -609,14 +435,11 @@ public class Controller {
 									removeActionListener();
 									highlight(buttonField, button, ship.getLength(), orientation, GUISettings.gridColor,
 											1);
-									// testMethod();
 									if (multiplayer) {
 										netService.sendPlayerShips();
 										allShipsPlaced = true;
-										// multiplayerGame();
 									} else
 										newSingleplayerGame();
-									// view.displayMessage("test");
 								}
 							} else
 								ConsoleIO.write(button.getXPos());
@@ -662,15 +485,6 @@ public class Controller {
 	private void testMethod() {
 		netService = server.getNetService();
 		netService.sendPlayerShips();
-
-	}
-
-	public NetworkService getNetService() {
-		return netService;
-	}
-
-	public void setNetService(NetworkService netService) {
-		this.netService = netService;
 	}
 
 	public void multiplayerGame() {
@@ -682,18 +496,13 @@ public class Controller {
 			for (int y = 0; y < view.getEnemyPanel().getButtonField().length; y++) {
 				FieldButton button = view.getEnemyPanel().getButtonField()[x][y];
 				Field field = model.getEnemyShips().getGameField().getFieldAt(x, y);
-				// field.setPosition(x, y);
 				button.addActionListener(listener -> {
 					if (playersTurn && !gameOver) {
 						if (!field.isHit()) {
 							field.markAsHit();
 							netService.sendHit(field);
 							model.update();
-							// view.getEnemyPanel().update(model.getEnemyShips().getGameField());
-							// view.getPlayerPanel().update(model.getPlayerShips().getGameField());
 							setPlayersTurn(false);
-							// view.displayPrompt("Wait for " +
-							// model.getEnemyName() + "'s turn...");
 							gameOver = model.gameOver();
 						}
 					}
@@ -739,12 +548,16 @@ public class Controller {
 		return model;
 	}
 
-	public boolean enemyShipsReceived() {
-		return enemyShipsReceived;
+	public View getView() {
+		return view;
 	}
 
-	public void setEnemyShipsReceived(boolean received) {
-		enemyShipsReceived = received;
+	public NetworkService getNetService() {
+		return netService;
+	}
+
+	public boolean enemyShipsReceived() {
+		return enemyShipsReceived;
 	}
 
 	public boolean getPlayersTurn() {
@@ -753,6 +566,26 @@ public class Controller {
 
 	public void setAllShipsPlaced(boolean b) {
 		allShipsPlaced = b;
+	}
+
+	public void setPlayersTurn(boolean bool) {
+		if (bool == true)
+			view.displayPrompt("Your turn, " + model.getPlayerName());
+		else
+			view.displayPrompt("Wait for " + model.getEnemyName() + "'s turn...");
+		playersTurn = bool;
+	}
+	
+	public void setNetService(NetworkService netService) {
+		this.netService = netService;
+	}
+
+	public void setEnemyShipsReceived(boolean received) {
+		enemyShipsReceived = received;
+	}
+
+	public static void main(String[] args) {
+		new Controller();
 	}
 
 }

@@ -7,14 +7,12 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import controller.ConsoleIO;
 import controller.Controller;
-import model.*;
-import view.ClientWindow;
+import model.Model;
 import view.View;
 
-public class GameClient extends Thread{
-	
+public class GameClient extends Thread {
+
 	private String hostIP;
 	private int port = 12345;
 	private Socket socket;
@@ -26,33 +24,31 @@ public class GameClient extends Thread{
 	private NetworkService netService;
 	private boolean running = true;
 	private boolean shipsReceived = false;
-	
-	
+
 	public GameClient(Model model, View view, Controller controller, String hostIP) {
-//		this.hostIP = hostIP;
 		this.model = model;
 		this.view = view;
 		this.controller = controller;
 		this.hostIP = hostIP;
 		controller.newGame();
 	}
-	
-	public void setHostIP(String hostIP){
+
+	public void setHostIP(String hostIP) {
 		this.hostIP = hostIP;
 	}
-	
-	public NetworkService getNetService(){
+
+	public NetworkService getNetService() {
 		return netService;
 	}
-	
-	public Socket getSocket(){
+
+	public Socket getSocket() {
 		return socket;
 	}
-	
+
 	@Override
-	public void run(){
+	public void run() {
 		try {
-			if(hostIP.equals(""))
+			if (hostIP.equals(""))
 				hostIP = InetAddress.getLocalHost().getHostAddress();
 			socket = new Socket(InetAddress.getByName(hostIP), port);
 			view.displayMessage("Connected to: " + hostIP);
@@ -62,31 +58,14 @@ public class GameClient extends Thread{
 			netService = new NetworkService(controller, inStream, outStream);
 			controller.setNetService(netService);
 			netService.sendPlayerName(controller.getModel().getPlayerName());
-//			netService.receiveEnemyShips();
-//			netService.sendPlayerShips();
-			
-			while (running){
-/*				if(!shipsReceived){
-					if(netService.receiveEnemyShips()){
-						shipsReceived = true;	
-					}	
-				}
-*/				
-				if(netService.receive()){
-					
+			while (running) {
+				if (netService.receive()) {
+
 				}
 			}
-			
-//			readerThread = new ReaderThread(socket, gui);
-//			readerThread.start();
-			
-//			writerThread = new WriterThread(socket);
-//			writerThread.start();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
