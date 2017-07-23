@@ -2,8 +2,8 @@ package model;
 
 import java.io.Serializable;
 
-public abstract class Ship  implements Serializable{
-	
+public abstract class Ship implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -15,37 +15,37 @@ public abstract class Ship  implements Serializable{
 	private String orientation;
 	private int length;
 	private Field[] fieldArray;
-	
-	public Ship(String type, int length, String name){
+
+	public Ship(String type, int length, String name) {
 		fieldArray = new Field[length];
-		for (int i=0; i<length; i++){
-			fieldArray[i] = new Field(xPosition + i, yPosition + i, type+i);
+		for (int i = 0; i < length; i++) {
+			fieldArray[i] = new Field(xPosition + i, yPosition + i, type + i);
 		}
-		
+
 		this.type = type;
 		this.name = name;
 		this.length = length;
 	}
-	
-	public Field getFieldAt(int x){
+
+	public Field getFieldAt(int x) {
 		return fieldArray[x];
 	}
-	
-	public String getType(){
+
+	public String getType() {
 		return type;
 	}
-	
-	public int getLength(){
+
+	public int getLength() {
 		return length;
 	}
-	
-	public String getName(){
+
+	public String getName() {
 		return name;
 	}
-	
-	public boolean isSunk(){
+
+	public boolean isSunk() {
 		boolean isSunk = true;
-		for (int i=0; i<length; i++) {
+		for (int i = 0; i < length; i++) {
 			if (!fieldArray[i].isHit())
 				isSunk = false;
 		}
@@ -59,15 +59,15 @@ public abstract class Ship  implements Serializable{
 	public int getYPosition() {
 		return yPosition;
 	}
-	
-	public void setPosition(int x, int y){
+
+	public void setPosition(int x, int y) {
 		xPosition = x;
 		yPosition = y;
-		for (int i=0; i<length; i++){
+		for (int i = 0; i < length; i++) {
 			if (orientation == "horizontal")
-				fieldArray[i].setPosition(x+i, y);
+				fieldArray[i].setPosition(x + i, y);
 			if (orientation == "vertical")
-				fieldArray[i].setPosition(x, y+i);
+				fieldArray[i].setPosition(x, y + i);
 		}
 	}
 
