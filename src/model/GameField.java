@@ -2,18 +2,24 @@ package model;
 
 import java.io.Serializable;
 /**
- * 
+ * Diese Klasse repräsentiert ein Spielfeld
  * @author Pieter Haase, Naqib Faizy
  * @version 1.0.
  *
  */
-public class GameField  implements Serializable{
+public class GameField implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Field[][] gameField;
 	private int size;
 	private String owner;
 	
+	/**
+	 * Erstellt das Spielfeld mit einer bestimmten Größe
+	 * und weist ihr einen Besitzer zu.
+	 * @param size Größe des Spielfelds
+	 * @param owner Besitzer des Spielfelds
+	 */
 	public GameField(int size, String owner){
 		this.size = size;
 		this.owner = owner;
@@ -25,14 +31,32 @@ public class GameField  implements Serializable{
 		}
 	}
 	
+	/**
+	 * Gibt die Größe des Spielfelds zurück.
+	 * @return size
+	 */
 	public int getSize() {
 		return size;
 	}
 	
+	/**
+	 * Gibt den Besitzer des Spielfelds zurück.
+	 * @return owner
+	 */
 	public String getOwner() {
 		return owner;
 	}
 	
+	/**
+	 * Platziert ein Schiff an der Stelle x,y auf dem Spielfeld. 
+	 * Dabei wird überprüft, ob der Platz bereits belegt ist.
+	 * @param ship Das zu platzierende Schiff
+	 * @param x x-Position des Schiffes
+	 * @param y y-Position des Schiffes
+	 * @param orientation Gibt an, ob es horizontal oder vertikal platziert wird
+	 * @return true - Wenn das Schiff erfolgreich platziert wurde
+	 * @return false - Wenn der Platz bereits belegt ist
+	 */
 	public boolean placeShip(Ship ship, int x, int y, String orientation){
 		
 		int length = ship.getLength();
@@ -90,11 +114,20 @@ public class GameField  implements Serializable{
 		return false;
 	}
 	
+	/**
+	 * Gibt das Feld an der Stelle x,y zurück.
+	 * @param x die x-Position des Feldes
+	 * @param y die y-Position des Feldes
+	 * @return Field 
+	 */
 	public Field getFieldAt(int x, int y){
 		return gameField[x][y];
 	}
 	
-	public void printField(){			//gibt das Spielfeld auf der Konsole aus		
+	/**
+	 * Gibt das Spielfeld auf der Konsole aus.		
+	 */
+	public void printField(){
 		
 		System.out.println("\n" + owner + " Ships:");
 		
@@ -137,6 +170,9 @@ public class GameField  implements Serializable{
 		}
 	}
 	
+	/**
+	 * Entfernt alle bereits platzierte Schiffe.
+	 */
 	public void clear(){
 		for (int y = 0; y < size; y++){
 			for (int x = 0; x < size; x++){
@@ -145,6 +181,10 @@ public class GameField  implements Serializable{
 		}
 	}
 
+	/**
+	 * Legt fest, wem das Spielfeld gehört.
+	 * @param playerName Name des Spielers
+	 */
 	public void setOwner(String playerName) {
 		owner = playerName;
 	}
