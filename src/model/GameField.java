@@ -1,14 +1,14 @@
 package model;
 
 import java.io.Serializable;
-
-import controller.ConsoleIO;
-
+/**
+ * 
+ * @author Pieter Haase, Naqib Faizy
+ * @version 1.0.
+ *
+ */
 public class GameField  implements Serializable{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private Field[][] gameField;
 	private int size;

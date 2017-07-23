@@ -11,19 +11,19 @@ public class ShipNames {
 
 	private File saveFile = new File("src\\model\\shipnames.txt");
 	private static ArrayList<String> names = new ArrayList<String>();
-	
+
 	public ShipNames() {
-		
+
 		String inText = "";
-		
-		if (saveFile.exists()){
+
+		if (saveFile.exists()) {
 			try {
 				FileReader fReader = new FileReader(saveFile);
 				BufferedReader bReader = new BufferedReader(fReader);
-				while(inText != null) {
+				while (inText != null) {
 					inText = bReader.readLine();
 					if (inText != null)
-						names.add(inText);	
+						names.add(inText);
 				}
 				bReader.close();
 				fReader.close();
@@ -34,19 +34,17 @@ public class ShipNames {
 			}
 		}
 	}
-	
+
 	public static String randomName() {
-		if(names.size() > 0){
-			int index = RandomInt.randInt(0,names.size()-1);
+		if (names.size() > 0) {
+			int index = RandomInt.randInt(0, names.size() - 1);
 			String name = names.get(index);
-			names.remove(index);					//damit kein Name doppelt verwendet wird
-			return name;	
-		}
-		else{
+			names.remove(index); // damit kein Name doppelt verwendet wird
+			return name;
+		} else {
 			return "Unknown";
 		}
-		
-		
+
 	}
-	
+
 }
