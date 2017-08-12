@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * Diese Klasse repräsentiert den Kreuzer.
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class Cruiser extends Ship implements Serializable{

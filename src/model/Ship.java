@@ -5,7 +5,7 @@ import java.io.Serializable;
  * Diese abstrakte Klasse definiert das Schiff.
  * Aus dieser Klasse erben alle Schiffstypen.
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public abstract class Ship implements Serializable {
@@ -21,9 +21,9 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Erstellt das Schiff.
-	 * @param type Definiert den Schiffstypen
-	 * @param length Definiert die Länge
-	 * @param name Definiert den Namen
+	 * @param type Definiert den Schiffstypen.
+	 * @param length Definiert die Länge.
+	 * @param name Definiert den Namen.
 	 */
 	public Ship(String type, int length, String name) {
 		fieldArray = new Field[length];
@@ -38,8 +38,8 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt das Feld an der Stelle x zurück.
-	 * @param x die x-Position des Feldes
-	 * @return fieldArray[x]
+	 * @param x die x-Position des Feldes.
+	 * @return ein Array aus Feldern an der Stelle x.
 	 */
 	public Field getFieldAt(int x) {
 		return fieldArray[x];
@@ -47,7 +47,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt den Schiffstypen zurück.
-	 * @return type
+	 * @return Den Schiffstypen.
 	 */
 	public String getType() {
 		return type;
@@ -55,7 +55,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt die Länge des Schiffes zurück.
-	 * @return length
+	 * @return die Länge des Schiffes.
 	 */
 	public int getLength() {
 		return length;
@@ -63,7 +63,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt den Namen des Schiffes zurück.
-	 * @return name
+	 * @return den Namen des Schiffes.
 	 */
 	public String getName() {
 		return name;
@@ -71,7 +71,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Prüft, ob das Schiff gesunken ist.
-	 * @return true - Wenn das Schiff gesunken ist
+	 * @return true - Wenn das Schiff gesunken ist. 
 	 */
 	public boolean isSunk() {
 		boolean isSunk = true;
@@ -84,7 +84,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt die x-Position des Schiffes zurück.
-	 * @return xPosition
+	 * @return die Position an Stelle x.
 	 */
 	public int getXPosition() {
 		return xPosition;
@@ -92,7 +92,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt die y-Position des Schiffes zurück.
-	 * @return yPosition
+	 * @return die Position an Stelle y.
 	 */
 	public int getYPosition() {
 		return yPosition;
@@ -100,8 +100,8 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Legt die x- und y-Position des Schiffes fest.
-	 * @param x x-Position des Schiffes
-	 * @param y y-Position des Schiffes
+	 * @param x x-Position des Schiffes.
+	 * @param y y-Position des Schiffes.
 	 */
 	public void setPosition(int x, int y) {
 		xPosition = x;
@@ -116,7 +116,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Gibt die Ausrichtung des Schiffes zurück.
-	 * @return orientation
+	 * @return die Ausrichtung des Schiffes.
 	 */
 	public String getOrientation() {
 		return orientation;
@@ -124,7 +124,7 @@ public abstract class Ship implements Serializable {
 
 	/**
 	 * Legt die Ausrichtung des Schiffes fest.
-	 * @param orientation Die Ausrichtung
+	 * @param orientation Die Ausrichtung.
 	 */
 	public void setOrientation(String orientation) {
 		this.orientation = orientation;

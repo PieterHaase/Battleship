@@ -3,17 +3,17 @@ package model;
 import java.util.Observable;
 
 /**
- * Diese Klasse repräsentiert das Model.
- * Die Klasse enthält die darzustellenden Daten.
- * Zusätzlich verwendet sie das Observer-Pattern.
+ * Diese Klasse repräsentiert das Model. Die Klasse enthält die darzustellenden
+ * Daten. Zusätzlich verwendet sie das Observer-Pattern.
+ * 
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  */
 public class Model extends Observable {
 
 	@SuppressWarnings("unused")
 	private ShipNames shipNames;
-	
+
 	private String playerName = "Player";
 	private String enemyName = "Enemy";
 	private ShipManager playerShips;
@@ -31,7 +31,8 @@ public class Model extends Observable {
 
 	/**
 	 * Gibt den Spielernamen zurück.
-	 * @return playerName
+	 * 
+	 * @return den Namen des Spielers.
 	 */
 	public String getPlayerName() {
 		return playerName;
@@ -39,7 +40,8 @@ public class Model extends Observable {
 
 	/**
 	 * Gibt die Schiffe des Spielers zurück.
-	 * @return playerShips
+	 * 
+	 * @return die Schiffe des Spielers.
 	 */
 	public ShipManager getPlayerShips() {
 		return playerShips;
@@ -47,7 +49,7 @@ public class Model extends Observable {
 
 	/**
 	 * Gibt die Schiffe des Gegners zurück.
-	 * @return enemyShips
+	 * @return die Schiffe des Gegners.
 	 */
 	public ShipManager getEnemyShips() {
 		return enemyShips;
@@ -55,7 +57,9 @@ public class Model extends Observable {
 
 	/**
 	 * Legt die Schiffe des Gegeners fest.
-	 * @param enemyShips Die Schiffe des Gegners
+	 * 
+	 * @param enemyShips
+	 *            Die Schiffe des Gegners.
 	 */
 	public void setEnemyShips(ShipManager enemyShips) {
 		this.enemyShips = enemyShips;
@@ -63,10 +67,11 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Prüft, ob die Flotte eines Spielers versenkt 
-	 * und damit das Spiel beendet wurde.
-	 * @return true - Wenn das Spiel vorbei ist
-	 * @return false - Wenn nicht alle Schiffe eines Spielers versenkt wurde
+	 * Prüft, ob die Flotte eines Spielers versenkt und damit das Spiel beendet
+	 * wurde.
+	 * 
+	 * @return true - Wenn das Spiel vorbei ist.
+	 * @return false - Wenn nicht alle Schiffe eines Spielers versenkt wurde.
 	 */
 	public boolean gameOver() { // prüft ob das Spiel vorbei ist
 		if (playerShips.allShipsSunk() || enemyShips.allShipsSunk())
@@ -76,17 +81,18 @@ public class Model extends Observable {
 	}
 
 	/**
-	 * Benachrichtigt die Observer, dass
-	 * im Model eine Veränderung stattgefunden hat.
+	 * Benachrichtigt die Observer, dass im Model eine Veränderung stattgefunden
+	 * hat.
 	 */
-	public void update() { 
+	public void update() {
 		this.setChanged();
 		this.notifyObservers();
 	}
 
 	/**
-	 * Gibt den Namen des Gegners zurück
-	 * @return String
+	 * Gibt den Namen des Gegners zurück.
+	 * 
+	 * @return den Namen des Gegners.
 	 */
 	public String getEnemyName() {
 		return enemyName;
@@ -94,7 +100,9 @@ public class Model extends Observable {
 
 	/**
 	 * Legt den Spielernamen fest.
-	 * @param playerName Der Spielername
+	 * 
+	 * @param playerName
+	 *            Der Spielername.
 	 */
 	public void setPlayerName(String playerName) {
 		this.playerName = playerName;
@@ -105,7 +113,9 @@ public class Model extends Observable {
 
 	/**
 	 * legt den Gegnernamen fest.
-	 * @param enemyName der Gegnername
+	 * 
+	 * @param enemyName
+	 *            der Gegnername.
 	 */
 	public void setEnemyName(String enemyName) {
 		this.enemyName = enemyName;
@@ -116,7 +126,7 @@ public class Model extends Observable {
 
 	/**
 	 * Legt die Schiffe des Spielers fest.
-	 * @param playerships
+	 * @param playerships Die Schiffe des Spielers.
 	 */
 	public void setPlayerShips(ShipManager playerships) {
 		this.playerShips = playerships;
@@ -132,9 +142,10 @@ public class Model extends Observable {
 		enemyShips = new ShipManager(enemyName);
 		update();
 	}
+
 	/**
-	 * Setzt alle Schiffe eines Spielers zurück und
-	 * beide Spielfelder vollständig zurück.
+	 * Setzt alle Schiffe eines Spielers zurück und beide Spielfelder
+	 * vollständig zurück.
 	 */
 	public void reset() {
 		resetShips();
@@ -142,4 +153,5 @@ public class Model extends Observable {
 		enemyShips.getGameField().clear();
 		update();
 	}
+
 }

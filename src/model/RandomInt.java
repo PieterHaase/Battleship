@@ -3,7 +3,7 @@ import java.util.Random;
 /**
  * Mit dieser Klasse lassen sich Zufallszahlen generieren.
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class RandomInt {
@@ -11,9 +11,9 @@ public class RandomInt {
 	/**
 	 * Statische Methode, die eine zufällige Zahl 
 	 * zwischen min und (einschließlich) max zurückgibt.
-	 * @param min Untere Grenze der Zufallszahl
-	 * @param max Obere Grenze der Zufallszahl
-	 * @return randomNum 
+	 * @param min Untere Grenze der Zufallszahl.
+	 * @param max Obere Grenze der Zufallszahl.
+	 * @return eine Zufallszahl.
 	 */
 	public static int randInt(int min, int max) {
 	    Random rand = new Random();

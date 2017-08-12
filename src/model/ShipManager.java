@@ -4,11 +4,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
- * Diese Klasse repräsentiert den Ship-Manager. Sie verwaltet alle Schiffe eines
- * Spielers.
- * 
+ * Diese Klasse repräsentiert den Ship-Manager. 
+ * Sie verwaltet alle Schiffe eines Spielers.
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class ShipManager implements Serializable {
@@ -32,15 +31,12 @@ public class ShipManager implements Serializable {
 
 	/**
 	 * Erstellt den ShipManager eines Spielers.
-	 * 
-	 * @param owner
-	 *            Der Besitzer der Schiffe
+	 * @param owner Der Besitzer der Schiffes.
 	 */
 	public ShipManager(String owner) {
 		this.owner = owner;
 		initialize();
 		newGameField();
-
 	}
 
 	/**
@@ -158,15 +154,15 @@ public class ShipManager implements Serializable {
 
 	/**
 	 * Gibt das Spielfeld eines Spielers zurück.
-	 * @return gameField
+	 * @return das Spielfeld.
 	 */
 	public GameField getGameField() {
 		return gameField;
 	}
 
 	/**
-	 * Gibt die Größe des Spielfelds zurück.
-	 * @return gameFieldSize
+	 * Gibt die Größe des Spielfeldes zurück.
+	 * @return die Größe des Spielfeldes.
 	 */
 	public int getGameFieldSize() {
 		return gameFieldSize;
@@ -174,7 +170,7 @@ public class ShipManager implements Serializable {
 	
 	/**
 	 * Gibt den Besitzer des ShipManagers zurück.
-	 * @return owner
+	 * @return den Besitzer des ShipManagers.
 	 */
 	public String getOwner() {
 		return owner;
@@ -182,7 +178,7 @@ public class ShipManager implements Serializable {
 
 	/**
 	 * Legt den Besitzer des ShipManagers fest.
-	 * @param owner Der Besitzer des ShipManagers
+	 * @param owner Der Besitzer des ShipManagers.
 	 */
 	public void setOwner(String owner) {
 		this.owner = owner;
@@ -190,7 +186,7 @@ public class ShipManager implements Serializable {
 
 	/**
 	 * Gibt eine ArrayList mit allen Schiffen eines Spielers zurück.
-	 * @return shipArrayList
+	 * @return eine Arrayliste mit Schiffen.
 	 */
 	public ArrayList<Ship[]> getShipArrayList() {
 		return shipArrayList;
@@ -198,7 +194,7 @@ public class ShipManager implements Serializable {
 
 	/**
 	 * Gibt die Anzahl der Schiffe in der ArrayList zurück.
-	 * @return number
+	 * @return die Anzahl der Schiffe in der Arraylist.
 	 */
 	public int getNoOfShips() {
 		int number = 0;

@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * Diese Klasse repräsentiert ein Spielfeld
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class GameField implements Serializable{
@@ -15,10 +15,10 @@ public class GameField implements Serializable{
 	private String owner;
 	
 	/**
-	 * Erstellt das Spielfeld mit einer bestimmten Größe
+	 * Erstellt das Spielfeld mit einer bestimmten Größe.
 	 * und weist ihr einen Besitzer zu.
-	 * @param size Größe des Spielfelds
-	 * @param owner Besitzer des Spielfelds
+	 * @param size Größe des Spielfelds.
+	 * @param owner Besitzer des Spielfelds.
 	 */
 	public GameField(int size, String owner){
 		this.size = size;
@@ -33,7 +33,7 @@ public class GameField implements Serializable{
 	
 	/**
 	 * Gibt die Größe des Spielfelds zurück.
-	 * @return size
+	 * @return size.
 	 */
 	public int getSize() {
 		return size;
@@ -41,7 +41,7 @@ public class GameField implements Serializable{
 	
 	/**
 	 * Gibt den Besitzer des Spielfelds zurück.
-	 * @return owner
+	 * @return owner.
 	 */
 	public String getOwner() {
 		return owner;
@@ -50,12 +50,12 @@ public class GameField implements Serializable{
 	/**
 	 * Platziert ein Schiff an der Stelle x,y auf dem Spielfeld. 
 	 * Dabei wird überprüft, ob der Platz bereits belegt ist.
-	 * @param ship Das zu platzierende Schiff
-	 * @param x x-Position des Schiffes
-	 * @param y y-Position des Schiffes
-	 * @param orientation Gibt an, ob es horizontal oder vertikal platziert wird
-	 * @return true - Wenn das Schiff erfolgreich platziert wurde
-	 * @return false - Wenn der Platz bereits belegt ist
+	 * @param ship Das zu platzierende Schiff.
+	 * @param x x-Position des Schiffes.
+	 * @param y y-Position des Schiffes.
+	 * @param orientation Gibt an, ob es horizontal oder vertikal platziert wird.
+	 * @return true - Wenn das Schiff erfolgreich platziert wurde.
+	 * @return false - Wenn der Platz bereits belegt ist.
 	 */
 	public boolean placeShip(Ship ship, int x, int y, String orientation){
 		
@@ -117,9 +117,9 @@ public class GameField implements Serializable{
 	
 	/**
 	 * Gibt das Feld an der Stelle x,y zurück.
-	 * @param x die x-Position des Feldes
-	 * @param y die y-Position des Feldes
-	 * @return Field 
+	 * @param x die x-Position des Feldes.
+	 * @param y die y-Position des Feldes.
+	 * @return Field. 
 	 */
 	public Field getFieldAt(int x, int y){
 		return gameField[x][y];
@@ -172,7 +172,7 @@ public class GameField implements Serializable{
 	}
 	
 	/**
-	 * Entfernt alle bereits platzierte Schiffe.
+	 * Entfernt alle bereits platzierten Schiffe.
 	 */
 	public void clear(){
 		for (int y = 0; y < size; y++){
@@ -184,7 +184,7 @@ public class GameField implements Serializable{
 
 	/**
 	 * Legt fest, wem das Spielfeld gehört.
-	 * @param playerName Name des Spielers
+	 * @param playerName Name des Spielers.
 	 */
 	public void setOwner(String playerName) {
 		owner = playerName;

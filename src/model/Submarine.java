@@ -4,7 +4,7 @@ import java.io.Serializable;
 /**
  * Diese Klasse repräsentiert das U-Boot.
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class Submarine extends Ship implements Serializable {

@@ -9,9 +9,8 @@ import java.util.ArrayList;
 
 /**
  * Diese Klasse repräsentiert eine Liste von Schiffsnamen.
- * 
  * @author Pieter Haase, Naqib Faizy
- * @version 1.0.
+ * @version 1.0
  *
  */
 public class ShipNames {
@@ -20,7 +19,8 @@ public class ShipNames {
 	private static ArrayList<String> names = new ArrayList<String>();
 
 	/**
-	 * Erstellt eine Liste mit Schiffsnamen, die aus einer Textdatei eingelesen wird. 
+	 * Erstellt eine Liste mit Schiffsnamen, 
+	 * die aus einer Textdatei eingelesen wird.k
 	 */
 	public ShipNames() {
 
@@ -47,8 +47,8 @@ public class ShipNames {
 
 	/**
 	 * Gibt einen zufälligen Namen aus der Namensliste zurück.
-	 * @return name - Wenn ein Name aus der Liste gewählt wurde
-	 * @return "Unknown" - Wenn kein Name aus der Liste gewählt werden konnte
+	 * @return name - Wenn ein Name aus der Liste gewählt wurde.
+	 * @return "Unknown" - Wenn kein Name aus der Liste gewählt werden konnte.
 	 */
 	public static String randomName() {
 		if (names.size() > 0) {
@@ -59,7 +59,6 @@ public class ShipNames {
 		} else {
 			return "Unknown";
 		}
-
 	}
 
 }
