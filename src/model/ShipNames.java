@@ -20,7 +20,7 @@ public class ShipNames {
 
 	/**
 	 * Erstellt eine Liste mit Schiffsnamen, 
-	 * die aus einer Textdatei eingelesen wird.k
+	 * die aus einer Textdatei eingelesen wird.
 	 */
 	public ShipNames() {
 

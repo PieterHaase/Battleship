@@ -1,0 +1,301 @@
+[33mcommit dbf3af57965a01dbc6c906b799e05cb47c3a9051[m
+Author: naqib92 <naqib.faizy@haw-hamburg.de>
+Date:   Sat Aug 12 11:18:35 2017 +0200
+
+    mm
+
+[33mcommit 45615cd0806b99f995897faec71992e9d61c1df9[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 19:48:12 2017 +0200
+
+    los
+
+[33mcommit 94d169955459ea43baa2592f24df8d57a0678e27[m
+Merge: 77daa7b 80f0d7c
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 16:05:30 2017 +0200
+
+    problems solved
+
+[33mcommit 80f0d7ca274b57e913862d312e6b61df3880f7cb[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 15:57:41 2017 +0200
+
+    Naqibs updates
+
+[33mcommit 77daa7b5925a565532fd617860140d9a954212c8[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jul 23 15:54:52 2017 +0200
+
+    GUI Update - now with ships
+
+[33mcommit 6e95059f8e101533d8402a55cee8deeaaac5191e[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 13:16:34 2017 +0200
+
+    rules connected with controller
+
+[33mcommit 846df6cb95c1dd6f304d443eac537a899d458252[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 11:04:28 2017 +0200
+
+    mnemonics and accelerators
+
+[33mcommit 839f782fdb314edeac8c2fbc39daf1c778f6f481[m
+Merge: f2941a6 12ef9f2
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 10:42:30 2017 +0200
+
+    ...
+
+[33mcommit 12ef9f2399b18327a0aab82ae650407b616a97b5[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 23 10:38:38 2017 +0200
+
+    ...
+
+[33mcommit f2941a651910d4dc5305aaf3f1f1dfec6df9c321[m
+Author: PieterHaase <pieter.haase@haw-hamburg.de>
+Date:   Sat Jul 22 22:05:42 2017 +0200
+
+    network save/load update
+
+[33mcommit ad68da90c8abb291a5d2524160a7e37539602dbe[m
+Merge: d91f8a8 e4a78c4
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sat Jul 22 19:45:38 2017 +0200
+
+    merge fix
+
+[33mcommit d91f8a8342f2455ef88decdc53237c409ee6d5a7[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sat Jul 22 19:21:09 2017 +0200
+
+    Netzwerk läuft
+
+[33mcommit e4a78c4ff3d4f7fc5fa57c562b066a7bdf956c3c[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sat Jul 22 12:02:41 2017 +0200
+
+    you can see the rules now!
+
+[33mcommit 0938da7fc01732d31560472a889ffddc54431c09[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 21 23:07:27 2017 +0200
+
+    rules are showed up!
+
+[33mcommit 16ee196f2f0fdb3df239ffc5cae0c38281a5a02a[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 21 22:10:13 2017 +0200
+
+    created Rules.java
+
+[33mcommit 824a53111aa7b20f750b133f4aa7e20167790586[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Thu Jul 20 13:31:22 2017 +0200
+
+    load and save works!
+
+[33mcommit a7ebc2d2092af54a29de44d8faaac7bab6b6fdc7[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Thu Jul 20 13:03:07 2017 +0200
+
+    javadocs update
+
+[33mcommit 1b849f37c068fa51bf42896748f34bc3f9b86d21[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Thu Jul 20 12:59:03 2017 +0200
+
+    update
+
+[33mcommit c9d07357e49fb46f83ede2af7b0699e25533726f[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Thu Jul 20 12:24:12 2017 +0200
+
+    load and save method updated
+
+[33mcommit 335a175b951a532b004e04d898eb00f5c8cbd124[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Thu Jul 20 10:33:16 2017 +0200
+
+    javadocs update
+
+[33mcommit 9692bd5d13431448d144cf6fa0c1c2c0eec60b00[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Wed Jul 19 19:10:45 2017 +0200
+
+    neue Fenster für Create Server / Join Game
+
+[33mcommit d8de89c88e314a3436a5a9c5de043f37ebdbc259[m
+Merge: dca5d09 ff8514e
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Tue Jul 18 18:49:30 2017 +0200
+
+    merge fix
+
+[33mcommit dca5d0927ffae9a8dd51b96948aded3a4eca98f9[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Tue Jul 18 18:44:59 2017 +0200
+
+    ship placement update
+
+[33mcommit ff8514e1f883ff02f806f0f8fe65afeb7399434b[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Tue Jul 18 18:42:00 2017 +0200
+
+    ship placement update
+
+[33mcommit 7b17d0550b8ff71626f9bd52f7025bac21c55f5e[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Tue Jul 18 13:47:39 2017 +0200
+
+    kleine veränderungen im master
+
+[33mcommit 2692f17d795995b248ee106c8db8969605e25a91[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Tue Jul 18 13:02:09 2017 +0200
+
+    ship placement implementiert
+
+[33mcommit 413e1841c72c3abeea43831d6f2228f0af820eac[m
+Merge: acb69c4 6cfda8b
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Mon Jul 17 20:16:09 2017 +0200
+
+    master merge fix
+
+[33mcommit acb69c4e433bbc5279dfe05623b4cbee531ae93d[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Mon Jul 17 20:06:12 2017 +0200
+
+    Ship Placement version 0.1
+
+[33mcommit 6cfda8bd082576052e2c3144e5679fe61e9f2bad[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Mon Jul 17 11:40:42 2017 +0200
+
+    kleine Änderungen an dem Model
+
+[33mcommit 8bd8fc99db8f70856811b62cf33ad7e44f918c63[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Mon Jul 17 11:31:50 2017 +0200
+
+    added new class FileTypeFilter
+
+[33mcommit 0011199856d6965f19649c67ac06e16d09cddce6[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Mon Jul 17 10:01:29 2017 +0200
+
+    erased the unused git codes
+
+[33mcommit 2570f0623d866f3f58b9dbc66eb8112e8e1229bf[m
+Merge: ea9b71c 983f919
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Mon Jul 17 09:53:36 2017 +0200
+
+    fixed problems
+
+[33mcommit ea9b71c88725d2b92057dce50b416d2b32b43342[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Sun Jul 16 22:13:33 2017 +0200
+
+    Controller updated and 2 new methods in View
+
+[33mcommit 983f91976fb8ee40c1ada692da05f9b31e32b0fa[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jul 16 17:13:46 2017 +0200
+
+    kleines GUI update
+
+[33mcommit 3cddfdea1bc9f5833c8f55d070407667aa8dc1ab[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jul 16 15:41:17 2017 +0200
+
+    GUI anzeige Netzwerk bugFix
+
+[33mcommit c6336908b1318eed2961bd9f41b37f7d6fbc4cf8[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 14:55:04 2017 +0200
+
+    Netzwerkspiel implementiert
+
+[33mcommit 91fef7057fd88d7a11aeb33025afdc4fac44ae44[m
+Merge: 8ebec22 f7c9bb5
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 11:43:19 2017 +0200
+
+    Merge branch 'master' of https://github.com/PieterHaase/Battleship
+
+[33mcommit 8ebec2290a8fb01ee9b939eef79f20d2df61d08f[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 11:38:34 2017 +0200
+
+    kleine aenderung am Model
+
+[33mcommit f7c9bb57e1d2ae05f9fc792f1a2f5570cd2a33d9[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 14 11:35:32 2017 +0200
+
+    Javadoc Model-Update
+
+[33mcommit 7154c1da347a3e7163feaae270718bf6ba89fb09[m
+Author: Naqib Faizy <Naqib Faizy>
+Date:   Fri Jul 14 11:31:01 2017 +0200
+
+    Model erhält Javadocs 1.0.
+
+[33mcommit cff73c6826f7c4bc1ea578bd6eaaf0284e0a4aec[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jul 14 04:42:46 2017 +0200
+
+    kleinere updates
+
+[33mcommit 1c7ce0dfcc3dfe558485ddaf42d652d7477ed5fb[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jul 13 14:51:57 2017 +0200
+
+    GUI Update
+
+[33mcommit a750e113990e1aba7214b984b65894d2d1c40b1f[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jul 13 12:00:11 2017 +0200
+
+    Netzwerk implementierung angefangen
+
+[33mcommit 8e6085ef2a1efda1d617257cd12c4ac9fc000293[m
+Merge: 1bf8563 d4e015a
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Mon Jun 5 17:00:12 2017 +0200
+
+    merge fix
+
+[33mcommit 1bf85635881111e7b2d1c5569f25ebde25956f1d[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jun 4 15:58:24 2017 +0200
+
+    viewUpdate merged
+
+[33mcommit d4e015a21a49637ab1dc0878b486b88dde582c75[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sun Jun 4 15:54:12 2017 +0200
+
+    erste GUI Version lauffähig
+
+[33mcommit 97ce5c9ed639ea9071c7d7cdbf5d8fa3d744db17[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Fri Jun 2 11:05:20 2017 +0200
+
+    Siegbedingung und random Namen implementiert
+
+[33mcommit 62fde8c045f18303f20cbd7a143dd23a4c5d942b[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Thu Jun 1 14:17:29 2017 +0200
+
+    spiel in Console lauffähig
+
+[33mcommit ca5ab4afbe26f0dd4575c1ed9549f84a651fbc51[m
+Author: Pieter Haase <pieter.haase@haw-hamburg.de>
+Date:   Sat May 20 15:59:00 2017 +0200
+
+    erster commit

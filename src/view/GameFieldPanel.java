@@ -92,15 +92,14 @@ public class GameFieldPanel extends JPanel {
 				String content = field.getContent();
 				String labelText = "";
 				buttonField[x][y].setBackground(buttonColor);
-
 				buttonField[x][y].setIcon(null);
 				
-				if(content.contains("Submarine")) {
+				if (content.contains("Submarine")){
 					buttonField[x][y].setIcon(sub);
 				}
 
 				if (field.getParent() != null) {
-					if (field.getParent().getOrientation() == "horizontal") {
+					if (field.getParent().getOrientation().contains("horizontal")) {
 						if (content.contains("Cruiser0")) {
 							buttonField[x][y].setIcon(cruiser0h);
 						}
@@ -128,8 +127,11 @@ public class GameFieldPanel extends JPanel {
 						if (content.contains("Battleship3")) {
 							buttonField[x][y].setIcon(battleship3h);
 						}
+					}
+				}
 
-					} else {
+				if (field.getParent() != null) {
+					if (field.getParent().getOrientation().contains("vertical")) {
 						if (content.contains("Cruiser0")) {
 							buttonField[x][y].setIcon(cruiser0v);
 						}
@@ -180,10 +182,10 @@ public class GameFieldPanel extends JPanel {
 				// labelText = field.getContent().substring(0,1) +
 				// Boolean.toString(field.isHit()).substring(0, 1);
 				// labelText = Boolean.toString(field.isHit());
-				// if(field.getParent() != null)
-				// labelText = field.getParent().getOrientation();
-
-				buttonField[x][y].setText(labelText);
+				
+//				if(field.getParent() != null)
+//					labelText = field.getParent().getOrientation();
+//				buttonField[x][y].setText(labelText);
 			}
 		}
 

@@ -21,6 +21,8 @@ public class Field implements Serializable {
 	 * Erstellt das Feld.
 	 * @param xPos Die x-Position auf dem Spielfeld.
 	 * @param yPos Die y-Position auf dem Spielfeld.
+	 * @param xPos Die x-Position auf dem Spielfeld
+	 * @param yPos Die y-Position auf dem Spielfeld
 	 * @param content Der Inhalt des Feldes, welcher entweder Wasser oder ein Schiffsteil sein kann.
 	 */
 	public Field(int xPos, int yPos, String content) {
@@ -31,7 +33,7 @@ public class Field implements Serializable {
 
 	/**
 	 * Gibt zurück, ob das Feld bereits getroffen wurde.
-	 * @return isHit.
+	 * @return isHit
 	 */
 	public boolean isHit() { 
 		return isHit;
@@ -46,7 +48,7 @@ public class Field implements Serializable {
 
 	/**
 	 * Gibt die x-Position zurück.
-	 * @return xPos.
+	 * @return xPos
 	 */
 	public int getXPos() {
 		return xPos;
@@ -54,7 +56,7 @@ public class Field implements Serializable {
 
 	/**
 	 * Gibt die y-Position zurück.
-	 * @return yPos.
+	 * @return yPos
 	 */
 	public int getYPos() {
 		return yPos;
@@ -62,7 +64,7 @@ public class Field implements Serializable {
 
 	/**
 	 * Gibt das Schiff zurück, zu dem das Feld gehört.
-	 * @return parent.
+	 * @return parent
 	 */
 	public Ship getParent() {
 		return parent;
@@ -70,7 +72,7 @@ public class Field implements Serializable {
 
 	/**
 	 * Gibt den Inhalt zurück.
-	 * @return content.
+	 * @return content
 	 */
 	public String getContent() {
 		return content;
@@ -78,8 +80,8 @@ public class Field implements Serializable {
 
 	/**
 	 * Setzt die x- und y-Position.
-	 * @param x x-Position.
-	 * @param y y-Position.
+	 * @param x x-Position
+	 * @param y y-Position
 	 */
 	public void setPosition(int x, int y) {
 		xPos = x;

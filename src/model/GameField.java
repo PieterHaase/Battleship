@@ -33,7 +33,7 @@ public class GameField implements Serializable{
 	
 	/**
 	 * Gibt die Größe des Spielfelds zurück.
-	 * @return size.
+	 * @return size
 	 */
 	public int getSize() {
 		return size;
@@ -41,7 +41,7 @@ public class GameField implements Serializable{
 	
 	/**
 	 * Gibt den Besitzer des Spielfelds zurück.
-	 * @return owner.
+	 * @return owner
 	 */
 	public String getOwner() {
 		return owner;
@@ -119,7 +119,7 @@ public class GameField implements Serializable{
 	 * Gibt das Feld an der Stelle x,y zurück.
 	 * @param x die x-Position des Feldes.
 	 * @param y die y-Position des Feldes.
-	 * @return Field. 
+	 * @return Field
 	 */
 	public Field getFieldAt(int x, int y){
 		return gameField[x][y];
@@ -189,5 +189,5 @@ public class GameField implements Serializable{
 	public void setOwner(String playerName) {
 		owner = playerName;
 	}
-	
+
 }
